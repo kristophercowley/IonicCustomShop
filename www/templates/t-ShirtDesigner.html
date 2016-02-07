@@ -3,19 +3,20 @@
         <form class="list">
             <label class="item item-select">
                 <span class="input-label">Select Color</span>
-                <select>
-                    <option>Black</option>
-                    <option>White</option>
+                <select ng-model="shirtColor">
+                    <option ng-value="{{shirt.color}}" ng-repeat="shirt in shirts">Test:{{shirt.color}}</option>
+                    <!--<option>White</option>
                     <option>Red</option>
                     <option>Blue</option>
                     <option>Green</option>
                     <option>Orange</option>
                     <option>Yellow</option>
                     <option>Grey</option>
-                    <option>Pink</option>
+                    <option>Pink</option>-->
                 </select>
             </label>
         </form>
+        {{shirtColor}}
         <div style="text-align:center;">
             <img src="img/v83b1ElRCKCKBr521MVo_tshirt.jpg" width="100%" height="auto">
         </div>
