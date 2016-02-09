@@ -1,18 +1,18 @@
 <ion-view title="Login">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <form class="list">
+        <form class="list" ng-submit="login(user)">
             <ion-list>
                 <label class="item item-input">
                     <span class="input-label">Username</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="username" ng-model="user.username">
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Password</span>
-                    <input type="password" placeholder="">
+                    <input type="password" placeholder="password" ng-model="user.password">
                 </label>
             </ion-list>
             <div class="spacer" style="height: 40px;"></div>
-            <a ui-sref="tabsController.t-ShirtDesigner" class="button button-stable button-block ">Log in</a>
+            <button class="button button-stable button-block" >Log in</button>
             <a ui-sref="signup" class="button button-positive button-clear button-block ">Or create an account</a>
         </form>
         <a ui-sref="tabsController.t-ShirtDesigner" class="button button-stable button-block ">No Thanks, Take me to the app</a>

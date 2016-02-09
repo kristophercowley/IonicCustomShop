@@ -1,24 +1,17 @@
 <ion-view title="T-Shirt Designer ">
-    <ion-content overflow-scroll="true" padding="true" style="background: url(img/GkQtPRSSDrg0t3RuRlw8_tshirt.jpg) no-repeat center;" class="has-header">
+    <ion-content overflow-scroll="true" padding="true" style="background: url() no-repeat center;" class="has-header">
         <form class="list">
             <label class="item item-select">
                 <span class="input-label">Select Color</span>
                 <select ng-model="shirtColor">
-                    <option ng-value="{{shirt.color}}" ng-repeat="shirt in shirts">Test:{{shirt.color}}</option>
-                    <!--<option>White</option>
-                    <option>Red</option>
-                    <option>Blue</option>
-                    <option>Green</option>
-                    <option>Orange</option>
-                    <option>Yellow</option>
-                    <option>Grey</option>
-                    <option>Pink</option>-->
+                     <option ng-value="black" >Default-Black</option>
+                    <option ng-value="{{shirt.color}}" ng-repeat="shirt in shirts">{{shirt.color}}</option>
                 </select>
             </label>
         </form>
         {{shirtColor}}
         <div style="text-align:center;">
-            <img src="img/v83b1ElRCKCKBr521MVo_tshirt.jpg" width="100%" height="auto">
+            <img ng-src="{{shirt.photo}}" width="100%" height="auto">
         </div>
         <form class="list"></form>
         <div class="button-bar">

@@ -20,3 +20,5 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     }
   });
 })
+
+//https://customshop.firebaseio.com/

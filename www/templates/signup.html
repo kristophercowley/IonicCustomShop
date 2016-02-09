@@ -1,18 +1,18 @@
 <ion-view title="Signup">
     <ion-content overflow-scroll="true" padding="true" scroll="false" class="has-header">
-        <form class="list">
+        <form class="list" ng-submit="signup(user)">
             <ion-list>
                 <label class="item item-input">
                     <span class="input-label">Name</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" ng-model="user.name">
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Username</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" ng-model="user.username">
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Password</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder=""ng-model="user.password">
                 </label>
             </ion-list>
             <button class="button button-stable button-block ">Sign up</button>
