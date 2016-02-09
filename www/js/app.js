@@ -1,3 +1,5 @@
+/* global FBREF */
+/* global FBREF */
 // Ionic Starter App
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
@@ -5,7 +7,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
+angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
+
+// .constant('FBREF', 'https://customshop.firebaseio.com/')
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
