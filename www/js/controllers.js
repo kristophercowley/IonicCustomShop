@@ -1,7 +1,8 @@
 /* global Firebase */
 angular.module('app.controllers', [])
     .constant('DBREF', 'https://customshop.firebaseio.com/')
-    .controller('loginCtrl', function ($scope, DBREF) {
+
+    .controller('loginCtrl', function ($scope, DBREF, AuthService) {
 
         var db = new Firebase(DBREF)
         $scope.login = function (user) {
@@ -13,24 +14,25 @@ angular.module('app.controllers', [])
                 console.log(err);
                 return;
             }
-            console.log("did we get here?")
+            console.log("Login Auth, did we get here?")
             console.log(authData)
         }
     })
 
-    .controller('signupCtrl', function ($scope) {
-        // $scope.signup = function (user) {
-        //     db.createUser(user, handleDBResponse)
-        //      function handleDBResponse(err, authData) {
-        //     if (err) {
-        //         console.log(err);
-        //         return;
-        //     }
-        //     console.log("did we get here?")
-        //     console.log(authData)
-        // }
-        //     console.log(user.name + user.username + user.password)
-        // }
+    .controller('signupCtrl', function ($scope, DBREF, AuthService) {
+        var db = new Firebase(DBREF)
+        $scope.signup = function (user) {
+            db.createUser(user, handleDBResponse)
+            function handleDBResponse(err, authData) {
+                if (err) {
+                    // console.log(err);
+                    return;
+                }
+                console.log("Signup createUser, did we get here?")
+                console.log(authData);
+            }
+            // console.log(user.email + user.password)
+        }
     })
 
     .controller('t-ShirtDesignerCtrl', function ($scope) {
