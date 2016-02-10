@@ -9,7 +9,6 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
-// .constant('FBREF', 'https://customshop.firebaseio.com/')
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

@@ -55,19 +55,7 @@ angular.module('app.controllers', [])
                 photo: "img/pink-shirt.png"
             }
         ];
-        // $scope.shirts.push();
-        // console.log($scope.shirts);
-        console.log($scope.shirtColor)
-        $scope.shirtPicker = function (s) {
-            debugger
-            console.log(s)
-            for (var i = 0; i < $scope.shirts.length; i++) {
-                var current = $scope.shirts[i].color;
-                if (s == current) {
-                    console.log(s)
-                }
-            }
-        }
+        $scope.selectedShirt = $scope.shirts[0];
     })
 
     .controller('shoppingCartCtrl', function ($scope) {
