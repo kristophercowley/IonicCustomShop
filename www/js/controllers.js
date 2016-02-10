@@ -3,8 +3,8 @@ angular.module('app.controllers', [])
     .constant('DBREF', 'https://customshop.firebaseio.com/')
 
     .controller('loginCtrl', function ($scope, DBREF, AuthService) {
-
         var db = new Firebase(DBREF)
+        // var db = AuthService.db();
         $scope.login = function (user) {
             user ? db.authWithPassword(user, handleDBResponse) : ''
             // console.log(user.email + user.password)
@@ -20,7 +20,8 @@ angular.module('app.controllers', [])
     })
 
     .controller('signupCtrl', function ($scope, DBREF, AuthService) {
-        var db = new Firebase(DBREF)
+        var db = new Firebase(DBREF);
+        // var db = AuthService.db();
         $scope.signup = function (user) {
             db.createUser(user, handleDBResponse)
             function handleDBResponse(err, authData) {
@@ -31,7 +32,7 @@ angular.module('app.controllers', [])
                 console.log("Signup createUser, did we get here?")
                 console.log(authData);
             }
-            // console.log(user.email + user.password)
+            console.log(user.email + user.password)
         }
     })
 
