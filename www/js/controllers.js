@@ -16,7 +16,7 @@ angular.module('app.controllers', [])
             }
             console.log("Login Auth, did we get here?")
             console.log(authData)
-            //Sends user to db
+            //Sends user to the db
             // var userToSave = {
             //     username: $scope.user.email,
             //     reputation: 0,
@@ -41,7 +41,7 @@ angular.module('app.controllers', [])
                 }
                 console.log("Signup createUser, did we get here?")
                 console.log(authData);
-                //Sends user to db
+                //Sends user to the db
                 // var userToSave = {
                 //     username: $scope.user.email,
                 //     reputation: 0,
