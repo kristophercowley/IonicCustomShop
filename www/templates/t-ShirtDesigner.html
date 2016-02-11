@@ -9,13 +9,14 @@
         </form>
         {{selectedShirt.color}}
         <div style="text-align:center;">
-            <img ng-src="{{selectedShirt.photo}}" width="100%" height="auto">
+            <!--<img ng-src="{{selectedShirt.photo}}" width="100%" height="auto">-->
+            <img ng-src="{{selectedViewer}}" height="300px">
         </div>
         <form class="list"></form>
         <div class="button-bar">
-            <button class="button button-dark button-block ">Sleeve</button>
-            <button class="button button-dark button-block ">Front</button>
-            <button class="button button-dark button-block ">Back</button>
+            <button ng-click="shirtView(selectedShirt.photosleeve)" class="button button-dark button-block ">Sleeve</button>
+            <button ng-click="shirtView(selectedShirt.photo)" class="button button-dark button-block ">Front</button>
+            <button ng-click="shirtView(selectedShirt.photoback)" class="button button-dark button-block ">Back</button>
         </div>
     </ion-content>
 </ion-view>

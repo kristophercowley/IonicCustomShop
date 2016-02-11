@@ -57,10 +57,17 @@ angular.module('app.controllers', [])
 
     .controller('t-ShirtDesignerCtrl', function ($scope) {
         $scope.test = "Is this working?";
+
+
+        $scope.shirtView = function (view) {
+            console.log(view + " working?");
+            $scope.selectedViewer = view;
+        }
         $scope.shirts = [
             {
                 color: "Black",
-                photo: "img/black-shirt.jpg"
+                photo: "img/black-shirt.jpg",
+                photoback: "img/black-shirt-back.jpg"
             },
             {
                 color: "Grey",
@@ -76,6 +83,7 @@ angular.module('app.controllers', [])
             }
         ];
         $scope.selectedShirt = $scope.shirts[0];
+        $scope.selectedViewer = $scope.selectedShirt.photo;
     })
 
     .controller('shoppingCartCtrl', function ($scope) {
