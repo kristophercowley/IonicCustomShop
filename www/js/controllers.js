@@ -16,6 +16,16 @@ angular.module('app.controllers', [])
             }
             console.log("Login Auth, did we get here?")
             console.log(authData)
+            //Sends user to db
+            // var userToSave = {
+            //     username: $scope.user.email,
+            //     reputation: 0,
+            //     created: Date.now()
+            // }
+            // console.log(userToSave)
+            // //This line saves user to DB
+            // db.child('users').child(authData.uid).update(userToSave);
+
         }
     })
 
@@ -31,6 +41,15 @@ angular.module('app.controllers', [])
                 }
                 console.log("Signup createUser, did we get here?")
                 console.log(authData);
+                //Sends user to db
+                // var userToSave = {
+                //     username: $scope.user.email,
+                //     reputation: 0,
+                //     created: Date.now()
+                // }
+                // console.log(userToSave)
+                // //This line saves user to DB
+                // db.child('users').child(authData.uid).update(userToSave);
             }
             console.log(user.email + user.password)
         }
