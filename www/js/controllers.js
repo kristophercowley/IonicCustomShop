@@ -2,7 +2,7 @@
 angular.module('app.controllers', [])
     .constant('DBREF', 'https://customshop.firebaseio.com/')
 
-    .controller('loginCtrl', function ($scope, DBREF, AuthService) {
+    .controller('loginCtrl', function ($scope, DBREF, AuthService, $state) {
         var db = new Firebase(DBREF)
         // var db = AuthService.db();
         $scope.login = function (user) {
@@ -16,6 +16,7 @@ angular.module('app.controllers', [])
             }
             console.log("Login Auth, did we get here?")
             console.log(authData)
+            $state.go('tabsController.t-ShirtDesigner')
             //Sends user to the db
             // var userToSave = {
             //     username: $scope.user.email,
@@ -29,18 +30,19 @@ angular.module('app.controllers', [])
         }
     })
 
-    .controller('signupCtrl', function ($scope, DBREF, AuthService) {
+    .controller('signupCtrl', function ($scope, DBREF, AuthService, $state) {
         var db = new Firebase(DBREF);
         // var db = AuthService.db();
         $scope.signup = function (user) {
             db.createUser(user, handleDBResponse)
             function handleDBResponse(err, authData) {
                 if (err) {
-                    // console.log(err);
+                    console.log(err);
                     return;
                 }
                 console.log("Signup createUser, did we get here?")
                 console.log(authData);
+                $state.go('tabsController.t-ShirtDesigner')
                 //Sends user to the db
                 // var userToSave = {
                 //     username: $scope.user.email,
@@ -59,10 +61,11 @@ angular.module('app.controllers', [])
         $scope.test = "Is this working?";
 
 
-        $scope.shirtView = function (view) {
-            console.log(view + " working?");
-            $scope.selectedViewer = view;
-        }
+        // $scope.shirtView = function (view) {
+        //     console.log($scope.shirtViewer = "selectedShirt" + view);
+        //     // $scope.selectedShirt =  view
+        //     $scope.shirtViewer = "selectedShirt" + view
+        // }
         $scope.shirts = [
             {
                 color: "Black",
@@ -71,19 +74,22 @@ angular.module('app.controllers', [])
             },
             {
                 color: "Grey",
-                photo: "img/grey-shirt.png"
+                photo: "img/grey-shirt.jpg",
+                photoback: "img/grey-shirt-back.jpg"
             },
             {
                 color: "Brown",
-                photo: "img/brown-shirt.png"
+                photo: "img/brown-shirt.jpg",
+                photoback: "img/brown-shirt-back.jpg"
             },
             {
                 color: "Pink",
-                photo: "img/pink-shirt.png"
+                photo: "img/pink-shirt.jpg",
+                photoback: "img/pink-shirt-back.jpg"
             }
         ];
         $scope.selectedShirt = $scope.shirts[0];
-        $scope.selectedViewer = $scope.selectedShirt.photo;
+        // $scope.shirtViewer;
     })
 
     .controller('shoppingCartCtrl', function ($scope) {
