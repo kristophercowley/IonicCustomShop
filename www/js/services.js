@@ -10,10 +10,9 @@ angular.module('app.services', [])
 }])
 
 .service('AuthService', [function(){
-    
-    //  var db1 = new Firebase(DBREF);
-    //  this.getDB = function(){
-    //      return db1;
-    //  }
+    this.user = {}
+     this.getUser = function(){
+         return this.user
+     }
 }]);
 

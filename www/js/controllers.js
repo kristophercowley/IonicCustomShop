@@ -5,10 +5,7 @@ angular.module('app.controllers', [])
     .controller('loginCtrl', function ($scope, DBREF, AuthService, $state) {
         var db = new Firebase(DBREF)
         // var db = AuthService.db();
-        $scope.login = function (user) {
-            user ? db.authWithPassword(user, handleDBResponse) : ''
-            // console.log(user.email + user.password)
-        }
+        $scope.user = AuthService.getUser();
         function handleDBResponse(err, authData) {
             if (err) {
                 console.log(err);
@@ -17,22 +14,26 @@ angular.module('app.controllers', [])
             console.log("Login Auth, did we get here?")
             console.log(authData)
             $state.go('tabsController.t-ShirtDesigner')
-            //Sends user to the db
-            // var userToSave = {
-            //     username: $scope.user.email,
-            //     reputation: 0,
-            //     created: Date.now()
-            // }
-            // console.log(userToSave)
-            // //This line saves user to DB
-            // db.child('users').child(authData.uid).update(userToSave);
-
+            //Creates User
+            var userToSave = {
+                username: $scope.user.email,
+                reputation: 0,
+                created: Date.now()
+            }
+            console.log(userToSave)
+            //This line saves user to DB
+            db.child('users').child(authData.uid).update(userToSave);
+        }
+        $scope.login = function (user) {
+            user ? db.authWithPassword(user, handleDBResponse) : ''
+            // console.log(user.email + user.password)
         }
     })
 
-    .controller('signupCtrl', function ($scope, DBREF, AuthService, $state) {
+    .controller('signupCtrl', function ($scope, DBREF, AuthService, $firebaseArray, $state) {
         var db = new Firebase(DBREF);
         // var db = AuthService.db();
+        $scope.user = AuthService.getUser();
         $scope.signup = function (user) {
             db.createUser(user, handleDBResponse)
             function handleDBResponse(err, authData) {
@@ -43,15 +44,15 @@ angular.module('app.controllers', [])
                 console.log("Signup createUser, did we get here?")
                 console.log(authData);
                 $state.go('tabsController.t-ShirtDesigner')
-                //Sends user to the db
-                // var userToSave = {
-                //     username: $scope.user.email,
-                //     reputation: 0,
-                //     created: Date.now()
-                // }
-                // console.log(userToSave)
-                // //This line saves user to DB
-                // db.child('users').child(authData.uid).update(userToSave);
+                //Creates User
+                var userToSave = {
+                    username: $scope.user.email,
+                    reputation: 0,
+                    created: Date.now()
+                }
+                console.log(userToSave)
+                //This line saves user to DB
+                db.child('users').child(authData.uid).update(userToSave);
             }
             console.log(user.email + user.password)
         }
