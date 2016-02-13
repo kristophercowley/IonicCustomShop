@@ -8,12 +8,15 @@
             </label>
         </form>
         {{selectedShirt.color}}
-        <div style="text-align:center;">
+        <div class="shirt-div" style="text-align:center;">
             <!--<img ng-src="{{selectedShirt.photo}}" width="100%" height="auto">-->
             <img ng-src="{{selectedShirt.photo}}" height="300px">
-            <img ng-src="{{shirtViewer}}" height="300px">
+            <!--<img ng-src="{{shirtViewer}}" height="300px">-->
+            <div class="image-div" ><img height="50px" ng-src="{{image}}"></div>
+            <button class="assertive" ng-click="saveShirt()">Save</button>
         </div>
-        <button class="assertive" ng-click="saveShirt()">Save</button>
+
+
         <form class="list"></form>
         <div class="button-bar">
             <button ng-click="shirtView('.sleeve')" class="button button-dark button-block ">Sleeve</button>

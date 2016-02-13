@@ -59,7 +59,9 @@ angular.module('app.controllers', [])
     })
 
     .controller('t-ShirtDesignerCtrl', function ($scope) {
-        $scope.test = "Is this working?";
+        $scope.image = "img/bio.png";
+        // testing jquery ui draggable
+        $('.image-div').resizable().draggable();
 
 
         // $scope.shirtView = function (view) {

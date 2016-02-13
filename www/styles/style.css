@@ -1,0 +1,10 @@
+.shirt-div{
+    position: relative;
+    background-color: red;
+    z-index: -1;
+}
+.image-div{
+    position: absolute;
+    left:729px;
+    top:65px;   
+}
