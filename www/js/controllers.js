@@ -53,6 +53,8 @@ angular.module('app.controllers', [])
                 console.log(userToSave)
                 //This line saves user to DB
                 db.child('users').child(authData.uid).update(userToSave);
+                //tests database use
+                db.child('wat?').child("WAT").update({name:"fug",wat:"wat?"});
             }
             console.log(user.email + user.password)
         }
