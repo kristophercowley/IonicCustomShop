@@ -5,6 +5,9 @@ angular.module('app.controllers', [])
     .controller('loginCtrl', function ($scope, DBREF, AuthService, $state) {
         var db = new Firebase(DBREF)
         // var db = AuthService.db();
+        $scope.warn = function(){
+            alert("If you are not logged into an account, anything you create cannot be saved");
+        }
         $scope.user = AuthService.getUser();
         function handleDBResponse(err, authData) {
             if (err) {
