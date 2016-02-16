@@ -85,7 +85,7 @@ angular.module('app.controllers', [])
             },
         ]
         // jQuery ui draggable resizable
-        $('.image-div').resizable().draggable();
+        $('.image-div').resizable({aspectRatio:true}).draggable();
 
 
         // $scope.shirtView = function (view) {
