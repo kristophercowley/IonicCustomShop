@@ -61,8 +61,6 @@ angular.module('app.controllers', [])
     })
 
     .controller('t-ShirtDesignerCtrl', function ($scope) {
-        //  $scope.image = "img/bio.png";
-        // $scope.images = ["img/bio.png", "img/tape.png", "img/x.png"]
         $scope.images = [
             {   name: "biohazard",
                 image:"img/bio.png"
@@ -86,7 +84,7 @@ angular.module('app.controllers', [])
                 image:"img/favicon.png"
             },
         ]
-        // testing jquery ui draggable
+        // jQuery ui draggable resizable
         $('.image-div').resizable().draggable();
 
 
