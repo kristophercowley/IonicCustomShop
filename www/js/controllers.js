@@ -6,7 +6,7 @@ angular.module('app.controllers', [])
         var db = new Firebase(DBREF)
         // var db = AuthService.db();
         $scope.warn = function(){
-            alert("If you are not logged into an account, anything you create cannot be saved");
+            alert("If you are not logged into an account, anything you create in this app cannot be saved");
         }
         $scope.user = AuthService.getUser();
         function handleDBResponse(err, authData) {
@@ -64,6 +64,11 @@ angular.module('app.controllers', [])
     })
 
     .controller('t-ShirtDesignerCtrl', function ($scope) {
+        $scope.user = "Big Daddy"
+        $scope.save = function(){
+            $scope.versionName = prompt("Please enter a name for this design, " + $scope.user + "?");
+            alert($scope.versionName + " will be saved to your account as soon as Kris writes a function to store it to the database which could be a while becaues he is not sure whether to use x,y. coordinates or visual data")
+        }
         $scope.images = [
             {   name: "biohazard",
                 image:"img/bio.png"
