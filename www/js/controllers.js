@@ -54,14 +54,38 @@ angular.module('app.controllers', [])
                 //This line saves user to DB
                 db.child('users').child(authData.uid).update(userToSave);
                 //tests database use
-                db.child('wat?').child("WAT").update({name:"fug",wat:"wat?"});
+                db.child('wat?').child("WAT").update({ name: "fug", wat: "wat?" });
             }
             console.log(user.email + user.password)
         }
     })
 
     .controller('t-ShirtDesignerCtrl', function ($scope) {
-        $scope.image = "img/bio.png";
+        //  $scope.image = "img/bio.png";
+        // $scope.images = ["img/bio.png", "img/tape.png", "img/x.png"]
+        $scope.images = [
+            {   name: "biohazard",
+                image:"img/bio.png"
+            },
+             {   name: "tape",
+                image:"img/tape.png"
+            },
+             {   name: "x",
+                image:"img/x.png"
+            },
+             {   name: "swirl",
+                image:"img/swirl.png"
+            },
+             {   name: "tea",
+                image:"img/tea.png"
+            },
+             {   name: "diamond",
+                image:"img/diamond.png"
+            },
+            {   name: "favicon",
+                image:"img/favicon.png"
+            },
+        ]
         // testing jquery ui draggable
         $('.image-div').resizable().draggable();
 

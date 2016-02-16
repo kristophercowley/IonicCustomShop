@@ -7,12 +7,16 @@
                 </select>
             </label>
         </form>
-        {{selectedShirt.color}}
+        <label>Clip Art</label>
+        <select ng-options="image.name for image in images" ng-model="selectedImage">{{image.name}}
+            <!--<option ng-options="selectedImage" ng-model="image in images">{{image}}-->
+        </select>
+        Selected Shirt: {{selectedShirt.color}}
         <div class="shirt-div" style="text-align:center;">
             <!--<img ng-src="{{selectedShirt.photo}}" width="100%" height="auto">-->
             <img ng-src="{{selectedShirt.photo}}" height="300px">
             <!--<img ng-src="{{shirtViewer}}" height="300px">-->
-            <div class="image-div" ><img class="image" ng-src="{{image}}"></div>
+            <div class="image-div"><img class="image" ng-src="{{selectedImage.image}}"></div>
             <button class="assertive" ng-click="saveShirt()">Save</button>
         </div>
 

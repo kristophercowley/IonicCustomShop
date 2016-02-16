@@ -1,18 +1,18 @@
 /* global DBREF */
 angular.module('app.services', [])
 
-.factory('BlankFactory', [function(){
+    .factory('BlankFactory', [function () {
 
-}])
+    }])
 
-.service('BlankService', [function(){
+    .service('BlankService', [function () {
 
-}])
+    }])
 
-.service('AuthService', [function(){
-    this.user = {}
-     this.getUser = function(){
-         return this.user
-     }
-}]);
+    .service('AuthService', [function () {
+        this.user = {}
+        this.getUser = function () {
+            return this.user
+        }
+    }]);
 
