@@ -106,27 +106,27 @@ angular.module('app.controllers', [])
         $scope.shirts = [
             {
                 color: "Black",
-                photo: "img/black-shirt.jpg", 
-                photoback: "img/black-shirt-back.jpg"   
+                front: "img/black-shirt.jpg", 
+                back: "img/black-shirt-back.jpg"   
             },
             {
                 color: "Grey",
-                photo: "img/grey-shirt.jpg",
-                photoback: "img/grey-shirt-back.jpg"
+                front: "img/grey-shirt.jpg",
+                back: "img/grey-shirt-back.jpg"
             },
             {
                 color: "Brown",
-                photo: "img/brown-shirt.jpg",
-                photoback: "img/brown-shirt-back.jpg"
+                front: "img/brown-shirt.jpg",
+                back: "img/brown-shirt-back.jpg"
             },
             {
                 color: "Pink",
-                photo: "img/pink-shirt.jpg",
-                photoback: "img/pink-shirt-back.jpg"
+                front: "img/pink-shirt.jpg",
+                back: "img/pink-shirt-back.jpg"
             }
         ];
         // $scope.selectedShirt = $scope.shirts[0];
-                $scope.shirtViewer = $scope.shirts[0].photo;
+                $scope.shirtViewer = $scope.shirts[0].front;
         // $scope.shirtViewer;
     })
 

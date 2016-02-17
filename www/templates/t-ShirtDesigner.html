@@ -3,7 +3,7 @@
         <form class="list">
             <label class="item item-select">
                 <span class="input-label">Select Color</span>
-                <select ng-model="selectedShirt" ng-options="shirt.color for shirt in shirts" ng-change="shirtView('photo', selectedShirt)">
+                <select ng-model="selectedShirt" ng-options="shirt.color for shirt in shirts" ng-change="shirtView('front', selectedShirt)">
                 </select>
             </label>
         </form>
@@ -24,8 +24,8 @@
         <form class="list"></form>
         <div class="button-bar">
             <button ng-click="shirtView('sleeve')" class="button button-dark button-block ">Sleeve</button>
-            <button ng-click="shirtView('photo')" class="button button-dark button-block ">Front</button>
-            <button ng-click="shirtView('photoback')" class="button button-dark button-block ">Back</button>
+            <button ng-click="shirtView('front')" class="button button-dark button-block ">Front</button>
+            <button ng-click="shirtView('back')" class="button button-dark button-block ">Back</button>
         </div>
     </ion-content>
 </ion-view>
