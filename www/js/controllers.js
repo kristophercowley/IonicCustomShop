@@ -95,17 +95,19 @@ angular.module('app.controllers', [])
         // jQuery ui draggable resizable
         $('.image-div').resizable({aspectRatio:true}).draggable();
 
-
-        // $scope.shirtView = function (view) {
-        //     console.log($scope.shirtViewer = "selectedShirt" + view);
-        //     // $scope.selectedShirt =  view
-        //     $scope.shirtViewer = "selectedShirt" + view
-        // }
+        $scope.shirtView = function (view, shirt) {
+            if(shirt){
+                $scope.selectedShirt =  shirt;
+            }
+            
+            $scope.shirtViewer = $scope.selectedShirt[view];;
+            console.log(view);
+        }
         $scope.shirts = [
             {
                 color: "Black",
-                photo: "img/black-shirt.jpg",
-                photoback: "img/black-shirt-back.jpg"
+                photo: "img/black-shirt.jpg", 
+                photoback: "img/black-shirt-back.jpg"   
             },
             {
                 color: "Grey",
@@ -123,7 +125,8 @@ angular.module('app.controllers', [])
                 photoback: "img/pink-shirt-back.jpg"
             }
         ];
-        $scope.selectedShirt = $scope.shirts[0];
+        // $scope.selectedShirt = $scope.shirts[0];
+                $scope.shirtViewer = $scope.shirts[0].photo;
         // $scope.shirtViewer;
     })
 

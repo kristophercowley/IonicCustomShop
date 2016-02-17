@@ -3,7 +3,7 @@
         <form class="list">
             <label class="item item-select">
                 <span class="input-label">Select Color</span>
-                <select ng-model="selectedShirt" ng-options="shirt.color for shirt in shirts">
+                <select ng-model="selectedShirt" ng-options="shirt.color for shirt in shirts" ng-change="shirtView('photo', selectedShirt)">
                 </select>
             </label>
         </form>
@@ -13,9 +13,9 @@
         </select>
         Selected Shirt: {{selectedShirt.color}}
         <div class="shirt-div" style="text-align:center;">
-            <!--<img ng-src="{{selectedShirt.photo}}" width="100%" height="auto">-->
-            <img ng-src="{{selectedShirt.photo}}" height="300px">
-            <!--<img ng-src="{{shirtViewer}}" height="300px">-->
+            <!--Not currently using this default<img ng-src="{{selectedShirt.photo}}" width="100%" height="auto">-->
+            <!--<img ng-src="{{selectedShirt.photo}}" height="300px">-->
+            <img ng-src="{{shirtViewer}}" height="300px">
             <div class="image-div"><img class="image" ng-src="{{selectedImage.image}}"></div>
             <button class="assertive" ng-click="save()">Save</button>
         </div>
@@ -23,9 +23,9 @@
 
         <form class="list"></form>
         <div class="button-bar">
-            <button ng-click="shirtView('.sleeve')" class="button button-dark button-block ">Sleeve</button>
-            <button ng-click="shirtView('.photo')" class="button button-dark button-block ">Front</button>
-            <button ng-click="shirtView('.photoback')" class="button button-dark button-block ">Back</button>
+            <button ng-click="shirtView('sleeve')" class="button button-dark button-block ">Sleeve</button>
+            <button ng-click="shirtView('photo')" class="button button-dark button-block ">Front</button>
+            <button ng-click="shirtView('photoback')" class="button button-dark button-block ">Back</button>
         </div>
     </ion-content>
 </ion-view>
