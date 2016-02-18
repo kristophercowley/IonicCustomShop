@@ -11,7 +11,8 @@
         <select ng-options="image.name for image in images" ng-model="selectedImage">{{image.name}}
             <!--<option ng-options="selectedImage" ng-model="image in images">{{image}}-->
         </select>
-        Selected Shirt: {{selectedShirt.color}}
+        Selected Shirt: {{selectedShirt.color}}{{message}}
+        <ng-quill-editor ng-model="message" toolbar="true" link-tooltip="true" image-tooltip="true" toolbar-entries="font size bold list bullet italic underline strike align color background link image" editor-required="true" required="" error-class="input-error"></ng-quill-editor>
         <div class="shirt-div" style="text-align:center;">
             <!--Not currently using this default<img ng-src="{{selectedShirt.photo}}" width="100%" height="auto">-->
             <!--<img ng-src="{{selectedShirt.photo}}" height="300px">-->
@@ -19,6 +20,8 @@
             <div class="image-div"><img class="image" ng-src="{{selectedImage.image}}"></div>
             <button class="assertive" ng-click="save()">Save</button>
         </div>
+        
+
 
 
         <form class="list"></form>

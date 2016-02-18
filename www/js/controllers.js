@@ -88,9 +88,18 @@ angular.module('app.controllers', [])
              {   name: "diamond",
                 image:"img/diamond.png"
             },
-            {   name: "favicon",
+            {   name: "strange icon",
                 image:"img/favicon.png"
             },
+             {   name: "bcw1",
+                image:"img/bcw.png"
+            },
+             {   name: "finalunderground",
+                image:"img/fug.jpg"
+            },
+             {   name: "strange logo",
+                image:"img/strange-logo.png"
+            }
         ]
         // jQuery ui draggable resizable
         $('.image-div').resizable({aspectRatio:true}).draggable();
