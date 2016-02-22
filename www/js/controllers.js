@@ -5,7 +5,7 @@ angular.module('app.controllers', [])
     .controller('loginCtrl', function ($scope, DBREF, AuthService, $state) {
         var db = new Firebase(DBREF)
         // var db = AuthService.db();
-        $scope.warn = function(){
+        $scope.warn = function () {
             alert("If you are not logged into an account, anything you create in this app cannot be saved");
         }
         $scope.user = AuthService.getUser();
@@ -63,60 +63,74 @@ angular.module('app.controllers', [])
         }
     })
 
-    .controller('t-ShirtDesignerCtrl', function ($scope) {
-        $scope.user = "Big Daddy"
-        $scope.save = function(){
+    .controller('t-ShirtDesignerCtrl', function ($scope, $state, ShirtService, $ionicScrollDelegate) {
+        $scope.user = "Big Daddy";
+        $scope.images = ShirtService.images;
+        $scope.selectedImage = ShirtService.getLogo();
+
+        $scope.imagePicker = function (i) {
+            console.log("Is this working? did you click ", i.name + "?");
+            ShirtService.selectedImage = i;
+            // console.log(ShirtService.selectedImage);
+            // $state.go('tabsController.t-ShirtDesigner');
+            $scope.selectedImage = i;
+            $ionicScrollDelegate.scrollTop();
+        }
+
+        $scope.save = function () {
             $scope.versionName = prompt("Please enter a name for this design, " + $scope.user + "?");
             alert($scope.versionName + " will be saved to your account as soon as Kris writes a function to store it to the database which could be a while becaues he is not sure whether to use x,y. coordinates or visual data")
         }
-        $scope.images = [
-            {   name: "biohazard",
-                image:"img/bio.png"
-            },
-             {   name: "tape",
-                image:"img/tape.png"
-            },
-             {   name: "x",
-                image:"img/x.png"
-            },
-             {   name: "swirl",
-                image:"img/swirl.png"
-            },
-             {   name: "tea",
-                image:"img/tea.png"
-            },
-             {   name: "diamond",
-                image:"img/diamond.png"
-            },
-            {   name: "strange icon",
-                image:"img/favicon.png"
-            },
-             {   name: "bcw1",
-                image:"img/bcw.png"
-            },
-             {   name: "finalunderground",
-                image:"img/fug.jpg"
-            },
-             {   name: "strange logo",
-                image:"img/strange-logo.png"
-            }
-        ]
+        // $scope.images = [
+        //     {   name: "biohazard",
+        //         image:"img/bio.png",
+        //         description: "testing1,2,3",
+        //         checked: true
+        //     },
+        //      {   name: "tape",
+        //         image:"img/tape.png"
+        //     },
+        //      {   name: "x",
+        //         image:"img/x.png"
+        //     },
+        //      {   name: "swirl",
+        //         image:"img/swirl.png"
+        //     },
+        //      {   name: "tea",
+        //         image:"img/tea.png"
+        //     },
+        //      {   name: "diamond",
+        //         image:"img/diamond.png"
+        //     },
+        //     {   name: "strange icon",
+        //         image:"img/favicon.png"
+        //     },
+        //      {   name: "bcw1",
+        //         image:"img/bcw.png"
+        //     },
+        //      {   name: "finalunderground",
+        //         image:"img/fug.jpg"
+        //     },
+        //      {   name: "strange logo",
+        //         image:"img/strange-logo.png"
+        //     }
+        // ]
         // jQuery ui draggable resizable
-        $('.image-div').resizable({aspectRatio:true}).draggable();
+        $('.image-div').resizable({ aspectRatio: true }).draggable();
 
         $scope.shirtView = function (view, shirt) {
-            if(shirt){
-                $scope.selectedShirt =  shirt;
+            if (shirt) {
+                $scope.selectedShirt = shirt;
             }
-            
+
             $scope.shirtViewer = $scope.selectedShirt[view];;
             console.log(view);
         }
         $scope.shirts = [
             {
                 color: "Black",
-                front: "img/black-shirt.jpg", 
-                back: "img/black-shirt-back.jpg"   
+                front: "img/black-shirt.jpg",
+                back: "img/black-shirt-back.jpg"
             },
             {
                 color: "Grey",
@@ -135,12 +149,12 @@ angular.module('app.controllers', [])
             }
         ];
         // $scope.selectedShirt = $scope.shirts[0];
-                $scope.shirtViewer = $scope.shirts[0].front;
+        $scope.shirtViewer = $scope.shirts[0].front;
         // $scope.shirtViewer;
     })
 
     .controller('shoppingCartCtrl', function ($scope) {
-
+        $scope.totalPrice = 0;
     })
 
     .controller('chooseCustomClipArtCtrl', function ($scope) {

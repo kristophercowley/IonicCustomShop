@@ -1,10 +1,13 @@
 <ion-view title="Shopping Cart ">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
+        <div>
+            <h2>Order Total : {{totalPrice | currency}}</h2>
+        </div>
         <form class="list" stripe-form="stripeCallback">
-            <label class="item item-input">
-                <span class="input-label">CC# </span>
-                <input ng-model="number" placeholder="Card Number" payments-format="card" />
-            </label>
+                <label class="item item-input">
+                    <span class="input-label">CC# </span>
+                    <input class="form-control" ng-model="number" placeholder="Card Number" payments-format="card" />
+                </label>
             <label class="item item-input">
                 <span class="input-label">Expiration</span>
                 <input ng-model="expiry" placeholder="Expiration" payments-format="expiry" />
@@ -13,7 +16,7 @@
                 <span class="input-label">CVC </span>
                 <input ng-model="cvc" placeholder="CVC" payments-format="cvc" />
             </label>
-            <label class="item item-input">Save this info-
+            <label class="item item-input">Save my payment information -
                 <label id="cc-toggle" class="toggle toggle-assertive">
                     <input type="checkbox" />
                     <div class="track">

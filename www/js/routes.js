@@ -58,15 +58,15 @@ angular.module('app.routes', [])
     
       
         
-    .state('tabsController.chooseCustomClipArt', {
-      url: '/page6',
-      views: {
-        'tab6': {
-          templateUrl: 'templates/chooseCustomClipArt.html',
-          controller: 'chooseCustomClipArtCtrl'
-        }
-      }
-    })
+    // .state('tabsController.chooseCustomClipArt', {
+    //   url: '/page6',
+    //   views: {
+    //     'tab6': {
+    //       templateUrl: 'templates/chooseCustomClipArt.html',
+    //       controller: 't-ShirtDesignerCtrl'
+    //     }
+    //   }
+    // })
         
       
     
