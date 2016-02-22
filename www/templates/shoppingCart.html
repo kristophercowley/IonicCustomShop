@@ -1,6 +1,29 @@
 <ion-view title="Shopping Cart ">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <form class="list">
+        <form class="list" stripe-form="stripeCallback">
+            <label class="item item-input">
+                <span class="input-label">CC# </span>
+                <input ng-model="number" placeholder="Card Number" payments-format="card" />
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Expiration</span>
+                <input ng-model="expiry" placeholder="Expiration" payments-format="expiry" />
+            </label>
+            <label class="item item-input">
+                <span class="input-label">CVC </span>
+                <input ng-model="cvc" placeholder="CVC" payments-format="cvc" />
+            </label>
+            <label class="item item-input">Save this info-
+                <label id="cc-toggle" class="toggle toggle-assertive">
+                    <input type="checkbox" />
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </label>
+            <button type="submit" class="button button-positive button-block  icon-right ion-android-cart">Check Out</button>
+        </form>
+        <!--<form class="list">
             <label class="item item-input">
                 <span class="input-label">Name:</span>
                 <input type="text" placeholder="John Doe">
@@ -10,10 +33,10 @@
                 <input type="text" placeholder="123 S.South St.">
             </label>
             <label class="item item-input">
-                <span class="input-label">City/State/Zip</span>
+                <span class="input-label">City,State,Zip</span>
                 <input type="text" placeholder="Boise,Id 33333">
             </label>
-        </form>
+        </form>-->
         <form class="list">
             <label class="item item-select">
                 <span class="input-label">Credit Card</span>
@@ -24,14 +47,14 @@
                     <option>Bitcoin</option>
                 </select>
             </label>
-        </form>
-        <form class="list">
+
+
             <label class="item item-input">
                 <span class="input-label">CC#-</span>
                 <input type="text" placeholder="">
             </label>
-        </form>
-        <form class="list">
+
+
             <label class="item item-input">
                 <span class="input-label">SC#-</span>
                 <input type="text" placeholder="">
