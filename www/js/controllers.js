@@ -4,7 +4,11 @@ angular.module('app.controllers', [])
 
     .controller('loginCtrl', function ($scope, DBREF, AuthService, $state) {
         var db = new Firebase(DBREF)
-        // var db = AuthService.db();
+       
+        
+        
+        //User/Order/Customer schema
+        //End User/Order/Customer schema
         $scope.warn = function () {
             alert("If you are not logged into an account, anything you create in this app cannot be saved");
         }
@@ -63,7 +67,20 @@ angular.module('app.controllers', [])
         }
     })
 
-    .controller('t-ShirtDesignerCtrl', function ($scope, $state, ShirtService, $ionicScrollDelegate) {
+    .controller('t-ShirtDesignerCtrl', function ($scope, $state, ShirtService, $ionicScrollDelegate, DBREF, $firebaseArray) {
+        var db = new Firebase(DBREF);
+        //Declares orders db and saved projects db
+        var ref = new Firebase(DBREF);
+        $scope.orders = new $firebaseArray(ref);
+        $scope.addOrders = function () {
+
+        }
+        $scope.savedOrders = new $firebaseArray(ref);
+        $scope.save = function () {
+            $scope.savedOrdersName = prompt("Please enter a name for this design, " + $scope.user + "?");
+            alert($scope.savedOrdersName + " has allegedly been saved to your account");
+            $scope.orders.$add({user: "Mock User Name", shirtColor: "Mock Black", image: "BCW"})
+        }
         $scope.user = "Big Daddy";
         $scope.images = ShirtService.images;
         $scope.selectedImage = ShirtService.getLogo();
@@ -77,10 +94,7 @@ angular.module('app.controllers', [])
             $ionicScrollDelegate.scrollTop();
         }
 
-        $scope.save = function () {
-            $scope.versionName = prompt("Please enter a name for this design, " + $scope.user + "?");
-            alert($scope.versionName + " will be saved to your account as soon as Kris writes a function to store it to the database which could be a while becaues he is not sure whether to use x,y. coordinates or visual data")
-        }
+       
         // $scope.images = [
         //     {   name: "biohazard",
         //         image:"img/bio.png",
@@ -115,6 +129,10 @@ angular.module('app.controllers', [])
         //         image:"img/strange-logo.png"
         //     }
         // ]
+        // $scope.dataBasePush = function(){
+        // db.child('data').child('images').set($scope.images)
+
+
         // jQuery ui draggable resizable
         $('.image-div').resizable({ aspectRatio: true }).draggable();
 
