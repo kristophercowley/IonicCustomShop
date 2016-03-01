@@ -4,7 +4,8 @@ angular.module('app.controllers', [])
 
     .controller('loginCtrl', function ($scope, DBREF, AuthService, $state) {
         var db = new Firebase(DBREF)
-       
+
+        $scope.order = {};
         
         
         //User/Order/Customer schema
@@ -69,73 +70,69 @@ angular.module('app.controllers', [])
 
     .controller('t-ShirtDesignerCtrl', function ($scope, $state, ShirtService, $ionicScrollDelegate, DBREF, $firebaseArray) {
         var db = new Firebase(DBREF);
-        //Declares orders db and saved projects db
         var ref = new Firebase(DBREF);
-        $scope.orders = new $firebaseArray(ref);
-        $scope.addOrders = function () {
+        var activeRef = ref.child('Active Orders')
+        // future order num
+        var orderNum = 1;
+        var saveNum = 1;
+        $scope.orders = new $firebaseArray(activeRef);
+        $scope.user = "Users Name";
+        $scope.images = ShirtService.images;
+        $scope.shirts = ShirtService.shirts;
+        $scope.selectedImage = ShirtService.getLogo();
+        $scope.order = {};
+        
+        //adds user designs to cart 
+        $scope.addToCart = function () {
 
         }
+        
+        // firebase array reference for saved orders
         $scope.savedOrders = new $firebaseArray(ref);
+        
+        //Saves user designs to database 
         $scope.save = function () {
             $scope.savedOrdersName = prompt("Please enter a name for this design, " + $scope.user + "?");
-            alert($scope.savedOrdersName + " has allegedly been saved to your account");
-            $scope.orders.$add({user: "Mock User Name", shirtColor: "Mock Black", image: "BCW"})
+            alert($scope.savedOrdersName + " has been saved to your account");
+            $scope.order.details = {
+                name: $scope.savedOrdersName,
+                saveNum: saveNum,
+                price: 19.99,
+                user: "Mock User Name",
+                date: Date.now(),
+                // Doesnt work if shirt is not selected// need to assign default shirt
+                shirtColor: $scope.selectedShirt.color,
+                shirtUrl: $scope.selectedShirt.front,
+                imageName: $scope.selectedImage.name,
+                imageUrl: $scope.selectedImage.image
+            }
+            $scope.orders.$add($scope.order);
+            saveNum++;
         }
-        $scope.user = "Big Daddy";
-        $scope.images = ShirtService.images;
-        $scope.selectedImage = ShirtService.getLogo();
 
+        //Selects clip art and scrolls to shirt designer
         $scope.imagePicker = function (i) {
-            console.log("Is this working? did you click ", i.name + "?");
+            // console.log("Is this working? did you click ", i.name + "?");
             ShirtService.selectedImage = i;
-            // console.log(ShirtService.selectedImage);
-            // $state.go('tabsController.t-ShirtDesigner');
             $scope.selectedImage = i;
             $ionicScrollDelegate.scrollTop();
         }
 
-       
-        // $scope.images = [
-        //     {   name: "biohazard",
-        //         image:"img/bio.png",
-        //         description: "testing1,2,3",
-        //         checked: true
-        //     },
-        //      {   name: "tape",
-        //         image:"img/tape.png"
-        //     },
-        //      {   name: "x",
-        //         image:"img/x.png"
-        //     },
-        //      {   name: "swirl",
-        //         image:"img/swirl.png"
-        //     },
-        //      {   name: "tea",
-        //         image:"img/tea.png"
-        //     },
-        //      {   name: "diamond",
-        //         image:"img/diamond.png"
-        //     },
-        //     {   name: "strange icon",
-        //         image:"img/favicon.png"
-        //     },
-        //      {   name: "bcw1",
-        //         image:"img/bcw.png"
-        //     },
-        //      {   name: "finalunderground",
-        //         image:"img/fug.jpg"
-        //     },
-        //      {   name: "strange logo",
-        //         image:"img/strange-logo.png"
-        //     }
-        // ]
-        // $scope.dataBasePush = function(){
-        // db.child('data').child('images').set($scope.images)
-
-
         // jQuery ui draggable resizable
-        $('.image-div').resizable({ aspectRatio: true }).draggable();
+        $('.image-div').resizable({
+            aspectRatio: true,
+            handles: 'ne,se,sw,nw',
+            stop: saveImage,
+        }).draggable({
+            stop: function (e, image) {
+                $scope.order.logo = $scope.order.logo || {};
+                $scope.order.logo.position = image.position;
+            }
+        });
+        
 
+
+        //Selects shirt color and view
         $scope.shirtView = function (view, shirt) {
             if (shirt) {
                 $scope.selectedShirt = shirt;
@@ -144,31 +141,17 @@ angular.module('app.controllers', [])
             $scope.shirtViewer = $scope.selectedShirt[view];;
             console.log(view);
         }
-        $scope.shirts = [
-            {
-                color: "Black",
-                front: "img/black-shirt.jpg",
-                back: "img/black-shirt-back.jpg"
-            },
-            {
-                color: "Grey",
-                front: "img/grey-shirt.jpg",
-                back: "img/grey-shirt-back.jpg"
-            },
-            {
-                color: "Brown",
-                front: "img/brown-shirt.jpg",
-                back: "img/brown-shirt-back.jpg"
-            },
-            {
-                color: "Pink",
-                front: "img/pink-shirt.jpg",
-                back: "img/pink-shirt-back.jpg"
-            }
-        ];
-        // $scope.selectedShirt = $scope.shirts[0];
+
         $scope.shirtViewer = $scope.shirts[0].front;
-        // $scope.shirtViewer;
+        // $scope.selectedShirt = $scope.shirts[0];
+     
+        function saveImage(e, image) {
+            var logo = {
+                size: image.size,
+                position: image.position
+            }
+            $scope.order.logo = logo;
+        }
     })
 
     .controller('shoppingCartCtrl', function ($scope) {
