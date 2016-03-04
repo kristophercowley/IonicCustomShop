@@ -94,7 +94,10 @@ angular.module('app.controllers', [])
         $scope.Tester1 = function (shirt, image) {
             ShirtService.tempShirt = shirt;
             ShirtService.tempImage = image;
-            // console.log(ShirtService.shirtTest, ShirtService.imageTest)
+            // need to pass xy to save
+            ShirtService.tempOrder = $scope.order;
+
+            // console.log(ShirtService.tempOrder)
         }
         
         // Declares an empty object for save data
@@ -117,7 +120,7 @@ angular.module('app.controllers', [])
                 shirtUrl: ShirtService.tempShirt.front,
                 imageName: ShirtService.tempImage.name,
                 imageUrl: ShirtService.tempImage.image,
-
+                
                 // Doesnt work if shirt is not selected// need to assign default shirt
                 //  Data not passing from design to save view
                 // shirtColor: $scope.selectedShirt.color,
@@ -125,7 +128,14 @@ angular.module('app.controllers', [])
                 // imageName: $scope.selectedImage.name,
                 // imageUrl: $scope.selectedImage.image
             }
+            // Test for perpetuating logo info
+           $scope.order.logo = {
+               position: ShirtService.tempOrder.logo.position,
+               size: ShirtService.tempOrder.logo.size
+           }
             $scope.orders.$add($scope.order);
+            // console.log($scope.order)
+            // console.log(ShirtService.tempOrder)
             saveNum++;
         }
 
