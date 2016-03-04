@@ -42,31 +42,31 @@ angular.module('app.services', [])
                 checked: true
             },
              {   name: "tape",
-                image:"img/tape.png"
+                 image:"img/tape.png"
             },
              {   name: "x",
-                image:"img/x.png"
+                 image:"img/x.png"
             },
              {   name: "swirl",
-                image:"img/swirl.png"
+                 image:"img/swirl.png"
             },
              {   name: "tea",
-                image:"img/tea.png"
+                 image:"img/tea.png"
             },
              {   name: "diamond",
-                image:"img/diamond.png"
+                 image:"img/diamond.png"
             },
-            {   name: "strange icon",
-                image:"img/favicon.png"
+            {    name: "strange icon",
+                 image:"img/favicon.png"
             },
              {   name: "bcw1",
-                image:"img/bcw.png"
+                 image:"img/bcw.png"
             },
              {   name: "finalunderground",
-                image:"img/fug.jpg"
+                 image:"img/fug.jpg"
             },
              {   name: "strange logo",
-                image:"img/strange-logo.png"
+                 image:"img/strange-logo.png"
             }
         ]
         

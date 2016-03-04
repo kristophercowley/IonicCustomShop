@@ -49,8 +49,8 @@ angular.module('app.controllers', [])
                     console.log(err);
                     return;
                 }
-                console.log("Signup createUser, did we get here?")
-                console.log(authData);
+                // console.log("Signup createUser, did we get here?")
+                // console.log(authData);
                 $state.go('tabsController.t-ShirtDesigner')
                 //Creates User
                 var userToSave = {
@@ -64,7 +64,7 @@ angular.module('app.controllers', [])
                 //tests database use
                 // db.child('wat?').child("WAT").update({ name: "fug", wat: "wat?" });
             }
-            console.log(user.email + user.password)
+            // console.log(user.email + user.password)
         }
     })
 
@@ -90,21 +90,40 @@ angular.module('app.controllers', [])
         // firebase array reference for saved orders
         $scope.savedOrders = new $firebaseArray(ref);
         
+        // Testing pasing data to a constructor for view change
+        $scope.Tester1 = function (shirt, image) {
+            ShirtService.tempShirt = shirt;
+            ShirtService.tempImage = image;
+            // console.log(ShirtService.shirtTest, ShirtService.imageTest)
+        }
+        
+        // Declares an empty object for save data
+        $scope.saved = {
+            name: '',
+            email: ''
+        }
+        
         //Saves user designs to database 
         $scope.save = function () {
-            $scope.savedOrdersName = prompt("Please enter a name for this design, " + $scope.user + "?");
-            alert($scope.savedOrdersName + " has been saved to your account");
+            alert($scope.saved.name + " has been saved to the account " + $scope.saved.email);
             $scope.order.details = {
-                name: $scope.savedOrdersName,
+                name: $scope.saved.name,
+                email: $scope.saved.email,
                 saveNum: saveNum,
                 price: 19.99,
                 user: "Mock User Name",
                 date: Date.now(),
+                shirtColor: ShirtService.tempShirt.color,
+                shirtUrl: ShirtService.tempShirt.front,
+                imageName: ShirtService.tempImage.name,
+                imageUrl: ShirtService.tempImage.image,
+
                 // Doesnt work if shirt is not selected// need to assign default shirt
-                shirtColor: $scope.selectedShirt.color,
-                shirtUrl: $scope.selectedShirt.front,
-                imageName: $scope.selectedImage.name,
-                imageUrl: $scope.selectedImage.image
+                //  Data not passing from design to save view
+                // shirtColor: $scope.selectedShirt.color,
+                // shirtUrl: $scope.selectedShirt.front,
+                // imageName: $scope.selectedImage.name,
+                // imageUrl: $scope.selectedImage.image
             }
             $scope.orders.$add($scope.order);
             saveNum++;
@@ -163,7 +182,7 @@ angular.module('app.controllers', [])
     .controller('brandedPrintsCtrl', function ($scope) {
 
     })
-
+// Might not use this controller// MAybe just shirt controller// Or move save data here if no conflict
     .controller('savePageCtrl', function ($scope) {
         $scope.test = "Save Test";
     })

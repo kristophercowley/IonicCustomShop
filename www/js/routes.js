@@ -84,7 +84,7 @@ angular.module('app.routes', [])
     .state('savePage', {
       url: '/page8',
       templateUrl: 'templates/savePage.html',
-      controller: 'savePageCtrl'
+      controller: 't-ShirtDesignerCtrl'
     })
         
       

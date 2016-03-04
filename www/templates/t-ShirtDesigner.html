@@ -7,7 +7,7 @@
                 </select>
             </label>
         </form>
-        <h5>Selected Shirt: {{selectedShirt.color}}</h5> 
+        <h5>Selected Shirt: {{selectedShirt.color}}</h5>
         <!--Quill testing-->
         <!--{{message}}
         <ng-quill-editor ng-model="message" toolbar="true" link-tooltip="true" image-tooltip="true" toolbar-entries="font size bold list bullet italic underline strike align color background link image"
@@ -20,7 +20,9 @@
         <div class="shirt-div" style="text-align:center;">
             <img ng-src="{{shirtViewer}}" height="300px">
             <div class="image-div"><img class="image" ng-src="{{selectedImage.image}}"></div>
-            <button class="assertive" ui-sref="savePage">Save</button><!--ng-click="save()-->
+            <button class="button button-block button-balanced icon ion-star" ng-click="Tester1(selectedShirt,selectedImage)" ui-sref="savePage"> Save</button>
+            <!--ng-click="save()-->
+            <!--<button class="button button-balanced icon ion-folder" ui-sref="selectSizes"> Select Sizes</button>-->
         </div>
 
         <form class="list"></form>
@@ -29,8 +31,8 @@
             <button ng-click="shirtView('front')" class="button button-dark button-block ">Front</button>
             <button ng-click="shirtView('back')" class="button button-dark button-block ">Back</button>
         </div>
-        
+
         <div ng-include="'templates/chooseCustomClipArt.html'"></div>
-        
+
     </ion-content>
 </ion-view>
