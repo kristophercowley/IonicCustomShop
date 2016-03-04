@@ -1,0 +1,21 @@
+<ion-view title="Save Page">
+    <ion-content overflow-scroll="true" padding="true" class="has-header">
+        <form class="list" style="text-align: center" ng-submit="saveDesign()">
+            <ion-list>
+                <h3>Save Your Design Here</h3>
+                <p>Save your design for later use</p>
+                <label class="item item-input">
+                    <span class="input-label">Name: </span>
+                    <input type="text" placeholder="design name here" ng-model="save.name">{{save.name}}
+                </label>
+                <label class="item item-input">
+                    <span class="input-label"> Email: </span>
+                    <input type="email" placeholder="email here" ng-model="save.email">{{save.email}}
+                </label>
+            </ion-list>
+            <button type="submit" class="button button-balanced icon ion-star"> Save</button>
+            <button class="button button-assertive icon ion-android-cancel" ui-sref="tabsController.t-ShirtDesigner"> Cancel</button>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

@@ -7,8 +7,6 @@ angular.module('app.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-    
-      
         
     .state('login', {
       url: '/page1',
@@ -16,20 +14,13 @@ angular.module('app.routes', [])
       controller: 'loginCtrl'
     })
         
-      
-    
-      
         
     .state('signup', {
       url: '/page2',
       templateUrl: 'templates/signup.html',
       controller: 'signupCtrl'
     })
-        
-      
-    
-      
-        
+           
     .state('tabsController.t-ShirtDesigner', {
       url: '/page4',
       views: {
@@ -39,11 +30,7 @@ angular.module('app.routes', [])
         }
       }
     })
-        
-      
-    
-      
-        
+           
     .state('tabsController.shoppingCart', {
       url: '/page5',
       views: {
@@ -94,10 +81,10 @@ angular.module('app.routes', [])
     
       
         
-    .state('tab5DefaultPage', {
+    .state('savePage', {
       url: '/page8',
-      templateUrl: 'templates/tab5DefaultPage.html',
-      controller: 'tab5DefaultPageCtrl'
+      templateUrl: 'templates/savePage.html',
+      controller: 'savePageCtrl'
     })
         
       
