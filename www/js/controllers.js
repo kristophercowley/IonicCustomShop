@@ -10,9 +10,9 @@ angular.module('app.controllers', [])
         
         //User/Order/Customer schema
         //End User/Order/Customer schema
-        $scope.warn = function () {
-            alert("If you are not logged into an account, anything you create in this app cannot be saved");
-        }
+        // $scope.warn = function () {
+        //     alert("If you are not logged into an account, anything you create in this app cannot be saved");
+        // }
         $scope.user = AuthService.getUser();
         function handleDBResponse(err, authData) {
             if (err) {
