@@ -15,8 +15,10 @@
             </ion-list>
             <button ng-click="save()" class="button button-balanced icon ion-star"> Save</button>
             <button class="button button-assertive icon ion-android-cancel" ui-sref="tabsController.t-ShirtDesigner"> Cancel</button>
-
-            <ion-list>
+        </form>
+        
+        <form ng-show="isSaved">
+            <ion-list >
             <h3>Ready To Do More? </h3>
                 <p>Choose shirt sizes and add to cart</p>
                 <label class="item item-input">
@@ -40,7 +42,8 @@
                     <input type="number"  ng-model="saved.sizes.xxl">{{saved.sizes.xxl}}
                 </label>
             </ion-list>
-            <button class="button button-block button-positive icon ion-android-cart" ui-sref="tabsController.shoppingCart"> Add to Cart</button>
+            <button class="button button-block button-positive icon ion-android-cart" ng-click="addToCart()"> Add to Cart</button>
         </form>
     </ion-content>
 </ion-view>
+<!--ui-sref="tabsController.shoppingCart"-->

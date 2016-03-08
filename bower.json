@@ -6,5 +6,8 @@
   },
   "resolutions": {
     "angular": ">= 1.0.8"
+  },
+  "dependencies": {
+    "stripe-angular": "^1.0.2"
   }
 }

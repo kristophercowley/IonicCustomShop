@@ -1,7 +1,7 @@
 <ion-view title="Shopping Cart ">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <div>
-            <h2>Order Total : {{totalPrice | currency}}</h2>
+            <h2>Order Total : {{totalPrice | currency}} Test Temp Price: {{order.details.price}}</h2>
         </div>
         <form class="list" stripe-form="stripeCallback">
                 <label class="item item-input">

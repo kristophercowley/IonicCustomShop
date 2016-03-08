@@ -84,5 +84,12 @@ angular.module('app.services', [])
         this.getUser = function () {
             return this.user
         }
-    }]);
+    }])
+    
+     .service('CartService', [function () {
+        this.cartOrder = {}
+        this.getCartOrder = function () {
+            return this.cartOrder;
+        }
+    }])
 
