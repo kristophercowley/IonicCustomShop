@@ -83,7 +83,7 @@ angular.module('app.controllers', [])
         $scope.images = ShirtService.images;
         $scope.shirts = ShirtService.shirts;
         $scope.selectedImage = ShirtService.getLogo();
-        $scope.order = {};
+        $scope.design = {};
         // Shows and Hides upload window
         $scope.uploadWindow = function() {
             $scope.showUpload = !$scope.showUpload;
@@ -96,9 +96,9 @@ angular.module('app.controllers', [])
         }
         // Pushes new image object to images array in ShirtService
         $scope.uploadImage = function(img) {
-            // ShirtService.images.push(img)
+            // ShirtService.images.push(img) //dont need this anymore I think
             $rootScope.member.uploads.push(img);
-            console.log("This is rootscope.member.uploads", $rootScope.member.uploads);
+            // console.log("This is rootscope.member.uploads", $rootScope.member.uploads);
             $scope.showUpload = !$scope.showUpload;
         }
        
@@ -107,7 +107,7 @@ angular.module('app.controllers', [])
         $scope.PassInfo = function(shirt, image) {
             ShirtService.tempShirt = shirt;
             ShirtService.tempImage = image;
-            ShirtService.tempOrder = $scope.order;
+            ShirtService.tempOrder = $scope.design;
             // console.log(ShirtService.tempOrder)
         }
 
@@ -126,7 +126,7 @@ angular.module('app.controllers', [])
         //Saves user designs to database 
         $scope.save = function() {
             alert($scope.saved.name + " has been saved to the account " + $scope.saved.email);
-            $scope.order.details = {
+            $scope.design.details = {
                 name: $scope.saved.name,
                 email: $scope.saved.email,
                 saveNum: saveNum,
@@ -146,11 +146,11 @@ angular.module('app.controllers', [])
                 // imageUrl: $scope.selectedImage.image
             }
             // Test for perpetuating logo info
-            $scope.order.logo = {
+            $scope.design.logo = {
                 position: ShirtService.tempOrder.logo.position,
                 size: ShirtService.tempOrder.logo.size
             }
-            $scope.savedDesigns.$add($scope.order);
+            $scope.savedDesigns.$add($scope.design);
             // console.log($scope.order)
             // console.log(ShirtService.tempOrder)
             saveNum++;
@@ -161,14 +161,14 @@ angular.module('app.controllers', [])
         //adds user designs to cart 
         $scope.addToCart = function() {
             // $rootScope.member
-            $scope.myOrder = $scope.order;
+            $scope.myOrder = $scope.design;
             console.log($scope.myOrder);
             $state.go('tabsController.shoppingCart');
             // Test sending to service for cart
-            ShirtService.myCartOrder = $scope.order;
+            ShirtService.myCartOrder = $scope.design;
             // Test sendin to OrderService
             // OrderService.setCurrentOrder($scope.order);
-            OrderService.currentOrder = $scope.order;
+            OrderService.currentOrder = $scope.design;
 
         }
 
@@ -187,8 +187,8 @@ angular.module('app.controllers', [])
             stop: saveImage,
         }).draggable({
             stop: function(e, image) {
-                $scope.order.logo = $scope.order.logo || {};
-                $scope.order.logo.position = image.position;
+                $scope.design.logo = $scope.design.logo || {};
+                $scope.design.logo.position = image.position;
             }
         });
 
@@ -209,7 +209,7 @@ angular.module('app.controllers', [])
                 size: image.size,
                 position: image.position
             }
-            $scope.order.logo = logo;
+            $scope.design.logo = logo;
         }
     })
 
