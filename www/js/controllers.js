@@ -74,9 +74,9 @@ angular.module('app.controllers', [])
         var ref = new Firebase(DBREF);
         // Child reference for saved designs
         var savedRef = ref.child('Saved Designs');
-        // Possible child reference for Active Orders
-        // var activeRef = ref.child('Active Orders');
-        // $scope.activeOrders = new $firebaseArray(activeRef);
+        // child reference for Active Orders// Currently using to view orders in custom Shop Home
+        var activeRef = ref.child('Active Orders');
+        $scope.activeOrders = new $firebaseArray(activeRef);
         var saveNum = 1;
         $scope.savedDesigns = new $firebaseArray(savedRef);
         $scope.user = "Users Name";
@@ -101,14 +101,14 @@ angular.module('app.controllers', [])
             // console.log("This is rootscope.member.uploads", $rootScope.member.uploads);
             $scope.showUpload = !$scope.showUpload;
         }
-       
+
 
         // Testing pasing data to a constructor for view change
         $scope.PassInfo = function(shirt, image) {
             ShirtService.tempShirt = shirt;
             ShirtService.tempImage = image;
-            ShirtService.tempOrder = $scope.design;
-            // console.log(ShirtService.tempOrder)
+            ShirtService.tempDesign = $scope.design;
+            // console.log(ShirtService.tempDesign)
         }
 
         // Declares an empty object for save data
@@ -147,29 +147,31 @@ angular.module('app.controllers', [])
             }
             // Test for perpetuating logo info
             $scope.design.logo = {
-                position: ShirtService.tempOrder.logo.position,
-                size: ShirtService.tempOrder.logo.size
+                position: ShirtService.tempDesign.logo.position,
+                size: ShirtService.tempDesign.logo.size
             }
             $scope.savedDesigns.$add($scope.design);
+            // Temp sending to Custom shop home for testing
+            $scope.activeOrders.$add($scope.design);
+
             // console.log($scope.order)
-            // console.log(ShirtService.tempOrder)
+            // console.log(ShirtService.tempDesign)
             saveNum++;
             $scope.isSaved = true;
         }
 
 
-        //adds user designs to cart 
+        //adds user designs to cart ///maybe just use $$rootscope.member//Might not need this
         $scope.addToCart = function() {
             // $rootScope.member
-            $scope.myOrder = $scope.design;
-            console.log($scope.myOrder);
+            $scope.myDesign = $scope.design;
+            console.log($scope.myDesign);
             $state.go('tabsController.shoppingCart');
             // Test sending to service for cart
             ShirtService.myCartOrder = $scope.design;
             // Test sendin to OrderService
             // OrderService.setCurrentOrder($scope.order);
             OrderService.currentOrder = $scope.design;
-
         }
 
         //Selects clip art and scrolls to shirt designer
