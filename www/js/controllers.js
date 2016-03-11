@@ -4,7 +4,6 @@ angular.module('app.controllers', [])
 
     .controller('loginCtrl', function($scope, DBREF, AuthService, $state) {
         var db = new Firebase(DBREF);
-
         $scope.user = AuthService.getUser();
 
         function handleDBResponse(err, authData) {
@@ -31,9 +30,10 @@ angular.module('app.controllers', [])
         }
     })
 
-    .controller('signupCtrl', function($scope, DBREF, AuthService, $firebaseArray, $state) {
+    .controller('signupCtrl', function($scope, DBREF, AuthService, $firebaseArray, $state, $rootScope) {
         var db = new Firebase(DBREF);
         // var db = AuthService.db();
+        $rootScope.member = {};
         $scope.errorMessage = '';
         $scope.user = AuthService.getUser();
         $scope.signup = function(user) {
@@ -52,18 +52,23 @@ angular.module('app.controllers', [])
                 var userToSave = {
                     username: $scope.user.email,
                     reputation: 0,
-                    created: Date.now()
+                    created: Date.now(),
+                    designs: [],
+                    orders: [],
+                    uploads: []
                 }
-                console.log(userToSave);
+                // console.log(userToSave);
                 //This line saves user to DB
                 db.child('users').child(authData.uid).update(userToSave);
-
+                // Testing $Rootscope member for authorized saves 
+                $rootScope.member = userToSave;
+                console.log("rootscope.member = " , $rootScope.member)
             }
             // console.log(user.email + user.password)
         }
     })
 
-    .controller('t-ShirtDesignerCtrl', function($scope, $state, ShirtService, OrderService, $ionicScrollDelegate, DBREF, $firebaseArray) {
+    .controller('t-ShirtDesignerCtrl', function($scope, $state, ShirtService, OrderService, $ionicScrollDelegate, DBREF, $firebaseArray, $rootScope) {
         var db = new Firebase(DBREF);
         var ref = new Firebase(DBREF);
         var activeRef = ref.child('Active Orders')
@@ -205,19 +210,15 @@ angular.module('app.controllers', [])
         var ref = new Firebase(DBREF);
         var activeRef = ref.child('Active Orders');
         $scope.orders = new $firebaseArray(activeRef);
-        // $scope.cart = {};
+        $scope.cart = {};
         // $scope.orders2 = OrderService.getCurrentOrder();
         // $scope.orders2 = OrderService.currentOrder;
 
         $scope.cartTest = function() {
             // console.log($scope.orders)
-            $scope.orders1 = ShirtService.myCartOrder;
+            // $scope.orders1 = ShirtService.myCartOrder;
+            // console.log($scope.orders1)
             $scope.orders2 = OrderService.currentOrder;
-            console.log($scope.orders1)
-            console.log($scope.orders2)
-            console.log(ShirtService.myCartOrder)
-            console.log(OrderService.currentOrder)
-
             console.log($scope.orders2)
 
             // console.log($scope.cart.details.price)

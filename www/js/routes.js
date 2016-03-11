@@ -42,21 +42,6 @@ angular.module('app.routes', [])
     })
         
       
-    
-      
-        
-    // .state('tabsController.chooseCustomClipArt', {
-    //   url: '/page6',
-    //   views: {
-    //     'tab6': {
-    //       templateUrl: 'templates/chooseCustomClipArt.html',
-    //       controller: 't-ShirtDesignerCtrl'
-    //     }
-    //   }
-    // })
-        
-      
-    
       
     .state('tabsController', {
       url: '/page3',
@@ -64,7 +49,6 @@ angular.module('app.routes', [])
       templateUrl: 'templates/tabsController.html'
     })
       
-    
       
         
     .state('tabsController.brandedPrints', {
@@ -78,9 +62,7 @@ angular.module('app.routes', [])
     })
         
       
-    
-      
-        
+       
     .state('savePage', {
       url: '/page8',
       templateUrl: 'templates/savePage.html',
@@ -88,9 +70,9 @@ angular.module('app.routes', [])
     })
         
       
-    ;
+    
 
-  // if none of the above states are matched, use this as the fallback
+  // This is the fallback
   $urlRouterProvider.otherwise('/page1');
 
 });
