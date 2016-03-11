@@ -63,7 +63,7 @@ angular.module('app.controllers', [])
         }
     })
 
-    .controller('t-ShirtDesignerCtrl', function($scope, $state, ShirtService, $ionicScrollDelegate, DBREF, $firebaseArray) {
+    .controller('t-ShirtDesignerCtrl', function($scope, $state, ShirtService, OrderService, $ionicScrollDelegate, DBREF, $firebaseArray) {
         var db = new Firebase(DBREF);
         var ref = new Firebase(DBREF);
         var activeRef = ref.child('Active Orders')
@@ -76,7 +76,21 @@ angular.module('app.controllers', [])
         $scope.shirts = ShirtService.shirts;
         $scope.selectedImage = ShirtService.getLogo();
         $scope.order = {};
-
+        // Shows and Hides upload window
+        $scope.uploadWindow = function() {
+            $scope.showUpload = !$scope.showUpload;
+        }
+        // Sets up upload object for user image upload
+        $scope.upload = {
+            name: '',
+            image: ''
+        }
+        // Pushes new image object to images array in ShirtService
+        $scope.uploadImage = function(img) {
+            ShirtService.images.push(img)
+            console.log(img);
+            $scope.showUpload = !$scope.showUpload;
+        }
         // firebase array reference for saved orders
         $scope.savedOrders = new $firebaseArray(ref);
 
@@ -139,6 +153,10 @@ angular.module('app.controllers', [])
             $state.go('tabsController.shoppingCart');
             // Test sending to service for cart
             ShirtService.myCartOrder = $scope.order;
+            // Test sendin to OrderService
+            // OrderService.setCurrentOrder($scope.order);
+            OrderService.currentOrder = $scope.order;
+
         }
 
         //Selects clip art and scrolls to shirt designer
@@ -166,9 +184,8 @@ angular.module('app.controllers', [])
             if (shirt) {
                 $scope.selectedShirt = shirt;
             }
-
             $scope.shirtViewer = $scope.selectedShirt[view];;
-            console.log(view);
+            // console.log(view);
         }
 
         $scope.shirtViewer = $scope.shirts[0].front;
@@ -183,7 +200,32 @@ angular.module('app.controllers', [])
         }
     })
 
-    .controller('shoppingCartCtrl', function($scope, CartService, ShirtService) {
+    .controller('shoppingCartCtrl', function($scope, ShirtService, OrderService, DBREF, $firebaseArray) {
+        //Referencing and testing if i need to directly talk to firebase or if i should be sharing a service
+        var ref = new Firebase(DBREF);
+        var activeRef = ref.child('Active Orders');
+        $scope.orders = new $firebaseArray(activeRef);
+        // $scope.cart = {};
+        // $scope.orders2 = OrderService.getCurrentOrder();
+        // $scope.orders2 = OrderService.currentOrder;
+
+        $scope.cartTest = function() {
+            // console.log($scope.orders)
+            $scope.orders1 = ShirtService.myCartOrder;
+            $scope.orders2 = OrderService.currentOrder;
+            console.log($scope.orders1)
+            console.log($scope.orders2)
+            console.log(ShirtService.myCartOrder)
+            console.log(OrderService.currentOrder)
+
+            console.log($scope.orders2)
+
+            // console.log($scope.cart.details.price)
+
+        }
+
+        // End references and testing
+
         // Need to decide on what services, factories, and controllers to use to pass information from one view to another
         // Need to figure out my data Structure- I should refactor my data all into services and make sure it is saving to firebase
         // Need to clean up naming conventions of variables to clarify intent

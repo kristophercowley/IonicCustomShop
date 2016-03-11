@@ -67,6 +67,10 @@ angular.module('app.services', [])
             },
              {   name: "strange logo",
                  image:"img/strange-logo.png"
+            },
+            {
+                name: "star wars",
+                image: "http://vignette2.wikia.nocookie.net/logopedia/images/5/5b/Star-Wars-Logo_Silver.png/revision/latest?cb=20151106011636"
             }
         ]
         
@@ -87,9 +91,27 @@ angular.module('app.services', [])
     }])
     
      .service('CartService', [function () {
-        this.cartOrder = {}
-        this.getCartOrder = function () {
-            return this.cartOrder;
-        }
+        // this.cartOrder = {}
+        // this.getCartOrder = function () {
+        //     return this.cartOrder;
+        // }
+        
+        
+    }])
+    
+     .factory('OrderService', [function () {
+         var currentOrder =  {};
+         var setCurrentOrder = function(order){
+             currentOrder = order;
+         }
+         var getCurrentOrder = function(){
+             return currentOrder;
+         }
+         return {
+             setCurrentOrder: setCurrentOrder,
+             getCurrentOrder: getCurrentOrder,
+             currentOrder: currentOrder
+         }
+      
     }])
 

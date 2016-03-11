@@ -1,25 +1,27 @@
 <ion-view title="Save Page">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <form class="list" style="text-align: center" >
+        <form ng-hide="isSaved" class="list center" >
             <ion-list>
                 <h3>Save Your Design Here</h3>
                 <p>Save your design for later use</p>
                 <label class="item item-input">
                     <span class="input-label">Name: </span>
-                    <input type="text" placeholder="design name here" ng-model="saved.name"><!--{{saved.name}}-->
+                    <input type="text" placeholder="design name here" ng-model="saved.name">
+                    <!--{{saved.name}}-->
                 </label>
                 <label class="item item-input">
                     <span class="input-label"> Email: </span>
-                    <input type="email" placeholder="email here" ng-model="saved.email"><!--{{saved.email}}-->
+                    <input type="email" placeholder="email here" ng-model="saved.email">
+                    <!--{{saved.email}}-->
                 </label>
             </ion-list>
             <button ng-click="save()" class="button button-balanced icon ion-star"> Save</button>
             <button class="button button-assertive icon ion-android-cancel" ui-sref="tabsController.t-ShirtDesigner"> Cancel</button>
         </form>
-        
-        <form ng-show="isSaved">
-            <ion-list >
-            <h3>Ready To Do More? </h3>
+
+        <form ng-show="isSaved" class="list center">
+            <ion-list>
+                <h3>Ready To Do More? </h3>
                 <p>Choose shirt sizes and add to cart</p>
                 <label class="item item-input">
                     <span class="input-label">sm: </span>
@@ -27,22 +29,24 @@
                 </label>
                 <label class="item item-input">
                     <span class="input-label"> md: </span>
-                    <input type="number"  ng-model="saved.sizes.md">{{saved.sizes.md}}
+                    <input type="number" ng-model="saved.sizes.md">{{saved.sizes.md}}
                 </label>
                 <label class="item item-input">
                     <span class="input-label"> lg: </span>
-                    <input type="number"  ng-model="saved.sizes.lg">{{saved.sizes.lg}}
+                    <input type="number" ng-model="saved.sizes.lg">{{saved.sizes.lg}}
                 </label>
                 <label class="item item-input">
                     <span class="input-label"> xl: </span>
-                    <input type="number"  ng-model="saved.sizes.xl">{{saved.sizes.xl}}
+                    <input type="number" ng-model="saved.sizes.xl">{{saved.sizes.xl}}
                 </label>
                 <label class="item item-input">
                     <span class="input-label"> xxl: </span>
-                    <input type="number"  ng-model="saved.sizes.xxl">{{saved.sizes.xxl}}
+                    <input type="number" ng-model="saved.sizes.xxl">{{saved.sizes.xxl}}
                 </label>
             </ion-list>
             <button class="button button-block button-positive icon ion-android-cart" ng-click="addToCart()"> Add to Cart</button>
+            <button class="button button-block button-assertive icon ion-arrow-left-a" ui-sref="tabsController.t-ShirtDesigner"> Go Back </button>
+
         </form>
     </ion-content>
 </ion-view>

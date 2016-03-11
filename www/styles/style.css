@@ -23,6 +23,9 @@
     text-align: right;
 }
 
+.center{
+    text-align: center;
+}
 
 /*DRAGGABLE STYLES*/
 .draggable
