@@ -27,6 +27,9 @@
     text-align: center;
 }
 
+.backcolor{
+    background-color: lightgrey;
+}
 /*DRAGGABLE STYLES*/
 .draggable
 {

@@ -1,17 +1,8 @@
-<!--<ion-view title="Choose Custom Clip Art">
-    <ion-content overflow-scroll="true" padding="true" style="background: url(img/EjQssutQNKb5xhBfmD1w_clip1.png) no-repeat center;" class="has-header">-->
-        <ion-list>
-            <ion-item ng-repeat="image in images" ng-click="imagePicker(image)" class="item-thumbnail-left">
-                <img ng-src="{{image.image}}">
-                <h2>{{image.name}}</h2>
-                <p>Design Description here:{{image.description}}</p>
-            </ion-item>
-            
-            <!--<ion-item class="item-thumbnail-left">
-                <img ng-src="">
-                <h2>Title</h2>
-                <p>Item</p>
-            </ion-item>-->
-        </ion-list>
-    <!--</ion-content>
-</ion-view>-->
+<ion-list>
+    <h3 class="center backcolor">Choose from Clip Art</h3>
+    <ion-item ng-repeat="image in images" ng-click="imagePicker(image)" class="item-thumbnail-left">
+        <img ng-src="{{image.image}}">
+        <h2 >{{image.name}}</h2>
+        <p>Design Description here:{{image.description}}</p>
+    </ion-item>
+</ion-list>

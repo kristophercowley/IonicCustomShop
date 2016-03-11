@@ -62,7 +62,7 @@ angular.module('app.controllers', [])
                 db.child('users').child(authData.uid).update(userToSave);
                 // Testing $Rootscope member for authorized saves 
                 $rootScope.member = userToSave;
-                console.log("rootscope.member = " , $rootScope.member)
+                console.log("rootscope.member = ", $rootScope.member)
             }
             // console.log(user.email + user.password)
         }
@@ -70,12 +70,15 @@ angular.module('app.controllers', [])
 
     .controller('t-ShirtDesignerCtrl', function($scope, $state, ShirtService, OrderService, $ionicScrollDelegate, DBREF, $firebaseArray, $rootScope) {
         var db = new Firebase(DBREF);
+        // Original reference
         var ref = new Firebase(DBREF);
-        var activeRef = ref.child('Active Orders')
-        // future order num
-        // var orderNum = 1;
+        // Child reference for saved designs
+        var savedRef = ref.child('Saved Designs');
+        // Possible child reference for Active Orders
+        // var activeRef = ref.child('Active Orders');
+        // $scope.activeOrders = new $firebaseArray(activeRef);
         var saveNum = 1;
-        $scope.orders = new $firebaseArray(activeRef);
+        $scope.savedDesigns = new $firebaseArray(savedRef);
         $scope.user = "Users Name";
         $scope.images = ShirtService.images;
         $scope.shirts = ShirtService.shirts;
@@ -88,16 +91,17 @@ angular.module('app.controllers', [])
         // Sets up upload object for user image upload
         $scope.upload = {
             name: '',
-            image: ''
+            image: '',
+            description: ''
         }
         // Pushes new image object to images array in ShirtService
         $scope.uploadImage = function(img) {
-            ShirtService.images.push(img)
-            console.log(img);
+            // ShirtService.images.push(img)
+            $rootScope.member.uploads.push(img);
+            console.log("This is rootscope.member.uploads", $rootScope.member.uploads);
             $scope.showUpload = !$scope.showUpload;
         }
-        // firebase array reference for saved orders
-        $scope.savedOrders = new $firebaseArray(ref);
+       
 
         // Testing pasing data to a constructor for view change
         $scope.PassInfo = function(shirt, image) {
@@ -111,6 +115,11 @@ angular.module('app.controllers', [])
         $scope.saved = {
             name: '',
             email: ''
+        }
+
+        // Uses rootscope.member to save member designs
+        $scope.saveDesign = function() {
+            // $rootScope.member.designs.push();
         }
 
         $scope.isSaved = false;
@@ -141,18 +150,17 @@ angular.module('app.controllers', [])
                 position: ShirtService.tempOrder.logo.position,
                 size: ShirtService.tempOrder.logo.size
             }
-            $scope.orders.$add($scope.order);
+            $scope.savedDesigns.$add($scope.order);
             // console.log($scope.order)
             // console.log(ShirtService.tempOrder)
             saveNum++;
             $scope.isSaved = true;
         }
-        // Creates Cart Obj
-        $scope.myOrder = {};
+
 
         //adds user designs to cart 
         $scope.addToCart = function() {
-            // $scope.save();
+            // $rootScope.member
             $scope.myOrder = $scope.order;
             console.log($scope.myOrder);
             $state.go('tabsController.shoppingCart');

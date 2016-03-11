@@ -43,15 +43,28 @@
                     <label class="item item-input"><span class="input-label">Enter Image Url: </span>
                         <input type="text" ng-model="upload.image" placeholder="image url">
                     </label>
+                     <label class="item item-input"><span class="input-label">Enter Description </span>
+                        <input type="text" ng-model="upload.description" placeholder="describe">
+                    </label>
                     <button ng-click="uploadImage(upload)" class="button button-block">Upload</button>
                 </ion-list>
             </form>
             <!--Quill testing-->
             <!--{{message}}-->
-            <ng-quill-editor ng-model="message" toolbar="true" link-tooltip="true" image-tooltip="true" toolbar-entries="font size bold list bullet italic underline strike align color background link image"
-            editor-required="true" required="" error-class="input-error"></ng-quill-editor>
+            <!--<ng-quill-editor ng-model="message" toolbar="true" link-tooltip="true" image-tooltip="true" toolbar-entries="font size bold list bullet italic underline strike align color background link image"
+            editor-required="true" required="" error-class="input-error"></ng-quill-editor>-->
             <!--End quill testing-->
         </div>
+        <!--Display customer images-->
+        <ion-list ng-if="member.uploads[0]">
+            <h3 class="center backcolor">Your Uploads</h3>
+            <hr>
+            <ion-item ng-repeat="upload in member.uploads" ng-click="imagePicker(image)" class="item-thumbnail-left">
+                <img ng-src="{{upload.image}}">
+                <h2>{{upload.name}}</h2>
+                <p>Design Description here:{{upload.description}}</p>
+            </ion-item>
+        </ion-list>
 
         <div ng-include="'templates/chooseCustomClipArt.html'"></div>
 
