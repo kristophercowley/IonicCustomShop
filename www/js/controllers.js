@@ -105,10 +105,16 @@ angular.module('app.controllers', [])
 
         // Testing pasing data to a constructor for view change
         $scope.PassInfo = function(shirt, image) {
-            ShirtService.tempShirt = shirt;
-            ShirtService.tempImage = image;
-            ShirtService.tempDesign = $scope.design;
-            // console.log(ShirtService.tempDesign)
+            if (!image) {
+                alert("You didnt create a design yet, please choose an image");
+
+            } else {
+                $state.go('savePage');
+                ShirtService.tempShirt = shirt;
+                ShirtService.tempImage = image;
+                ShirtService.tempDesign = $scope.design;
+                // console.log(ShirtService.tempDesign)
+            }
         }
 
         // Declares an empty object for save data
@@ -121,10 +127,22 @@ angular.module('app.controllers', [])
         $scope.saveDesign = function() {
             // $rootScope.member.designs.push();
         }
+        // sets default values for logo object//These values need to match the css values for .image-div for proper operation
+        $scope.design.logo = {
+            position: {
+                left: 159,
+                top: 65
+            },
+            size: {
+                height: 40,
+                width: 40
+            }
+        }
 
         $scope.isSaved = false;
         //Saves user designs to database 
         $scope.save = function() {
+
             alert($scope.saved.name + " has been saved to the account " + $scope.saved.email);
             $scope.design.details = {
                 name: $scope.saved.name,
