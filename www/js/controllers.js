@@ -127,7 +127,8 @@ angular.module('app.controllers', [])
         $scope.saveDesign = function() {
             // $rootScope.member.designs.push();
         }
-        // sets default values for logo object//These values need to match the css values for .image-div for proper operation
+        
+        //Sets default values for logo object//These values need to match the css values for .image-div for proper operation
         $scope.design.logo = {
             position: {
                 left: 159,
