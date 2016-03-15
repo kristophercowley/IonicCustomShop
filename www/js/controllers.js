@@ -107,8 +107,13 @@ angular.module('app.controllers', [])
         $scope.PassInfo = function(shirt, image) {
             if (!image) {
                 alert("You didnt create a design yet, please choose an image");
+            }
+            // if (!shirt) {
+            //     // shirt = ShirtService.shirts[0];
+            //     alert("You didnt pick a shirt yet, please choose an shirt");
 
-            } else {
+            // }
+            else {
                 $state.go('savePage');
                 ShirtService.tempShirt = shirt;
                 ShirtService.tempImage = image;
@@ -127,7 +132,7 @@ angular.module('app.controllers', [])
         $scope.saveDesign = function() {
             // $rootScope.member.designs.push();
         }
-        
+
         //Sets default values for logo object//These values need to match the css values for .image-div for proper operation
         $scope.design.logo = {
             position: {
@@ -215,16 +220,18 @@ angular.module('app.controllers', [])
 
         //Selects shirt color and view
         $scope.shirtView = function(view, shirt) {
+            // console.log(shirt);
             if (shirt) {
                 $scope.selectedShirt = shirt;
             }
             $scope.shirtViewer = $scope.selectedShirt[view];;
             // console.log(view);
         }
-
-        $scope.shirtViewer = $scope.shirts[0].front;
-        // $scope.selectedShirt = $scope.shirts[0];
-
+        
+        // Initializes Shirt View
+        $scope.shirtView('front', ShirtService.shirts[0])
+      
+        // Saves selected image 
         function saveImage(e, image) {
             var logo = {
                 size: image.size,
