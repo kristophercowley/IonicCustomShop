@@ -55,14 +55,15 @@ angular.module('app.controllers', [])
                     created: Date.now(),
                     designs: [],
                     orders: [],
-                    uploads: []
+                    uploads: [],
+                    current: {}
                 }
                 // console.log(userToSave);
                 //This line saves user to DB
                 db.child('users').child(authData.uid).update(userToSave);
                 // Testing $Rootscope member for authorized saves 
                 $rootScope.member = userToSave;
-                console.log("rootscope.member = ", $rootScope.member)
+                // console.log("rootscope.member = ", $rootScope.member)
             }
             // console.log(user.email + user.password)
         }
@@ -108,11 +109,6 @@ angular.module('app.controllers', [])
             if (!image) {
                 alert("You didnt create a design yet, please choose an image");
             }
-            // if (!shirt) {
-            //     // shirt = ShirtService.shirts[0];
-            //     alert("You didnt pick a shirt yet, please choose an shirt");
-
-            // }
             else {
                 $state.go('savePage');
                 ShirtService.tempShirt = shirt;
@@ -181,8 +177,9 @@ angular.module('app.controllers', [])
             $scope.savedDesigns.$add($scope.design);
             // Temp sending to Custom shop home for testing
             $scope.activeOrders.$add($scope.design);
-
-            // console.log($scope.order)
+            // $rootScope.member.current = $scope.design;
+            // console.log("$rootScope.member.current : " , $rootScope.member.current)
+            // console.log($scope.activeOrders)
             // console.log(ShirtService.tempDesign)
             saveNum++;
             $scope.isSaved = true;
@@ -193,8 +190,10 @@ angular.module('app.controllers', [])
         $scope.addToCart = function() {
             // $rootScope.member
             $scope.myDesign = $scope.design;
-            console.log($scope.myDesign);
+            // console.log($scope.myDesign);
+            $rootScope.member.current = $scope.design;
             $state.go('tabsController.shoppingCart');
+            // console.log("test: " , $rootScope.members.current)
             // Test sending to service for cart
             ShirtService.myCartOrder = $scope.design;
             // Test sendin to OrderService
@@ -221,12 +220,12 @@ angular.module('app.controllers', [])
                 $scope.design.logo.position = image.position;
             }
         });
-        
+
         // Toggle Handles for image div
         $(document).click(function() {
             $('#toggle').toggle('highlight')
         })
-        
+
         //Selects shirt color and view
         $scope.shirtView = function(view, shirt) {
             // console.log(shirt);
@@ -248,9 +247,11 @@ angular.module('app.controllers', [])
             }
             $scope.design.logo = logo;
         }
+        
+      
     })
 
-    .controller('shoppingCartCtrl', function($scope, ShirtService, OrderService, DBREF, $firebaseArray) {
+    .controller('shoppingCartCtrl', function($scope, ShirtService, OrderService, DBREF, $firebaseArray, $rootScope) {
         //Referencing and testing if i need to directly talk to firebase or if i should be sharing a service
         var ref = new Firebase(DBREF);
         var activeRef = ref.child('Active Orders');
@@ -258,15 +259,21 @@ angular.module('app.controllers', [])
         $scope.cart = {};
         // $scope.orders2 = OrderService.getCurrentOrder();
         // $scope.orders2 = OrderService.currentOrder;
+        console.log("$rootScope.member.current = ", $rootScope.member.current)
+        $scope.current = $rootScope.member.current;
+        console.log("$scope.current = ", $scope.current)
+
 
         $scope.cartTest = function() {
             // console.log($scope.orders)
             // $scope.orders1 = ShirtService.myCartOrder;
             // console.log($scope.orders1)
-            $scope.orders2 = OrderService.currentOrder;
-            console.log($scope.orders2)
+            // $scope.orders2 = OrderService.currentOrder;
+            // console.log($scope.orders2)
 
-            // console.log($scope.cart.details.price)
+            console.log("Button pressed, $rootscope.member.details", $rootScope.members.details)
+            console.log("Button pressed, $scope.current.details", $scope.current.details)
+
 
         }
 

@@ -36,7 +36,7 @@ angular.module('app.routes', [])
       views: {
         'tab8': {
           templateUrl: 'templates/shoppingCart.html',
-          controller: 'shoppingCartCtrl'
+           controller:  't-ShirtDesignerCtrl'// 'shoppingCartCtrl'
         }
       }
     })

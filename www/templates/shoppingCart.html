@@ -1,13 +1,18 @@
 <ion-view title="Shopping Cart ">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <div>
-            <h2>Order Total : {{totalPrice | currency}} Test Temp Price: {{orders2.details.price}}</h2>
+            <!--<h2>Name: {{current.details.user}}</h2>-->
+            <h2>Price by Shirt: {{member.current.details.price | currency}}</h2>
+            <h2>Design Name: {{member.current.details.name}}</h2>
+            <h2>Image: {{member.current.details.imageName}}</h2>
+            <h2>Shirt Color: {{member.current.details.shirtColor}}</h2>
+            <!--<h2>Order Total : </h2>{{current.details.price * .06 | currency}}-->
         </div>
         <form class="list" ng-click="cartTest()" stripe-form="stripeCallback">
-                <label class="item item-input">
-                    <span class="input-label">CC# </span>
-                    <input class="form-control" ng-model="number" placeholder="Card Number" payments-format="card" />
-                </label>
+            <label class="item item-input">
+                <span class="input-label">CC# </span>
+                <input class="form-control" ng-model="number" placeholder="Card Number" payments-format="card" />
+            </label>
             <label class="item item-input">
                 <span class="input-label">Expiration</span>
                 <input ng-model="expiry" placeholder="Expiration" payments-format="expiry" />
@@ -26,6 +31,26 @@
             </label>
             <button type="submit" class="button button-positive button-block  icon-right ion-android-cart">Check Out</button>
         </form>
+
+        <!--details: Object
+date: 1458074160645
+email: ""
+imageName: "tape"
+imageUrl: "img/tape.png"
+name: "aaaa"
+price: 19.99
+saveNum: 1
+shirtColor: "Black"
+shirtUrl: "img/black-shirt.jpg"
+user: "Mock User Name"-->
+
+
+
+
+
+
+
+
         <!--<form class="list">
             <label class="item item-input">
                 <span class="input-label">Name:</span>
