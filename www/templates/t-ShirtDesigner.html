@@ -15,8 +15,9 @@
         <span class="image-div">{{userText}}</span>-->
         <div class="shirt-div" style="text-align:center;">
             <img ng-src="{{shirtViewer}}" height="300px">
-            <div class="image-div"><img class="image" ng-src="{{selectedImage.image}}"></div>
-            <button class="button button-block button-balanced icon ion-star" ng-click="PassInfo(selectedShirt,selectedImage)" ><!--ui-sref="savePage"-->
+           <span id="toggle"><div class="image-div"><img class="image" ng-src="{{selectedImage.image}}"></div></span>
+            <button class="button button-block button-balanced icon ion-star" ng-click="PassInfo(selectedShirt,selectedImage)">
+                <!--ui-sref="savePage"-->
                 Save</button>
             <!--ng-click="save()-->
             <!--<button class="button button-balanced icon ion-folder" ui-sref="selectSizes"> Select Sizes</button>-->
@@ -31,8 +32,8 @@
         </div>
 
         <button class="button button-block" ng-click="uploadWindow()" ng-show="!showUpload">Upload an Image</button>
-        <div class="center list" ng-show="showUpload">
-            <form>
+        <div class="center" ng-show="showUpload">
+            <form class="list">
                 <ion-list>
                     <h5>Use '.png' or '.psd' files for best results</h5>
                     <p><i>user is responsible for all copyright compliance</i></p>
@@ -43,12 +44,12 @@
                     <label class="item item-input"><span class="input-label">Enter Image Url: </span>
                         <input type="text" ng-model="upload.image" placeholder="image url">
                     </label>
-                     <label class="item item-input"><span class="input-label">Enter Description </span>
+                    <label class="item item-input"><span class="input-label">Enter Description </span>
                         <input type="text" ng-model="upload.description" placeholder="describe">
                     </label>
-                    <button ng-click="uploadImage(upload)" class="button button-block">Upload</button>
                 </ion-list>
-            </form>
+                <button ng-click="uploadImage(upload)" class="button button-block">Upload</button>
+            <!--</form>-->
             <!--Quill testing-->
             <!--{{message}}-->
             <!--<ng-quill-editor ng-model="message" toolbar="true" link-tooltip="true" image-tooltip="true" toolbar-entries="font size bold list bullet italic underline strike align color background link image"

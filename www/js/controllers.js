@@ -148,9 +148,9 @@ angular.module('app.controllers', [])
         $scope.isSaved = false;
         //Saves user designs to database 
         $scope.save = function() {
-            if($rootScope.member){
-            alert($scope.saved.name + " has been saved to your account " + $rootScope.member.username);
-            }else{
+            if ($rootScope.member) {
+                alert($scope.saved.name + " has been saved to your account " + $rootScope.member.username);
+            } else {
                 alert("You must be logged in to save. Please login or create an account");
                 $state.go('login')
             }
@@ -221,7 +221,12 @@ angular.module('app.controllers', [])
                 $scope.design.logo.position = image.position;
             }
         });
-
+        
+        // Toggle Handles for image div
+        $(document).click(function() {
+            $('#toggle').toggle('highlight')
+        })
+        
         //Selects shirt color and view
         $scope.shirtView = function(view, shirt) {
             // console.log(shirt);
@@ -231,10 +236,10 @@ angular.module('app.controllers', [])
             $scope.shirtViewer = $scope.selectedShirt[view];;
             // console.log(view);
         }
-        
+
         // Initializes Shirt View
         $scope.shirtView('front', ShirtService.shirts[0])
-      
+
         // Saves selected image 
         function saveImage(e, image) {
             var logo = {
