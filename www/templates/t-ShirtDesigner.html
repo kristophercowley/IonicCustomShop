@@ -1,5 +1,7 @@
 <ion-view title="T-Shirt Designer ">
     <ion-content overflow-scroll="true" padding="true" style="background: url() no-repeat center;" class="has-header">
+
+        <!--Select Shirt Color-->
         <form class="list">
             <label class="item item-select">
                 <span class="input-label">Select Color</span>
@@ -9,21 +11,15 @@
         </form>
         <h5>Selected Shirt: {{selectedShirt.color}}</h5>
 
-        <!--<hr/>
-        <label>Custom Text Box</label>
-        <textarea type="text" placeholder="enter text" ng-model="userText"></textarea>
-        <span class="image-div">{{userText}}</span>-->
+
+        <!--Display Shirts and Images-->
         <div class="shirt-div" style="text-align:center;">
             <img ng-src="{{shirtViewer}}" height="300px">
-           <span id="toggle"><div class="image-div"><img class="image" ng-src="{{selectedImage.image}}"></div></span>
-            <button class="button button-block button-balanced icon ion-star" ng-click="PassInfo(selectedShirt,selectedImage)">
-                <!--ui-sref="savePage"-->
-                Save</button>
-            <!--ng-click="save()-->
-            <!--<button class="button button-balanced icon ion-folder" ui-sref="selectSizes"> Select Sizes</button>-->
+            <span id="toggle"><div class="image-div"><img class="image" ng-src="{{selectedImage.image}}"></div></span>
+            <button class="button button-block button-balanced icon ion-star" ng-click="PassInfo(selectedShirt,selectedImage)"> Save</button>
         </div>
 
-
+        <!--Shirt View Select Buttons-->
         <form class="list"></form>
         <div class="button-bar">
             <button ng-click="shirtView('sleeve')" class="button button-dark button-block ">Sleeve</button>
@@ -31,6 +27,7 @@
             <button ng-click="shirtView('back')" class="button button-dark button-block ">Back</button>
         </div>
 
+        <!--Upload Image Window and Form-->
         <button class="button button-block" ng-click="uploadWindow()" ng-show="!showUpload">Upload an Image</button>
         <div class="center" ng-show="showUpload">
             <form class="list">
@@ -49,14 +46,17 @@
                     </label>
                 </ion-list>
                 <button ng-click="uploadImage(upload)" class="button button-block">Upload</button>
-            <!--</form>-->
-            <!--Quill testing-->
-            <!--{{message}}-->
-            <!--<ng-quill-editor ng-model="message" toolbar="true" link-tooltip="true" image-tooltip="true" toolbar-entries="font size bold list bullet italic underline strike align color background link image"
-            editor-required="true" required="" error-class="input-error"></ng-quill-editor>-->
-            <!--End quill testing-->
+            </form>
         </div>
-        <!--Display customer images-->
+
+        <!--Quill testing-->
+        <!--{{message}}-->
+        <!--<ng-quill-editor ng-model="message" toolbar="true" link-tooltip="true" image-tooltip="true" toolbar-entries="font size bold list bullet italic underline strike align color background link image"
+            editor-required="true" required="" error-class="input-error"></ng-quill-editor>-->
+        <!--End quill testing-->
+
+
+        <!--Display Customer Uploaded Images-->
         <ion-list ng-if="member.uploads[0]">
             <h3 class="center backcolor">Your Uploads</h3>
             <hr>
@@ -67,6 +67,7 @@
             </ion-item>
         </ion-list>
 
+        <!--Includes Clip Art Html-->
         <div ng-include="'templates/chooseCustomClipArt.html'"></div>
 
     </ion-content>
