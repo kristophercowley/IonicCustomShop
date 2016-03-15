@@ -148,8 +148,12 @@ angular.module('app.controllers', [])
         $scope.isSaved = false;
         //Saves user designs to database 
         $scope.save = function() {
-
-            alert($scope.saved.name + " has been saved to the account " + $scope.saved.email);
+            if($rootScope.member){
+            alert($scope.saved.name + " has been saved to your account " + $rootScope.member.username);
+            }else{
+                alert("You must be logged in to save. Please login or create an account");
+                $state.go('login')
+            }
             $scope.design.details = {
                 name: $scope.saved.name,
                 email: $scope.saved.email,

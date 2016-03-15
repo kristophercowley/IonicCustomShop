@@ -5,15 +5,13 @@
                 <h3>Save Your Design Here</h3>
                 <p>Save your design for later use</p>
                 <label class="item item-input">
-                    <span class="input-label">Name: </span>
+                    <span class="input-label">Name you design: </span>
                     <input type="text" placeholder="design name here" ng-model="saved.name">
-                    <!--{{saved.name}}-->
                 </label>
-                <label class="item item-input">
+                <!--<label class="item item-input">
                     <span class="input-label"> Email: </span>
                     <input type="email" placeholder="email here" ng-model="saved.email">
-                    <!--{{saved.email}}-->
-                </label>
+                <!--</label>-->
             </ion-list>
             <button ng-click="save()" class="button button-balanced icon ion-star"> Save</button>
             <button class="button button-assertive icon ion-android-cancel" ui-sref="tabsController.t-ShirtDesigner"> Cancel</button>
