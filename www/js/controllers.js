@@ -185,20 +185,39 @@ angular.module('app.controllers', [])
             $scope.isSaved = true;
         }
 
+        // Get Total
+        $scope.getTotal = function() {
+            debugger;
+            var s = $scope.design.sizes
+            var quantity = 0;
+            for (var val in s) {
+                quantity += s[val]
+            }
+            // var quantity = (s.sm + s.md + s.lg + s.xl + s.xxl); 
+            console.log(quantity);
+            $scope.design.total = 0;
+            $scope.design.total = $scope.design.details.price * quantity;
+            // return total; 
+        }
 
         //adds user designs to cart ///maybe just use $$rootscope.member//Might not need this
         $scope.addToCart = function() {
-            // $rootScope.member
-            $scope.myDesign = $scope.design;
-            // console.log($scope.myDesign);
+            $scope.getTotal();
             $rootScope.member.current = $scope.design;
+
+            console.log($rootScope.member.current)
+            console.log($rootScope.member.current.total)
             $state.go('tabsController.shoppingCart');
-            // console.log("test: " , $rootScope.members.current)
             // Test sending to service for cart
-            ShirtService.myCartOrder = $scope.design;
+            // ShirtService.myCartOrder = $scope.design;
             // Test sendin to OrderService
             // OrderService.setCurrentOrder($scope.order);
-            OrderService.currentOrder = $scope.design;
+            // OrderService.currentOrder = $scope.design;
+        }
+        
+         $scope.orderNow = function() {
+            $scope.activeOrders.$add($rootScope.member.current);
+            alert("Thanks for you Order!")
         }
 
         //Selects clip art and scrolls to shirt designer
@@ -247,8 +266,8 @@ angular.module('app.controllers', [])
             }
             $scope.design.logo = logo;
         }
-        
-      
+
+       
     })
 
     .controller('shoppingCartCtrl', function($scope, ShirtService, OrderService, DBREF, $firebaseArray, $rootScope) {
