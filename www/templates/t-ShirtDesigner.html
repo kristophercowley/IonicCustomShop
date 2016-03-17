@@ -9,7 +9,7 @@
                 </select>
             </label>
         </form>
-        <h5>Selected Shirt: {{selectedShirt.color}}</h5>
+        <h5>Selected Shirt: {{selectedShirt.color}}<span style="float: right" ><i>Choose a design or upload an image</i></span></h5>
 
 
         <!--Display Shirts and Images-->
@@ -60,7 +60,7 @@
         <ion-list ng-if="member.uploads[0]">
             <h3 class="center backcolor">Your Uploads</h3>
             <hr>
-            <ion-item ng-repeat="upload in member.uploads" ng-click="imagePicker(image)" class="item-thumbnail-left">
+            <ion-item ng-repeat="upload in member.uploads" ng-click="imagePicker(upload)" class="item-thumbnail-left">
                 <img ng-src="{{upload.image}}">
                 <h2>{{upload.name}}</h2>
                 <p>Design Description here:{{upload.description}}</p>

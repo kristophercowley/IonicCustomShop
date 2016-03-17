@@ -215,6 +215,7 @@ angular.module('app.controllers', [])
             // OrderService.currentOrder = $scope.design;
         }
         
+        // Processes order/sends to Firebase
          $scope.orderNow = function() {
             $scope.activeOrders.$add($rootScope.member.current);
             alert("Thanks for you Order!")
@@ -222,7 +223,7 @@ angular.module('app.controllers', [])
 
         //Selects clip art and scrolls to shirt designer
         $scope.imagePicker = function(i) {
-            // console.log("Is this working? did you click ", i.name + "?");
+            console.log("Is this working? did you click ", i.name + "?");
             ShirtService.selectedImage = i;
             $scope.selectedImage = i;
             $ionicScrollDelegate.scrollTop();
@@ -241,9 +242,9 @@ angular.module('app.controllers', [])
         });
 
         // Toggle Handles for image div
-        $(document).click(function() {
-            $('#toggle').toggle('highlight')
-        })
+        // $(document).click(function() {
+        //     $('#toggle').toggle('highlight')
+        // })
 
         //Selects shirt color and view
         $scope.shirtView = function(view, shirt) {

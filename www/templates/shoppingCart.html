@@ -6,7 +6,7 @@
             <h2>Design Name: {{member.current.details.name}}</h2>
             <h2>Image: {{member.current.details.imageName}}</h2>
             <h2>Shirt Color: {{member.current.details.shirtColor}}</h2>
-            <h2>Order Total : {{member.current.total}}</h2>
+            <h2>Order Total : {{member.current.total | currency}}</h2>
         </div>
         <form class="list" ng-submit="orderNow()" stripe-form="stripeCallback">
             <label class="item item-input">
