@@ -23,50 +23,105 @@
             </div>
         </div>-->
 
-        <!--Card-->
+        <!--Order View-->
         <div class="card">
             <div class="item item-divider">
-                Your Order Details
+                Your Order Details for {{member.username}}
             </div>
-            <div class="item item-text-wrap">
-                 <table class="table table-striped table-hover">
-                    <tbody>
-                        <tr>
-                            <td>User Email: </td>
-                            <!--This should be changed to be passed in with order -->
-                            <td class="text-right"> {{member.username}}</td>
-                        </tr>
-                        <tr>
-                            <td>Order Number: </td>
-                            <td class="text-right">mock num{{order.details.saveNum}}</td>
-                        </tr>
-                         <tr>
-                            <td>Design Name: </td>
-                            <td class="text-right">mock name{{order.details.saveNum}}</td>
-                        </tr>
-                         <tr>
-                            <td>Image Name: </td>
-                            <td class="text-right"> mock imgname{{order.details.saveNum}}</td>
-                        </tr>
-                         <tr>
-                            <td>Shirt Color: </td>
-                            <td class="text-right">mock color{{order.details.saveNum}}</td>
-                        </tr>
-                         <tr>
-                            <td>Quantity: </td>
-                            <td class="text-right">mock {{order.details.saveNum}}</td>
-                        </tr>
-                         <tr>
-                            <td>Price per Shirt: </td>
-                            <td class="text-right">$mock price {{}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+
+            <!--Repeating C-->
+            <div class="card" ng-repeat="item in myCart ">
+                <div class="item item-divider">
+                    <span>Item Details for "{{item.details.name}}" </span>
+                    <button class="button button-assertive" style="float: right" ng-click="myCart.$remove(item)">
+                        Remove from Cart
+                    </button>
+                </div>
+                <div class="item item-text-wrap">
+                    <div class="list">
+                        <a class="item item-thumbnail-left" href="#">
+
+                            <!--Mine-->
+                            <div class="shirt-div" style="display:inline-block">
+                                <img class="block" ng-src="{{item.details.shirtUrl}}" alt="shirt preview here" height="300" />
+                                <div class="image-div" style="top: {{item.logo.position.top}}px; left: {{item.logo.position.left}}px; height: {{item.logo.size.height}}px; width: {{item.logo.size.width}}px;">
+                                    <img class="image" ng-src="{{item.details.imageUrl}}">
+                                    <!--{{order.logo.position}}
+                                    <br> {{order.logo.size}}-->
+                                </div>
+                            </div>
+
+                            <!--default-->
+                            <!--<img ng-src="{{item.details.shirtUrl}}">-->
+                            <h2>Name: {{item.details.name}}</h2>
+                            <p>Order Id {{item.$id}}</p>
+                            <p>Unit Price: {{item.details.price}}</p>
+                            <p>Quantity: {{item.quantity}}</p>
+                            <p>Sub-total: {{item.total | currency}}</p>
+
+                        </a>
+
+                        ...
+
+                    </div>
+                </div>
+
+                <!--Repeat Card View-->
+                <!--<div class="card" ng-repeat="item in cart">
+                    <div class="item item-divider">
+                        Item Details
+                    </div>
+                    <div class="item item-text-wrap">
+                        <table class="table table-striped table-hover">
+                            <tbody>
+                                <tr>
+                                    <td>User Email: </td>
+                                    <!--This should be changed to be passed in with order to go to db -->
+                <!--
+                                    <td class="text-right"> {{member.username}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Order Number: </td>
+                                    <td class="text-right">mock num{{order.details.saveNum}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Design Name: </td>
+                                    <td class="text-right">mock name{{order.details.saveNum}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Image Name: </td>
+                                    <td class="text-right"> mock imgname{{order.details.saveNum}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Shirt Color: </td>
+                                    <td class="text-right">mock color{{order.details.saveNum}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Quantity: </td>
+                                    <td class="text-right">mock {{order.details.saveNum}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Price per Shirt: </td>
+                                    <td class="text-right">$mock price {{member.current.details.price}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="item item-divider">
+                        Order Total: <span class="text-right">$mock total {{}}</span>
+                    </div>
+                </div>-->
+                <div class="item item-divider">
+                    Order Sub-Total: <span class="text-right"> {{item.total | currency}}</span>
+                </div>
             </div>
+            <!--End Repeat-->
+
             <div class="item item-divider">
-                Order Total: <span class="text-right">$mock total {{}}</span>
+                Order Grand Total: <span class="text-right"> {{cartTotal | currency}}</span>
             </div>
         </div>
+
 
         <!--Original info display-->
         <form class="list" ng-submit="orderNow()" stripe-form="stripeCallback">

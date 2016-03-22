@@ -1,7 +1,7 @@
 /* global Firebase */
 angular.module('app.controllers', [])
     .constant('DBREF', 'https://customshop.firebaseio.com/')
-    
+
     .controller('AuthController', function($rootScope, $scope, $firebaseObject, $firebaseArray, DBREF, AuthService, $state) {
         var db = new Firebase(DBREF);
         // $scope.user = AuthService.getUser();
@@ -18,13 +18,15 @@ angular.module('app.controllers', [])
             $rootScope.myDesigns = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myDesigns'));
             $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
             $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
+            $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart'));
+
 
             $rootScope.member.$loaded(function() {
                 $state.go('tabsController.t-ShirtDesigner');
             })
         }
         var authData = db.getAuth();
-        if(authData){
+        if (authData) {
             handleDBResponse(null, authData);
         }
     })
@@ -45,6 +47,8 @@ angular.module('app.controllers', [])
             $rootScope.myDesigns = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myDesigns'));
             $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
             $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
+            $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart'));
+
 
             $rootScope.member.$loaded(function() {
                 $state.go('tabsController.t-ShirtDesigner');
@@ -94,23 +98,6 @@ angular.module('app.controllers', [])
     })
 
     .controller('t-ShirtDesignerCtrl', function($scope, $state, ShirtService, OrderService, $ionicScrollDelegate, DBREF, $firebaseArray, $rootScope) {
-        //Persist Auth Data
-        // Create a callback which logs the current auth state
-        // function authDataCallback(authData) {
-        //     if (authData) {
-        //         console.log("User " + authData.uid + " is logged in with " + authData.provider);
-        //     } else {
-        //         console.log("User is logged out");
-        //     }
-        // }
-
-        // // Register the callback to be fired every time auth state changes
-        // var ref = new Firebase(DBREF);
-        // ref.onAuth(authDataCallback);
-        // // End Persist Auth Data
-
-
-
 
         var db = new Firebase(DBREF);
         // Original reference
@@ -144,13 +131,7 @@ angular.module('app.controllers', [])
 
         // Pushes new image object to images array in ShirtService
         $scope.uploadImage = function(img) {
-
-            //Updated Angular Fire Reference
             $rootScope.myImages.$add(img);
-
-            // Old outdated but working reference
-            // $rootScope.member.uploads.push(img);
-
             $scope.showUpload = !$scope.showUpload;
         }
 
@@ -179,9 +160,9 @@ angular.module('app.controllers', [])
         }
 
         // Uses rootscope.member to save member designs
-        $scope.saveDesign = function() {
-            // $rootScope.member.designs.push();
-        }
+        // $scope.saveDesign = function() {
+        //     // $rootScope.member.designs.push();
+        // }
 
         //Sets default values for logo object//These values need to match the css values for .image-div for proper operation
         $scope.design.logo = {
@@ -195,11 +176,14 @@ angular.module('app.controllers', [])
             }
         }
 
+        // Used to hide size/quantity picker before saving design
         $scope.isSaved = false;
+
+
         //Saves user designs to database 
         $scope.save = function() {
             if ($rootScope.member) {
-                alert($scope.saved.name + " has been saved to your account ");//+ $rootScope.member.username
+                alert($scope.saved.name + " has been saved to your account " + $rootScope.member.username);
             } else {
                 alert("You must be logged in to save. Please login or create an account");
                 $state.go('login')
@@ -207,67 +191,68 @@ angular.module('app.controllers', [])
             $scope.design.details = {
                 name: $scope.saved.name,
                 email: $scope.saved.email,
-                // saveNum: saveNum,//No longer in use
                 price: 19.99,
-                user: "Mock User Name",
+                user: $rootScope.member.username,
                 date: Date.now(),
                 shirtColor: ShirtService.tempShirt.color,
                 shirtUrl: ShirtService.tempShirt.front,
                 imageName: ShirtService.tempImage.name,
                 imageUrl: ShirtService.tempImage.image,
-
-                // Doesnt work if shirt is not selected// need to assign default shirt
-                //  Data not passing from design to save view
-                // shirtColor: $scope.selectedShirt.color,
-                // shirtUrl: $scope.selectedShirt.front,
-                // imageName: $scope.selectedImage.name,
-                // imageUrl: $scope.selectedImage.image
             }
-            // Test for perpetuating logo info
+            //Perpetuating logo info on state change
             $scope.design.logo = {
                 position: ShirtService.tempDesign.logo.position,
                 size: ShirtService.tempDesign.logo.size
             }
+            // Sends design to current users saved designs
             $rootScope.myDesigns.$add($scope.design);
-            $scope.savedDesigns.$add($scope.design);
+
+            // Wont need this anymore
+            // $scope.savedDesigns.$add($scope.design);
+
             // Temp sending to Custom shop home for testing
-            $scope.activeOrders.$add($scope.design);
-            // $rootScope.member.current = $scope.design;
-            // console.log("$rootScope.member.current : " , $rootScope.member.current)
-            // console.log($scope.activeOrders)
-            // console.log(ShirtService.tempDesign)
-            // saveNum++;
+            // $scope.activeOrders.$add($scope.design);
+
+            // Opens size and quantity picker
             $scope.isSaved = true;
         }
 
-        // Get Total
+        // Get Item Total
         $scope.getTotal = function() {
-            debugger;
             var s = $scope.design.sizes
             var quantity = 0;
             for (var val in s) {
                 quantity += s[val]
             }
-            // var quantity = (s.sm + s.md + s.lg + s.xl + s.xxl); 
             console.log(quantity);
+            $scope.design.quantity = quantity;
             $scope.design.total = 0;
             $scope.design.total = $scope.design.details.price * quantity;
             // return total; 
         }
 
-        //adds user designs to cart ///maybe just use $$rootscope.member//Might not need this
+        //Totals all items in cart
+        $scope.cartTotal = 0;
+        $scope.getCartTotal = function() {
+            for (var i = 0; i < $rootScope.myCart.length; i++) {
+                $scope.cartTotal += $rootScope.myCart[i].total;
+            }
+        };
+
+        $scope.getCartTotal();
+
+        //Adds user designs to cart
         $scope.addToCart = function() {
             $scope.getTotal();
-            $rootScope.member.current = $scope.design;
+            $scope.cart = [];
 
-            console.log($rootScope.member.current)
-            console.log($rootScope.member.current.total)
+            // The new way
+            $rootScope.myCart.$add($scope.design);
+
+            // The Old Way
+            // $rootScope.member.current = $scope.design;
             $state.go('tabsController.shoppingCart');
-            // Test sending to service for cart
-            // ShirtService.myCartOrder = $scope.design;
-            // Test sendin to OrderService
-            // OrderService.setCurrentOrder($scope.order);
-            // OrderService.currentOrder = $scope.design;
+
         }
 
         // Processes order/sends to Firebase
@@ -351,33 +336,26 @@ angular.module('app.controllers', [])
         var ref = new Firebase(DBREF);
         var activeRef = ref.child('Active Orders');
         $scope.orders = new $firebaseArray(activeRef);
-        $scope.cart = {};
-        // $scope.orders2 = OrderService.getCurrentOrder();
-        // $scope.orders2 = OrderService.currentOrder;
-        console.log("$rootScope.member.current = ", $rootScope.member.current)
-        $scope.current = $rootScope.member.current;
-        console.log("$scope.current = ", $scope.current)
+        $scope.cart = [];
+        // console.log("$rootScope.member.current = ", $rootScope.member.current)
 
+        // The old way
+        // $scope.current = $rootScope.member.current;
 
-        $scope.cartTest = function() {
-            // console.log($scope.orders)
-            // $scope.orders1 = ShirtService.myCartOrder;
-            // console.log($scope.orders1)
-            // $scope.orders2 = OrderService.currentOrder;
-            // console.log($scope.orders2)
+        // console.log($scope.cart)
+        // console.log("$scope.current = ", $scope.current)
 
-            console.log("Button pressed, $rootscope.member.details", $rootScope.members.details)
-            console.log("Button pressed, $scope.current.details", $scope.current.details)
+        // Gets total of all items in the cart
+        // $scope.cartTotal = 0;
+        // $scope.getCartTotal = function() {
+        //     for(var i = 0; i < myCart.length; i++){
+        //         $scope.cartTotal += myCart[i].total;
+        //     }
+        // };
 
+        // $scope.getCartTotal();
 
-        }
-
-        // End references and testing
-
-        // Need to decide on what services, factories, and controllers to use to pass information from one view to another
-        // Need to figure out my data Structure- I should refactor my data all into services and make sure it is saving to firebase
-        // Need to clean up naming conventions of variables to clarify intent
-        $scope.totalPrice = 0;
+        // $scope.totalPrice = 0;
 
     })
 
