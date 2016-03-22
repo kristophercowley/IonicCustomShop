@@ -16,6 +16,7 @@
         <div class="shirt-div" style="text-align:center;">
             <img ng-src="{{shirtViewer}}" height="300px">
             <span id="toggle"><div class="image-div"><img class="image" ng-src="{{selectedImage.image}}"></div></span>
+            <!--<div class="text-div" ng-click="toggleHandles()" ng-class="{'test': active}"><div ng-bind-html="message" style="color: blue" class="text"></div></div>-->
             <button class="button button-block button-balanced icon ion-star" ng-click="PassInfo(selectedShirt,selectedImage)"> Save</button>
         </div>
 
@@ -50,17 +51,18 @@
         </div>
 
         <!--Quill testing-->
-        <!--{{message}}-->
-        <!--<ng-quill-editor ng-model="message" toolbar="true" link-tooltip="true" image-tooltip="true" toolbar-entries="font size bold list bullet italic underline strike align color background link image"
-            editor-required="true" required="" error-class="input-error"></ng-quill-editor>-->
+        Message:  open test : <div>{{message}}</div>
+        <ng-quill-editor ng-model="message" toolbar="true" link-tooltip="true" image-tooltip="true" toolbar-entries="font size bold list bullet italic underline strike align color background link image"
+            editor-required="true" required="" error-class="input-error"></ng-quill-editor>
         <!--End quill testing-->
 
 
         <!--Display Customer Uploaded Images-->
-        <ion-list ng-if="member.uploads[0]">
+        <!--ng-if="member.uploads[0]"-->
+        <ion-list ng-show="myImages">
             <h3 class="center backcolor">Your Uploads</h3>
             <hr>
-            <ion-item ng-repeat="upload in member.uploads" ng-click="imagePicker(upload)" class="item-thumbnail-left">
+            <ion-item ng-repeat="upload in myImages" ng-click="imagePicker(upload)" class="item-thumbnail-left">
                 <img ng-src="{{upload.image}}">
                 <h2>{{upload.name}}</h2>
                 <p>Design Description here:{{upload.description}}</p>

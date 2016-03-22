@@ -1,8 +1,35 @@
 /* global Firebase */
 angular.module('app.controllers', [])
     .constant('DBREF', 'https://customshop.firebaseio.com/')
+    
+    .controller('AuthController', function($rootScope, $scope, $firebaseObject, $firebaseArray, DBREF, AuthService, $state) {
+        var db = new Firebase(DBREF);
+        // $scope.user = AuthService.getUser();
 
-    .controller('loginCtrl', function($scope, DBREF, AuthService, $state) {
+        function handleDBResponse(err, authData) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log("Login Auth, did we get here?")
+            console.log(authData)
+
+            $rootScope.member = $firebaseObject(new Firebase(DBREF + 'users/' + authData.uid));
+            $rootScope.myDesigns = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myDesigns'));
+            $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
+            $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
+
+            $rootScope.member.$loaded(function() {
+                $state.go('tabsController.t-ShirtDesigner');
+            })
+        }
+        var authData = db.getAuth();
+        if(authData){
+            handleDBResponse(null, authData);
+        }
+    })
+
+    .controller('loginCtrl', function($rootScope, $scope, $firebaseObject, $firebaseArray, DBREF, AuthService, $state) {
         var db = new Firebase(DBREF);
         $scope.user = AuthService.getUser();
 
@@ -13,16 +40,15 @@ angular.module('app.controllers', [])
             }
             console.log("Login Auth, did we get here?")
             console.log(authData)
-            $state.go('tabsController.t-ShirtDesigner')
-            //Creates User Object To Send To DB
-            var userToSave = {
-                username: $scope.user.email,
-                reputation: 0,
-                created: Date.now()
-            }
-            console.log(userToSave)
-            //This line saves user to DB
-            db.child('users').child(authData.uid).update(userToSave);
+
+            $rootScope.member = $firebaseObject(new Firebase(DBREF + 'users/' + authData.uid));
+            $rootScope.myDesigns = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myDesigns'));
+            $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
+            $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
+
+            $rootScope.member.$loaded(function() {
+                $state.go('tabsController.t-ShirtDesigner');
+            })
         }
         $scope.login = function(user) {
             user ? db.authWithPassword(user, handleDBResponse) : ''
@@ -30,7 +56,7 @@ angular.module('app.controllers', [])
         }
     })
 
-    .controller('signupCtrl', function($scope, DBREF, AuthService, $firebaseArray, $state, $rootScope) {
+    .controller('signupCtrl', function($scope, DBREF, AuthService, $firebaseArray, $state, $rootScope, $firebaseObject) {
         var db = new Firebase(DBREF);
         // var db = AuthService.db();
         $rootScope.member = {};
@@ -41,7 +67,6 @@ angular.module('app.controllers', [])
             function handleDBResponse(err, authData) {
                 if (err) {
                     console.log(err);
-                    // $scope.errorMessage = err;
                     // console.log($scope.errorMessage);
                     return;
                 }
@@ -53,23 +78,40 @@ angular.module('app.controllers', [])
                     username: $scope.user.email,
                     reputation: 0,
                     created: Date.now(),
-                    designs: [],
-                    orders: [],
                     uploads: [],
                     current: {}
                 }
-                // console.log(userToSave);
+
                 //This line saves user to DB
                 db.child('users').child(authData.uid).update(userToSave);
-                // Testing $Rootscope member for authorized saves 
-                $rootScope.member = userToSave;
-                // console.log("rootscope.member = ", $rootScope.member)
+                $rootScope.member = $firebaseObject(new Firebase(DBREF + 'users/' + authData.uid));
+                $rootScope.myDesigns = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myDesigns'));
+                $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
+                $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
+
             }
-            // console.log(user.email + user.password)
         }
     })
 
     .controller('t-ShirtDesignerCtrl', function($scope, $state, ShirtService, OrderService, $ionicScrollDelegate, DBREF, $firebaseArray, $rootScope) {
+        //Persist Auth Data
+        // Create a callback which logs the current auth state
+        // function authDataCallback(authData) {
+        //     if (authData) {
+        //         console.log("User " + authData.uid + " is logged in with " + authData.provider);
+        //     } else {
+        //         console.log("User is logged out");
+        //     }
+        // }
+
+        // // Register the callback to be fired every time auth state changes
+        // var ref = new Firebase(DBREF);
+        // ref.onAuth(authDataCallback);
+        // // End Persist Auth Data
+
+
+
+
         var db = new Firebase(DBREF);
         // Original reference
         var ref = new Firebase(DBREF);
@@ -77,29 +119,38 @@ angular.module('app.controllers', [])
         var savedRef = ref.child('Saved Designs');
         // child reference for Active Orders// Currently using to view orders in custom Shop Home
         var activeRef = ref.child('Active Orders');
+        // These are goin to be replaced with $rootScope.myDesigns and $rootScope.myOrders
         $scope.activeOrders = new $firebaseArray(activeRef);
-        var saveNum = 1;
         $scope.savedDesigns = new $firebaseArray(savedRef);
-        $scope.user = "Users Name";
+
         $scope.images = ShirtService.images;
         $scope.shirts = ShirtService.shirts;
         $scope.selectedImage = ShirtService.getLogo();
+
+        // Sets an empty variable for shirt designs
         $scope.design = {};
+
         // Shows and Hides upload window
         $scope.uploadWindow = function() {
             $scope.showUpload = !$scope.showUpload;
         }
+
         // Sets up upload object for user image upload
         $scope.upload = {
             name: '',
             image: '',
             description: ''
         }
+
         // Pushes new image object to images array in ShirtService
         $scope.uploadImage = function(img) {
-            // ShirtService.images.push(img) //dont need this anymore I think
-            $rootScope.member.uploads.push(img);
-            // console.log("This is rootscope.member.uploads", $rootScope.member.uploads);
+
+            //Updated Angular Fire Reference
+            $rootScope.myImages.$add(img);
+
+            // Old outdated but working reference
+            // $rootScope.member.uploads.push(img);
+
             $scope.showUpload = !$scope.showUpload;
         }
 
@@ -111,6 +162,9 @@ angular.module('app.controllers', [])
             }
             else {
                 $state.go('savePage');
+                // New Angular Fire Reference
+
+                // Old but working method
                 ShirtService.tempShirt = shirt;
                 ShirtService.tempImage = image;
                 ShirtService.tempDesign = $scope.design;
@@ -145,7 +199,7 @@ angular.module('app.controllers', [])
         //Saves user designs to database 
         $scope.save = function() {
             if ($rootScope.member) {
-                alert($scope.saved.name + " has been saved to your account " + $rootScope.member.username);
+                alert($scope.saved.name + " has been saved to your account ");//+ $rootScope.member.username
             } else {
                 alert("You must be logged in to save. Please login or create an account");
                 $state.go('login')
@@ -153,7 +207,7 @@ angular.module('app.controllers', [])
             $scope.design.details = {
                 name: $scope.saved.name,
                 email: $scope.saved.email,
-                saveNum: saveNum,
+                // saveNum: saveNum,//No longer in use
                 price: 19.99,
                 user: "Mock User Name",
                 date: Date.now(),
@@ -174,6 +228,7 @@ angular.module('app.controllers', [])
                 position: ShirtService.tempDesign.logo.position,
                 size: ShirtService.tempDesign.logo.size
             }
+            $rootScope.myDesigns.$add($scope.design);
             $scope.savedDesigns.$add($scope.design);
             // Temp sending to Custom shop home for testing
             $scope.activeOrders.$add($scope.design);
@@ -181,7 +236,7 @@ angular.module('app.controllers', [])
             // console.log("$rootScope.member.current : " , $rootScope.member.current)
             // console.log($scope.activeOrders)
             // console.log(ShirtService.tempDesign)
-            saveNum++;
+            // saveNum++;
             $scope.isSaved = true;
         }
 
@@ -214,9 +269,9 @@ angular.module('app.controllers', [])
             // OrderService.setCurrentOrder($scope.order);
             // OrderService.currentOrder = $scope.design;
         }
-        
+
         // Processes order/sends to Firebase
-         $scope.orderNow = function() {
+        $scope.orderNow = function() {
             $scope.activeOrders.$add($rootScope.member.current);
             alert("Thanks for you Order!")
         }
@@ -241,7 +296,27 @@ angular.module('app.controllers', [])
             }
         });
 
-        // Toggle Handles for image div
+        // jQuery text box draggable resizable
+        $('.text-div').resizable({
+            aspectRatio: true,
+            handles: 'ne,se,sw,nw',
+            //  stop: saveImage,
+        }).draggable({
+            //  stop: function(e, image) {
+            //     $scope.design.logo = $scope.design.logo || {};
+            //     $scope.design.logo.position = image.position;
+            // }
+        });
+
+        // Toggle css handles on click
+        // $scope.toggleHandles = function(){
+        //     alert("I work!");
+        //   $scope.active = !$scope.active;
+
+        // }
+
+
+        // Toggle hides image div
         // $(document).click(function() {
         //     $('#toggle').toggle('highlight')
         // })
@@ -268,7 +343,7 @@ angular.module('app.controllers', [])
             $scope.design.logo = logo;
         }
 
-       
+
     })
 
     .controller('shoppingCartCtrl', function($scope, ShirtService, OrderService, DBREF, $firebaseArray, $rootScope) {

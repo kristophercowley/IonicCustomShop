@@ -1,13 +1,74 @@
 <ion-view title="Shopping Cart ">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <div>
-            <!--<h2>Name: {{current.details.user}}</h2>-->
+        <!--<div>
+            <h2>Name: {{current.details.user}}</h2>
             <h2>Price by Shirt: {{member.current.details.price | currency}}</h2>
             <h2>Design Name: {{member.current.details.name}}</h2>
             <h2>Image: {{member.current.details.imageName}}</h2>
             <h2>Shirt Color: {{member.current.details.shirtColor}}</h2>
             <h2>Order Total : {{member.current.total | currency}}</h2>
+        </div>-->
+
+        <!--New Table-->
+        <!--<div class="media-content">
+            <div>
+                <table class="table table-striped table-hover">
+                    <tbody>
+                        <tr>
+                            <td>Order Number: </td>
+                            <td>{{order.details.saveNum}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>-->
+
+        <!--Card-->
+        <div class="card">
+            <div class="item item-divider">
+                Your Order Details
+            </div>
+            <div class="item item-text-wrap">
+                 <table class="table table-striped table-hover">
+                    <tbody>
+                        <tr>
+                            <td>User Email: </td>
+                            <!--This should be changed to be passed in with order -->
+                            <td class="text-right"> {{member.username}}</td>
+                        </tr>
+                        <tr>
+                            <td>Order Number: </td>
+                            <td class="text-right">mock num{{order.details.saveNum}}</td>
+                        </tr>
+                         <tr>
+                            <td>Design Name: </td>
+                            <td class="text-right">mock name{{order.details.saveNum}}</td>
+                        </tr>
+                         <tr>
+                            <td>Image Name: </td>
+                            <td class="text-right"> mock imgname{{order.details.saveNum}}</td>
+                        </tr>
+                         <tr>
+                            <td>Shirt Color: </td>
+                            <td class="text-right">mock color{{order.details.saveNum}}</td>
+                        </tr>
+                         <tr>
+                            <td>Quantity: </td>
+                            <td class="text-right">mock {{order.details.saveNum}}</td>
+                        </tr>
+                         <tr>
+                            <td>Price per Shirt: </td>
+                            <td class="text-right">$mock price {{}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="item item-divider">
+                Order Total: <span class="text-right">$mock total {{}}</span>
+            </div>
         </div>
+
+        <!--Original info display-->
         <form class="list" ng-submit="orderNow()" stripe-form="stripeCallback">
             <label class="item item-input">
                 <span class="input-label">CC# </span>

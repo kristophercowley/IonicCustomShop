@@ -5,9 +5,11 @@
     "ionic": "driftyco/ionic-bower#1.2.4"
   },
   "resolutions": {
-    "angular": ">= 1.0.8"
+    "angular": ">= 1.0.8",
+    "angular-sanitize": "1.4.3"
   },
   "dependencies": {
-    "stripe-angular": "^1.0.2"
+    "stripe-angular": "^1.0.2",
+    "angular-sanitize": "^1.5.2"
   }
 }

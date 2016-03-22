@@ -4,7 +4,7 @@
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 
-angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'app.services', 'app.directives','ngQuill'])
+angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'app.services', 'app.directives','ngQuill','ngSanitize'])
 
 
 .run(function($ionicPlatform) {

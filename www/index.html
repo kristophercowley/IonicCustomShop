@@ -34,6 +34,8 @@
     <script type="text/javascript" src="lib/stripe-angular/stripe-angular.js"></script>
     <!--Angular Payments Bower-->
     <script type="text/javascript" src="lib/angular-payments/lib/angular-payments.js"></script>
+    <!--Angular Sanitize-->
+    <script src="lib/angular-sanitize/angular-sanitize.js"></script>
     <!--ng-quill/quill wysiwyg-->
     <link rel="stylesheet" href="//cdn.quilljs.com/0.16.0/quill.snow.css">
     <script src="//cdn.quilljs.com/0.16.0/quill.min.js"></script>
@@ -48,7 +50,7 @@
 </head>
 
 <body ng-app="app" animation="slide-left-right-ios7">
-    <div>
+    <div ng-controller="AuthController">
         <div>
             <ion-nav-bar class="bar-stable">
                 <ion-nav-back-button class="button-icon icon ion-ios-arrow-back">Back</ion-nav-back-button>
