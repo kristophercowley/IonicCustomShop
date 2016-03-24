@@ -29,20 +29,18 @@
                 Your Order Details for {{member.username}}
             </div>
 
-            <!--Repeating C-->
+            <!--Repeating Card-->
             <div class="card" ng-repeat="item in myCart ">
                 <div class="item item-divider">
                     <span>Item Details for "{{item.details.name}}" </span>
-                    <button class="button button-assertive" style="float: right" ng-click="myCart.$remove(item)">
-                        Remove from Cart
-                    </button>
+                    <button class="button button-assertive" style="float: right" ng-click="myCart.$remove(item); getCartTotal()">X</button>
                 </div>
                 <div class="item item-text-wrap">
                     <div class="list">
                         <a class="item item-thumbnail-left" href="#">
 
                             <!--Mine-->
-                            <div class="shirt-div" style="display:inline-block">
+                            <div class="shirt-div shrink" style="display:inline-block">
                                 <img class="block" ng-src="{{item.details.shirtUrl}}" alt="shirt preview here" height="300" />
                                 <div class="image-div" style="top: {{item.logo.position.top}}px; left: {{item.logo.position.left}}px; height: {{item.logo.size.height}}px; width: {{item.logo.size.width}}px;">
                                     <img class="image" ng-src="{{item.details.imageUrl}}">
@@ -118,7 +116,7 @@
             <!--End Repeat-->
 
             <div class="item item-divider">
-                Order Grand Total: <span class="text-right"> {{cartTotal | currency}}</span>
+                Order Grand Total: <span class="text-right"> {{myCart.cartTotal | currency}}</span>
             </div>
         </div>
 
