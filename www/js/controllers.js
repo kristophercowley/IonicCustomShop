@@ -255,7 +255,7 @@ angular.module('app.controllers', [])
         $scope.getCartTotal = function() {
             for (var i = 0; i < $rootScope.myCart.length; i++) {
                 $rootScope.myCart.cartTotal += $rootScope.myCart[i].total;
-                alert("Cart total is running now");
+                // alert("Cart total is running now");
             }
         }
 

@@ -26,7 +26,7 @@
         <!--Order View-->
         <div class="card">
             <div class="item item-divider">
-                Your Order Details for {{member.username}}
+                Your Order Details for {{member.username}} 
             </div>
 
             <!--Repeating Card-->
@@ -49,18 +49,37 @@
                                 </div>
                             </div>
 
-                            <!--default-->
-                            <!--<img ng-src="{{item.details.shirtUrl}}">-->
-                            <h2>Name: {{item.details.name}}</h2>
+                            <!--Original info-->
+                            <!--<h2>Name: {{item.details.name}}</h2>
                             <p>Order Id {{item.$id}}</p>
                             <p>Unit Price: {{item.details.price}}</p>
                             <p>Quantity: {{item.quantity}}</p>
-                            <p>Sub-total: {{item.total | currency}}</p>
-
+                            <p>Sub-total: {{item.total | currency}}</p>-->
+                            <table class="table table-striped table-hover" style="float: right">
+                                <tbody>
+                                    <tr>
+                                        <td>Design ID: </td>
+                                        <td class="text-right"> {{item.$id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Design Name: </td>
+                                        <td class="text-right"> {{item.details.name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unit Price: </td>
+                                        <td class="text-right"> {{item.details.price | currency}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Quantity: </td>
+                                        <td class="text-right"> {{item.quantity}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sub Total: </td>
+                                        <td class="text-right"> {{item.total | currency}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </a>
-
-                        ...
-
                     </div>
                 </div>
 
