@@ -26,7 +26,7 @@
         <!--Order View-->
         <div class="card">
             <div class="item item-divider">
-                Your Order Details for {{member.username}} 
+                Your Order Details for {{member.username}}
             </div>
 
             <!--Repeating Card-->
@@ -37,40 +37,41 @@
                 </div>
                 <div class="item item-text-wrap">
                     <div class="list">
-                        <a class="item item-thumbnail-left" href="#">
+                        <!--<a class="item item-thumbnail-left" href="#">-->
 
-                            <!--Mine-->
-                            <div class="shirt-div shrink" style="display:inline-block">
-                                <img class="block" ng-src="{{item.details.shirtUrl}}" alt="shirt preview here" height="300" />
-                                <div class="image-div" style="top: {{item.logo.position.top}}px; left: {{item.logo.position.left}}px; height: {{item.logo.size.height}}px; width: {{item.logo.size.width}}px;">
-                                    <img class="image" ng-src="{{item.details.imageUrl}}">
-                                    <!--{{order.logo.position}}
+                        <!--Mine-->
+                        <div class="shirt-div shrink">
+                            <img ng-src="{{item.details.shirtUrl}}" alt="shirt preview here" height="300" />
+                            <div class="image-div" style="top: {{item.logo.position.top}}px; left: {{item.logo.position.left}}px; height: {{item.logo.size.height}}px; width: {{item.logo.size.width}}px;">
+                                <img class="image" ng-src="{{item.details.imageUrl}}">
+                                <!--{{order.logo.position}}
                                     <br> {{order.logo.size}}-->
-                                </div>
                             </div>
+                        </div>
 
-                            <!--Original info-->
-                            <!--<h2>Name: {{item.details.name}}</h2>
+                        <!--Original info-->
+                        <!--<h2>Name: {{item.details.name}}</h2>
                             <p>Order Id {{item.$id}}</p>
                             <p>Unit Price: {{item.details.price}}</p>
                             <p>Quantity: {{item.quantity}}</p>
                             <p>Sub-total: {{item.total | currency}}</p>-->
-                            <table class="table table-striped table-hover" style="float: right">
+                        <div class="item item-divider">
+                            <table class="table table-striped table-hover">
                                 <tbody>
                                     <tr>
                                         <td>Design ID: </td>
                                         <td class="text-right"> {{item.$id}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Design Name: </td>
+                                        <td>Name: </td>
                                         <td class="text-right"> {{item.details.name}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Unit Price: </td>
+                                        <td>Price: </td>
                                         <td class="text-right"> {{item.details.price | currency}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Quantity: </td>
+                                        <td>Qty: </td>
                                         <td class="text-right"> {{item.quantity}}</td>
                                     </tr>
                                     <tr>
@@ -79,57 +80,9 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </a>
+                            <!--</a>-->
+                        </div>
                     </div>
-                </div>
-
-                <!--Repeat Card View-->
-                <!--<div class="card" ng-repeat="item in cart">
-                    <div class="item item-divider">
-                        Item Details
-                    </div>
-                    <div class="item item-text-wrap">
-                        <table class="table table-striped table-hover">
-                            <tbody>
-                                <tr>
-                                    <td>User Email: </td>
-                                    <!--This should be changed to be passed in with order to go to db -->
-                <!--
-                                    <td class="text-right"> {{member.username}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Order Number: </td>
-                                    <td class="text-right">mock num{{order.details.saveNum}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Design Name: </td>
-                                    <td class="text-right">mock name{{order.details.saveNum}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Image Name: </td>
-                                    <td class="text-right"> mock imgname{{order.details.saveNum}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Shirt Color: </td>
-                                    <td class="text-right">mock color{{order.details.saveNum}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Quantity: </td>
-                                    <td class="text-right">mock {{order.details.saveNum}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Price per Shirt: </td>
-                                    <td class="text-right">$mock price {{member.current.details.price}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="item item-divider">
-                        Order Total: <span class="text-right">$mock total {{}}</span>
-                    </div>
-                </div>-->
-                <div class="item item-divider">
-                    Order Sub-Total: <span class="text-right"> {{item.total | currency}}</span>
                 </div>
             </div>
             <!--End Repeat-->

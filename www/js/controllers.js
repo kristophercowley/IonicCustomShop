@@ -36,6 +36,7 @@ angular.module('app.controllers', [])
         $scope.logout = function(user){
             alert('Logout Button Clicked')
                 db.unauth();
+                // $state.go('login')
         } 
         
         

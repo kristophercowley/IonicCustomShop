@@ -37,10 +37,11 @@
 }
 /*Creates/sizes previews for thumbnails in cart*/
 .shrink{
-    -webkit-transform: scale(0.4); 
-    -moz-transform: scale(0.4); 
-    -ms-transform: scale(0.4); 
-    transform: scale(0.4); 
+    /*text-align: center;*/
+    -webkit-transform: scale(0.6); 
+    -moz-transform: scale(0.6); 
+    -ms-transform: scale(0.6); 
+    transform: scale(0.6); 
 }
 .text-right{
     text-align: right;
