@@ -74,11 +74,34 @@ angular.module('app.services', [])
             }
         ]
         
+        var printedShirts = [
+            {   name: "Red Shirt",
+                description: "To show the color red",
+                url:"img/HaZGfL4NSfWrZxS6elpE_red.jpg"
+            },
+             {  name: "The Dude",
+                description: "Your Brand Name Here",
+                url:"img/0wnQdP9rTri3jPQDabCb_dude.jpg"
+            },
+             {  name: "Example",
+                description: "Put Some Info Here",
+                url:"img/HL8o9tVlS9mcDc8pUXks_screen.jpg"
+            },
+             {  name: "MMA",
+                description: "Copyright not mine",
+                url:"img/73Uqk9EQX6I9fvfUF8zQ_mma.jpg"
+            },
+             {  name: "Construction",
+                description: "Brown Shirt Description",
+                url:"img/dxgHxn27R8WiP3GczJF9_construction.jpg"
+            },
+        ]
         return {
             shirts: shirts,
             images: images,
             setLogo: setLogo,
-            getLogo: getLogo
+            getLogo: getLogo,
+            printedShirts: printedShirts
         }
         
     }])

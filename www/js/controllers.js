@@ -128,7 +128,7 @@ angular.module('app.controllers', [])
         // These are goin to be replaced with $rootScope.myDesigns and $rootScope.myOrders
         $scope.activeOrders = new $firebaseArray(activeRef);
         $scope.savedDesigns = new $firebaseArray(savedRef);
-
+        // $scope.printedShirts = ShirtService.printedShirts;
         $scope.images = ShirtService.images;
         $scope.shirts = ShirtService.shirts;
         $scope.selectedImage = ShirtService.getLogo();
@@ -376,16 +376,18 @@ angular.module('app.controllers', [])
             }
             $scope.design.logo = logo;
         }
+        
+      
 
 
     })
 
     .controller('shoppingCartCtrl', function($scope, ShirtService, OrderService, DBREF, $firebaseArray, $rootScope) {
         //Referencing and testing if i need to directly talk to firebase or if i should be sharing a service
-        var ref = new Firebase(DBREF);
-        var activeRef = ref.child('Active Orders');
-        $scope.orders = new $firebaseArray(activeRef);
-        $scope.cart = [];
+        // var ref = new Firebase(DBREF);
+        // var activeRef = ref.child('Active Orders');
+        // $scope.orders = new $firebaseArray(activeRef);
+        // $scope.cart = [];
         // console.log("$rootScope.member.current = ", $rootScope.member.current)
 
         // The old way
@@ -414,7 +416,14 @@ angular.module('app.controllers', [])
 
     })
 
-    .controller('brandedPrintsCtrl', function($scope) {
+    .controller('brandedPrintsCtrl', function($scope, ShirtService, $state) {
+       $scope.printedShirts = ShirtService.printedShirts;
+        $scope.buyPrint = function(){
+            alert("running buy prints function")
+            $state.go('savePage');
+            // need to link this back to quantity function on save page with shirt data
+            $scope.isSaved = true;
+        } 
 
     })
     // Might not use this controller// MAybe just shirt controller// Or move save data here if no conflict
