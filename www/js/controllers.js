@@ -5,7 +5,7 @@ angular.module('app.controllers', [])
     .controller('AuthController', function($rootScope, $scope, $firebaseObject, $firebaseArray, DBREF, AuthService, $state) {
         var db = new Firebase(DBREF);
         // $scope.user = AuthService.getUser();
-        
+
         // Handles DB responses/ Sets DB paths
         function handleDBResponse(err, authData) {
             if (err) {
@@ -31,15 +31,15 @@ angular.module('app.controllers', [])
         if (authData) {
             handleDBResponse(null, authData);
         }
-        
+
         //Logs the user out
-        $scope.logout = function(user){
+        $scope.logout = function(user) {
             alert('Logout Button Clicked')
-                db.unauth();
-                // $state.go('login')
-        } 
-        
-        
+            db.unauth();
+            // $state.go('login')
+        }
+
+
     })
 
     .controller('loginCtrl', function($rootScope, $scope, $firebaseObject, $firebaseArray, DBREF, AuthService, $state) {
@@ -53,12 +53,14 @@ angular.module('app.controllers', [])
             }
             console.log("Login Auth, did we get here?")
             console.log(authData)
-
+            // Sets up DB references
             $rootScope.member = $firebaseObject(new Firebase(DBREF + 'users/' + authData.uid));
             $rootScope.myDesigns = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myDesigns'));
             $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
             $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
-            $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart/items'));
+            $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart'));
+
+            // $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart/items'));
             // $rootScope.myCart.items = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart/items'));
 
 
@@ -98,12 +100,17 @@ angular.module('app.controllers', [])
                     current: {}
                 }
 
-                //This line saves user to DB
+                //This sets up DB references
                 db.child('users').child(authData.uid).update(userToSave);
                 $rootScope.member = $firebaseObject(new Firebase(DBREF + 'users/' + authData.uid));
                 $rootScope.myDesigns = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myDesigns'));
                 $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
                 $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
+                $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart'));
+                // testing if i need mycart.items
+                // $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart/items'));
+
+
 
             }
         }
@@ -252,8 +259,9 @@ angular.module('app.controllers', [])
         // Sets cart total to 0
         $rootScope.myCart.cartTotal = 0;
 
-       // Totals all items in cart// Object Cart
+        // Totals all items in cart// Object Cart
         $scope.getCartTotal = function() {
+            $rootScope.myCart.cartTotal = 0;
             for (var i = 0; i < $rootScope.myCart.length; i++) {
                 $rootScope.myCart.cartTotal += $rootScope.myCart[i].total;
                 // alert("Cart total is running now");
@@ -261,10 +269,10 @@ angular.module('app.controllers', [])
         }
 
         //Calls getCart Total
-       $scope.getCartTotal();
+        $scope.getCartTotal();
 
-       
-       
+
+
         //Adds user designs to cart
         $scope.addToCart = function() {
             $scope.getTotal();
@@ -278,10 +286,10 @@ angular.module('app.controllers', [])
             items: [],
             orderDate: 0
         }
-        
+
         //Fills currentOrder.items array
-        function createOrderObj(arr){
-            for(var i = 0; i < arr.length; i++){
+        function createOrderObj(arr) {
+            for (var i = 0; i < arr.length; i++) {
                 currentOrder.items.push(arr[i]);
                 currentOrder.orderDate = Date.now();
                 currentOrder.email = $rootScope.member.username;
@@ -294,7 +302,12 @@ angular.module('app.controllers', [])
             createOrderObj($rootScope.myCart);
             $scope.activeOrders.$add(currentOrder);
             alert("Payment processing is in progress.... Thank you for you Order!");
-            currentOrder = {};
+            // currentOrder = {};
+        }
+
+        // Clears cart after order
+        function clearCart() {
+            $rootScope.myCart.items = []
         }
 
         //Selects clip art and scrolls to shirt designer
@@ -380,7 +393,7 @@ angular.module('app.controllers', [])
 
         // console.log($scope.cart)
         // console.log("$scope.current = ", $scope.current)
-        
+
 
         // Gets total of all items in the cart
         // // Need to use closure to privatize cartTotal

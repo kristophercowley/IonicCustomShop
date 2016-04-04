@@ -60,6 +60,17 @@ angular.module('app.routes', [])
         }
       }
     })
+    
+    // Setup for member design page
+    .state('tabsController.memberDesigns', {
+      url: '/page9',
+      views: {
+        'tab10': {
+          templateUrl: 'templates/memberDesigns.html',
+          controller: 't-ShirtDesignerCtrl'
+        }
+      }
+    })
         
       
        
