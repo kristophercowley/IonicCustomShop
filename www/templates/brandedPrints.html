@@ -1,12 +1,13 @@
 <ion-view title="Screen Prints">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <ion-list>
-              <ion-item class="item-thumbnail-left" ng-repeat="print in printedShirts">
+              <ion-item class="item-thumbnail-left" ng-repeat="print in printedShirts track by $index">
                 <img ng-src="{{print.url}}">
                 <h2>{{print.name}}</h2>
+                <p>{{print.price | currency}}</p>
                 <p>{{print.description}}</p>
                 <hr>
-            <button class="button button-block button-small button-positive" ng-click="buyPrint()">Add to Cart</button>
+            <button class="button button-block button-small button-positive" ng-click="buyPrint(print)">Choose Sizes</button>
             </ion-item>
             
             <!--<ion-item class="item-thumbnail-left">

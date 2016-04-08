@@ -20,6 +20,8 @@ angular.module('app.controllers', [])
             $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
             $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
             $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart'));
+            // $rootScope.currentDesign = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/currentDesign'));
+
             // $rootScope.myCart.items = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart/items'));
 
 
@@ -59,8 +61,7 @@ angular.module('app.controllers', [])
             $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
             $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
             $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart'));
-
-            // $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart/items'));
+            // $rootScope.currentDesign = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/currentDesign'));
             // $rootScope.myCart.items = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart/items'));
 
 
@@ -107,10 +108,7 @@ angular.module('app.controllers', [])
                 $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
                 $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
                 $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart'));
-                // testing if i need mycart.items
-                // $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart/items'));
-
-
+                // $rootScope.currentDesign = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/currentDesign'));
 
             }
         }
@@ -148,6 +146,11 @@ angular.module('app.controllers', [])
             description: ''
         }
 
+
+        // Used to hide size/quantity picker before saving design
+        $scope.isSaved = false;
+
+
         // Pushes new image object to images array in ShirtService
         $scope.uploadImage = function(img) {
             $rootScope.myImages.$add(img);
@@ -162,7 +165,7 @@ angular.module('app.controllers', [])
             }
             else {
                 $state.go('savePage');
-                // New Angular Fire Reference
+                // New Angular Fire Reference?
 
                 // Old but working method
                 ShirtService.tempShirt = shirt;
@@ -178,10 +181,6 @@ angular.module('app.controllers', [])
             email: ''
         }
 
-        // Uses rootscope.member to save member designs
-        // $scope.saveDesign = function() {
-        //     // $rootScope.member.designs.push();
-        // }
 
         //Sets default values for logo object//These values need to match the css values for .image-div for proper operation
         $scope.design.logo = {
@@ -195,9 +194,6 @@ angular.module('app.controllers', [])
             }
         }
 
-        // Used to hide size/quantity picker before saving design
-        $scope.isSaved = false;
-
 
         //Saves user designs to database 
         $scope.save = function() {
@@ -207,6 +203,8 @@ angular.module('app.controllers', [])
                 alert("You must be logged in to save. Please login or create an account");
                 $state.go('login')
             }
+
+
             $scope.design.details = {
                 name: $scope.saved.name,
                 email: $scope.saved.email,
@@ -218,22 +216,31 @@ angular.module('app.controllers', [])
                 imageName: ShirtService.tempImage.name,
                 imageUrl: ShirtService.tempImage.image,
             }
-            //Perpetuating logo info on state change
+            //Perpetuating logo info on state change? Not sure im still using this...
             $scope.design.logo = {
                 position: ShirtService.tempDesign.logo.position,
                 size: ShirtService.tempDesign.logo.size
             }
 
-            // Sends design to current users saved designs
-            // Need to create a view for this
-            $rootScope.myDesigns.$add($scope.design);
+            // Perpetuate design details for page change
+            // $rootScope.currentDesign = $scope.design
 
-            // Opens size and quantity picker
+            // console.log("ShirtService.design", ShirtService.design, "scope:", $scope.design)
+            // Sends design to current users saved designs
+            $rootScope.myDesigns.$add($scope.design);
+            // $state.go('quantityPicker');
             $scope.isSaved = true;
         }
 
-        // Get Item Total
+        // Counts current order sizes and quantity
+        function getCount() {
+
+        }
+
+        // Get Item Sub Total
         $scope.getTotal = function() {
+            // $scope.design = ShirtService.design;
+            // Possibly need to just use ShirtService.designs everywhere instead of $scope.design
             var s = $scope.design.sizes
             var quantity = 0;
             for (var val in s) {
@@ -243,17 +250,7 @@ angular.module('app.controllers', [])
             $scope.design.quantity = quantity;
             $scope.design.total = 0;
             $scope.design.total = $scope.design.details.price * quantity;
-            // return total; 
         }
-
-        //Totals all items in cart-- Array cart way
-        // $scope.getCartTotal = function() {
-        //     $rootScope.myCart.cartTotal = 0;
-        //     for (var i = 0; i < $rootScope.myCart.length; i++) {
-        //         $rootScope.myCart.cartTotal += $rootScope.myCart[i].total;
-        //         alert("cart total running");
-        //     }
-        // };
 
 
         // Sets cart total to 0
@@ -272,13 +269,17 @@ angular.module('app.controllers', [])
         $scope.getCartTotal();
 
 
-
         //Adds user designs to cart
         $scope.addToCart = function() {
+            // Testing shirt Service
+            // $scope.design = ShirtService.design;
+
             $scope.getTotal();
             $rootScope.myCart.$add($scope.design);
             $scope.getCartTotal();
             $state.go('tabsController.shoppingCart');
+            $scope.design = {};
+            $scope.isSaved = false;
         }
 
         //Initializes Order object
@@ -297,18 +298,23 @@ angular.module('app.controllers', [])
             }
         }
 
+        // Clears cart after order//doesnt work
+        function clearCart() {
+            $rootScope.myCart = [];
+            $rootScope.myCart.cartTotal = 0;
+
+        }
+
         // Processes order/sends to Firebase
         $scope.orderNow = function() {
             createOrderObj($rootScope.myCart);
             $scope.activeOrders.$add(currentOrder);
             alert("Payment processing is in progress.... Thank you for you Order!");
             // currentOrder = {};
+            // Clears the cart array
+            // clearCart();
         }
 
-        // Clears cart after order
-        function clearCart() {
-            $rootScope.myCart.items = []
-        }
 
         //Selects clip art and scrolls to shirt designer
         $scope.imagePicker = function(i) {
@@ -376,10 +382,24 @@ angular.module('app.controllers', [])
             }
             $scope.design.logo = logo;
         }
+
+        // Printed shirt picker
+        $scope.printedShirts = ShirtService.printedShirts;
+        $scope.buyPrint = function(print) {
+            // alert("running buy prints function.... shirt is:", print);
+            console.log(print)
+            $rootScope.myCart.$add(print)
+            $state.go('savePage');
+            // attempt to skip save design name
+            // setTimeout(isTrue, 2000);
+            // $scope.isSaved = true;
+        }
         
-      
-
-
+        // Sets delay for page load
+        // function isTrue(){
+        //     $scope.isSaved = true
+        //     alert("2000ms")
+        // }
     })
 
     .controller('shoppingCartCtrl', function($scope, ShirtService, OrderService, DBREF, $firebaseArray, $rootScope) {
@@ -417,13 +437,13 @@ angular.module('app.controllers', [])
     })
 
     .controller('brandedPrintsCtrl', function($scope, ShirtService, $state) {
-       $scope.printedShirts = ShirtService.printedShirts;
-        $scope.buyPrint = function(){
+        $scope.printedShirts = ShirtService.printedShirts;
+        $scope.buyPrint = function() {
             alert("running buy prints function")
-            $state.go('savePage');
+            // $state.go('quantityPage');
             // need to link this back to quantity function on save page with shirt data
             $scope.isSaved = true;
-        } 
+        }
 
     })
     // Might not use this controller// MAybe just shirt controller// Or move save data here if no conflict

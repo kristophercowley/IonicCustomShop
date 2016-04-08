@@ -77,23 +77,37 @@ angular.module('app.services', [])
         var printedShirts = [
             {   name: "Red Shirt",
                 description: "To show the color red",
-                url:"img/HaZGfL4NSfWrZxS6elpE_red.jpg"
+                url:"img/HaZGfL4NSfWrZxS6elpE_red.jpg",
+                price: 16.99,
+                color: "red"
+
             },
              {  name: "The Dude",
                 description: "Your Brand Name Here",
-                url:"img/0wnQdP9rTri3jPQDabCb_dude.jpg"
+                url:"img/0wnQdP9rTri3jPQDabCb_dude.jpg",
+                price: 24.99,
+                color: "brown"
+
             },
              {  name: "Example",
                 description: "Put Some Info Here",
-                url:"img/HL8o9tVlS9mcDc8pUXks_screen.jpg"
+                url:"img/HL8o9tVlS9mcDc8pUXks_screen.jpg",
+                price: 15.99,
+                color: "mix"
+
             },
              {  name: "MMA",
                 description: "Copyright not mine",
-                url:"img/73Uqk9EQX6I9fvfUF8zQ_mma.jpg"
+                url:"img/73Uqk9EQX6I9fvfUF8zQ_mma.jpg",
+                price: 18.99,
+                color: "unknown"
+
             },
              {  name: "Construction",
                 description: "Brown Shirt Description",
-                url:"img/dxgHxn27R8WiP3GczJF9_construction.jpg"
+                url:"img/dxgHxn27R8WiP3GczJF9_construction.jpg",
+                price: 14.99,
+                color: "brown"
             },
         ]
         return {
