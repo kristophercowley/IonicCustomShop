@@ -384,11 +384,20 @@ angular.module('app.controllers', [])
         }
 
         // Printed shirt picker
+        $rootScope.printOrder = {};
         $scope.printedShirts = ShirtService.printedShirts;
         $scope.buyPrint = function(print) {
             // alert("running buy prints function.... shirt is:", print);
             console.log(print)
-            $rootScope.myCart.$add(print)
+            // $rootScope.myCart.$add(print)
+            $rootScope.printOrder.details = {
+                price: print.price,
+                shirtUrl: print.url,
+                color: print.color,
+                name: print.name,
+                description: print.description
+            }
+            console.log($rootScope.printOrder)
             $state.go('savePage');
             // attempt to skip save design name
             // setTimeout(isTrue, 2000);
