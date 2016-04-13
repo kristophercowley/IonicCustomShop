@@ -137,17 +137,44 @@ angular.module('app.services', [])
     }])
     
      .factory('OrderService', [function () {
-         var currentOrder =  {};
-         var setCurrentOrder = function(order){
-             currentOrder = order;
-         }
-         var getCurrentOrder = function(){
-             return currentOrder;
-         }
+         var printOrder =  {         
+             details: {
+                 date: 0,
+                 email: "",
+                 name: "",
+                 shirtColor: "",
+                 imageName : "",
+                 description: "",
+                 price: 0,
+                 design: "",
+                 shirtUrl: "",
+                 imageUrl: "",
+                 user: ""
+             },             
+             logo: {
+                 postion: {
+                     left: 0,
+                     top: 0
+                 },
+                 size: {
+                     height: 0,
+                     width: 0
+                 }
+             },
+             quantity:0,
+             sizes: {},
+             total:0
+         };
+        //  var setCurrentOrder = function(order){
+        //      currentOrder = order;
+        //  }
+        //  var getCurrentOrder = function(){
+        //      return currentOrder;
+        //  }
          return {
-             setCurrentOrder: setCurrentOrder,
-             getCurrentOrder: getCurrentOrder,
-             currentOrder: currentOrder
+            //  setCurrentOrder: setCurrentOrder,
+            //  getCurrentOrder: getCurrentOrder,
+             printOrder: printOrder
          }
       
     }])

@@ -1,4 +1,4 @@
-<ion-view title="T-Shirt Designer ">
+<ion-view title="Twisted Threads">
     <ion-content overflow-scroll="true" padding="true" style="background: url() no-repeat center;" class="has-header">
         <!--Select Shirt Color-->
         <form class="list">
@@ -20,7 +20,7 @@
         </div>
 
         <!--Shirt View Select Buttons-->
-        <form class="list"></form>
+        <!--<form class="list"></form>-->
         <div class="button-bar">
             <button ng-click="shirtView('sleeve')" class="button button-dark button-block ">Sleeve</button>
             <button ng-click="shirtView('front')" class="button button-dark button-block ">Front</button>
@@ -28,7 +28,7 @@
         </div>
 
         <!--Upload Image Window and Form-->
-        <button class="button button-block" ng-click="uploadWindow()" ng-show="!showUpload">Upload an Image</button>
+        <button class="button button-block button-dark" ng-click="uploadWindow()" ng-show="!showUpload">Upload an Image</button>
         <div class="center" ng-show="showUpload">
             <form class="list">
                 <ion-list>

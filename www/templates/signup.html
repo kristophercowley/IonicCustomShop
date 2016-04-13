@@ -1,21 +1,23 @@
 <ion-view title="Signup">
-    <ion-content overflow-scroll="true" padding="true" style="background: url('img/strange-logo.png') no-repeat center;" scroll="false" class="has-header">
+    <ion-content overflow-scroll="true" padding="true" style="background: url('img/leather.jpg')" scroll="false" class="has-header">
         <form class="list" ng-submit="signup(user)">
             <ion-list>
-                <label class="item item-input">
+                <!--<label class="item item-input">
                     <span class="input-label">Name</span>
                     <input type="text" placeholder="Currently unavailable" >
-                </label>
+                </label>-->
                 <label class="item item-input">
                     <span class="input-label">Email</span>
                     <input type="email" placeholder="" ng-model="user.email">
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Password</span>
-                    <input type="text" placeholder=""ng-model="user.password">
+                    <input type="text" placeholder="" ng-model="user.password">
                 </label>
             </ion-list>
-            <button  class="button button-stable button-block ">Sign up</button>
+            <button class="button button-stable button-block ">Sign up</button>
         </form>
+        <a ui-sref="login" class="button button-positive button-clear button-block ">Login</a>
+        <!--<a ui-sref="tabsController.t-ShirtDesigner" class="button button-calm button-block">No Thanks, Take me to the app!</a>-->
     </ion-content>
 </ion-view>

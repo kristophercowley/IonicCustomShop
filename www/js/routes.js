@@ -39,6 +39,7 @@ angular.module('app.routes', [])
                         controller: 't-ShirtDesignerCtrl'// 'shoppingCartCtrl'
                     }
                 }
+
             })
 
 
@@ -80,15 +81,15 @@ angular.module('app.routes', [])
                 controller: 't-ShirtDesignerCtrl'
             })
 
-            // .state('quantityPicker', {
-            //     url: '/page10',
-            //     templateUrl: 'templates/quantityPicker.html',
-            //     controller: 't-ShirtDesignerCtrl',
-            //     resolve: {
-            //     //    design: design,
-                   
-            //     }
-            // })
+        // .state('quantityPicker', {
+        //     url: '/page10',
+        //     templateUrl: 'templates/quantityPicker.html',
+        //     controller: 't-ShirtDesignerCtrl',
+        //     resolve: {
+        //     //    design: design,
+
+        //     }
+        // })
 
 
 

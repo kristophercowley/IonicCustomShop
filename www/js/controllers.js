@@ -193,8 +193,8 @@ angular.module('app.controllers', [])
                 width: 40
             }
         }
-
-
+        
+       
         //Saves user designs to database 
         $scope.save = function() {
             if ($rootScope.member) {
@@ -224,12 +224,19 @@ angular.module('app.controllers', [])
 
             // Perpetuate design details for page change
             // $rootScope.currentDesign = $scope.design
-
             // console.log("ShirtService.design", ShirtService.design, "scope:", $scope.design)
             // Sends design to current users saved designs
             $rootScope.myDesigns.$add($scope.design);
             // $state.go('quantityPicker');
             $scope.isSaved = true;
+            // clearDesign();
+        }
+        
+        // Clears values for design
+        function clearDesign(){
+            $scope.design = {};
+            $scope.design.details = {};
+            $scope.design.logo = {};
         }
 
         // Counts current order sizes and quantity
@@ -239,8 +246,6 @@ angular.module('app.controllers', [])
 
         // Get Item Sub Total
         $scope.getTotal = function() {
-            // $scope.design = ShirtService.design;
-            // Possibly need to just use ShirtService.designs everywhere instead of $scope.design
             var s = $scope.design.sizes
             var quantity = 0;
             for (var val in s) {
@@ -259,27 +264,28 @@ angular.module('app.controllers', [])
         // Totals all items in cart// Object Cart
         $scope.getCartTotal = function() {
             $rootScope.myCart.cartTotal = 0;
+            var total = 0;
             for (var i = 0; i < $rootScope.myCart.length; i++) {
-                $rootScope.myCart.cartTotal += $rootScope.myCart[i].total;
-                // alert("Cart total is running now");
+                total += $rootScope.myCart[i].total;
             }
+            $rootScope.myCart.cartTotal = total;
         }
-
-        //Calls getCart Total
-        $scope.getCartTotal();
-
-
+        $rootScope.myCart.$watch(function(event) {
+            $scope.getCartTotal();
+        });
+        
+        
+        
+        
         //Adds user designs to cart
         $scope.addToCart = function() {
-            // Testing shirt Service
-            // $scope.design = ShirtService.design;
-
             $scope.getTotal();
             $rootScope.myCart.$add($scope.design);
-            $scope.getCartTotal();
+            // $scope.timeoutTotal();
             $state.go('tabsController.shoppingCart');
             $scope.design = {};
             $scope.isSaved = false;
+            $scope.getCartTotal();
         }
 
         //Initializes Order object
@@ -298,11 +304,10 @@ angular.module('app.controllers', [])
             }
         }
 
-        // Clears cart after order//doesnt work
+        // Clears cart after order//doesnt work properly
         function clearCart() {
             $rootScope.myCart = [];
             $rootScope.myCart.cartTotal = 0;
-
         }
 
         // Processes order/sends to Firebase
@@ -310,15 +315,21 @@ angular.module('app.controllers', [])
             createOrderObj($rootScope.myCart);
             $scope.activeOrders.$add(currentOrder);
             alert("Payment processing is in progress.... Thank you for you Order!");
-            // currentOrder = {};
+            currentOrder = {};
             // Clears the cart array
-            // clearCart();
+            clearCart();
         }
 
 
+        // Add member designs to cart
+        $scope.addMemberDesign = function(shirt) {
+            // $state.go('savePage');
+            alert('This feature is coming soon in version 1.1')
+        }
+
         //Selects clip art and scrolls to shirt designer
         $scope.imagePicker = function(i) {
-            console.log("Is this working? did you click ", i.name + "?");
+            // console.log("Is this working? did you click ", i.name + "?");
             ShirtService.selectedImage = i;
             $scope.selectedImage = i;
             $ionicScrollDelegate.scrollTop();
@@ -383,61 +394,33 @@ angular.module('app.controllers', [])
             $scope.design.logo = logo;
         }
 
+        //Connects print object to service // Provived a blank template//
+        $scope.printOrder = OrderService.printOrder
+
         // Printed shirt picker
-        $rootScope.printOrder = {};
+        // $rootScope.printOrder = {};
         $scope.printedShirts = ShirtService.printedShirts;
         $scope.buyPrint = function(print) {
             // alert("running buy prints function.... shirt is:", print);
             console.log(print)
-            // $rootScope.myCart.$add(print)
-            $rootScope.printOrder.details = {
+            console.log("printOrder:", $scope.printOrder)
+            $scope.printOrder.details = {
                 price: print.price,
                 shirtUrl: print.url,
                 color: print.color,
                 name: print.name,
-                description: print.description
+                description: print.description,
+                // total: 0
             }
-            console.log($rootScope.printOrder)
+            OrderService.printOrder = $scope.printOrder
+            console.log("this is the OrderService.printOrder Post function:", OrderService.printOrder)
+            // console.log($rootScope.printOrder)
             $state.go('savePage');
-            // attempt to skip save design name
-            // setTimeout(isTrue, 2000);
-            // $scope.isSaved = true;
         }
-        
-        // Sets delay for page load
-        // function isTrue(){
-        //     $scope.isSaved = true
-        //     alert("2000ms")
-        // }
     })
 
     .controller('shoppingCartCtrl', function($scope, ShirtService, OrderService, DBREF, $firebaseArray, $rootScope) {
-        //Referencing and testing if i need to directly talk to firebase or if i should be sharing a service
-        // var ref = new Firebase(DBREF);
-        // var activeRef = ref.child('Active Orders');
-        // $scope.orders = new $firebaseArray(activeRef);
-        // $scope.cart = [];
-        // console.log("$rootScope.member.current = ", $rootScope.member.current)
 
-        // The old way
-        // $scope.current = $rootScope.member.current;
-
-        // console.log($scope.cart)
-        // console.log("$scope.current = ", $scope.current)
-
-
-        // Gets total of all items in the cart
-        // // Need to use closure to privatize cartTotal
-        // $scope.cartTotal = 0;
-        // $scope.getCartTotal = function() {
-        //     for(var i = 0; i < myCart.length; i++){
-        //         $scope.cartTotal += myCart[i].total;
-        //     }
-        // };
-
-        // $scope.getCartTotal();
-
-        // $scope.totalPrice = 0;
 
     })
 
@@ -445,6 +428,7 @@ angular.module('app.controllers', [])
 
     })
 
+    // Not currently in use
     .controller('brandedPrintsCtrl', function($scope, ShirtService, $state) {
         $scope.printedShirts = ShirtService.printedShirts;
         $scope.buyPrint = function() {
