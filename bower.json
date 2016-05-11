@@ -11,5 +11,6 @@
   "dependencies": {
     "stripe-angular": "^1.0.2",
     "angular-sanitize": "^1.5.2"
+    
   }
 }

@@ -2,9 +2,8 @@
 angular.module('app.controllers', [])
     .constant('DBREF', 'https://customshop.firebaseio.com/')
 
-    .controller('AuthController', function($rootScope, $scope, $firebaseObject, $firebaseArray, DBREF, AuthService, $state) {
+    .controller('AuthController', function ($rootScope, $scope, $firebaseObject, $firebaseArray, DBREF, $state) {
         var db = new Firebase(DBREF);
-        // $scope.user = AuthService.getUser();
 
         // Handles DB responses/ Sets DB paths
         function handleDBResponse(err, authData) {
@@ -20,12 +19,8 @@ angular.module('app.controllers', [])
             $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
             $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
             $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart'));
-            // $rootScope.currentDesign = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/currentDesign'));
-
-            // $rootScope.myCart.items = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart/items'));
-
-
-            $rootScope.member.$loaded(function() {
+           
+            $rootScope.member.$loaded(function () {
                 $state.go('tabsController.t-ShirtDesigner');
             })
         }
@@ -35,7 +30,7 @@ angular.module('app.controllers', [])
         }
 
         //Logs the user out
-        $scope.logout = function(user) {
+        $scope.logout = function (user) {
             alert('Logout Button Clicked')
             db.unauth();
             // $state.go('login')
@@ -43,10 +38,9 @@ angular.module('app.controllers', [])
 
 
     })
-
-    .controller('loginCtrl', function($rootScope, $scope, $firebaseObject, $firebaseArray, DBREF, AuthService, $state) {
+    
+    .controller('loginCtrl', function ($rootScope, $scope, $firebaseObject, $firebaseArray, DBREF, $state) {
         var db = new Firebase(DBREF);
-        $scope.user = AuthService.getUser();
 
         function handleDBResponse(err, authData) {
             if (err) {
@@ -61,27 +55,24 @@ angular.module('app.controllers', [])
             $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
             $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
             $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart'));
-            // $rootScope.currentDesign = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/currentDesign'));
-            // $rootScope.myCart.items = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart/items'));
-
-
-            $rootScope.member.$loaded(function() {
+           
+            $rootScope.member.$loaded(function () {
                 $state.go('tabsController.t-ShirtDesigner');
             })
         }
-        $scope.login = function(user) {
+        $scope.login = function (user) {
             user ? db.authWithPassword(user, handleDBResponse) : ''
             // console.log(user.email + user.password)
         }
     })
-
-    .controller('signupCtrl', function($scope, DBREF, AuthService, $firebaseArray, $state, $rootScope, $firebaseObject) {
+// AuthService,
+    .controller('signupCtrl', function ($scope, DBREF, $firebaseArray, $state, $rootScope, $firebaseObject) {
         var db = new Firebase(DBREF);
         // var db = AuthService.db();
         $rootScope.member = {};
         $scope.errorMessage = '';
         $scope.user = AuthService.getUser();
-        $scope.signup = function(user) {
+        $scope.signup = function (user) {
             db.createUser(user, handleDBResponse)
             function handleDBResponse(err, authData) {
                 if (err) {
@@ -114,7 +105,10 @@ angular.module('app.controllers', [])
         }
     })
 
-    .controller('t-ShirtDesignerCtrl', function($scope, $state, ShirtService, OrderService, $ionicScrollDelegate, DBREF, $firebaseArray, $rootScope) {
+    .controller('t-ShirtDesignerCtrl', function ($scope, $state, ShirtService, OrderService, $ionicScrollDelegate, DBREF, RefService, PayService, $firebaseArray, $rootScope) {
+        var promise = PayService.paymentApi();
+        promise.then(console.log("promise",promise))
+
 
         var db = new Firebase(DBREF);
         // Original reference
@@ -130,12 +124,15 @@ angular.module('app.controllers', [])
         $scope.images = ShirtService.images;
         $scope.shirts = ShirtService.shirts;
         $scope.selectedImage = ShirtService.getLogo();
-
+        $scope.showCard = true;
         // Sets an empty variable for shirt designs
         $scope.design = {};
 
+       
+
+
         // Shows and Hides upload window
-        $scope.uploadWindow = function() {
+        $scope.uploadWindow = function () {
             $scope.showUpload = !$scope.showUpload;
         }
 
@@ -152,14 +149,14 @@ angular.module('app.controllers', [])
 
 
         // Pushes new image object to images array in ShirtService
-        $scope.uploadImage = function(img) {
+        $scope.uploadImage = function (img) {
             $rootScope.myImages.$add(img);
             $scope.showUpload = !$scope.showUpload;
         }
 
 
         // Testing pasing data to a constructor for view change
-        $scope.PassInfo = function(shirt, image) {
+        $scope.PassInfo = function (shirt, image) {
             if (!image) {
                 alert("You didnt create a design yet, please choose an image");
             }
@@ -193,12 +190,12 @@ angular.module('app.controllers', [])
                 width: 40
             }
         }
-        
-       
+
+
         //Saves user designs to database 
-        $scope.save = function() {
+        $scope.save = function () {
             if ($rootScope.member) {
-                alert($scope.saved.name + " has been saved to your account " + $rootScope.member.username);
+                // alert($scope.saved.name + " has been saved to your account " + $rootScope.member.username);
             } else {
                 alert("You must be logged in to save. Please login or create an account");
                 $state.go('login')
@@ -227,13 +224,14 @@ angular.module('app.controllers', [])
             // console.log("ShirtService.design", ShirtService.design, "scope:", $scope.design)
             // Sends design to current users saved designs
             $rootScope.myDesigns.$add($scope.design);
+            RefService.liveDesign.$add($scope.design)
             // $state.go('quantityPicker');
             $scope.isSaved = true;
             // clearDesign();
         }
-        
+
         // Clears values for design
-        function clearDesign(){
+        function clearDesign() {
             $scope.design = {};
             $scope.design.details = {};
             $scope.design.logo = {};
@@ -245,7 +243,7 @@ angular.module('app.controllers', [])
         }
 
         // Get Item Sub Total
-        $scope.getTotal = function() {
+        $scope.getTotal = function () {
             var s = $scope.design.sizes
             var quantity = 0;
             for (var val in s) {
@@ -262,7 +260,7 @@ angular.module('app.controllers', [])
         $rootScope.myCart.cartTotal = 0;
 
         // Totals all items in cart// Object Cart
-        $scope.getCartTotal = function() {
+        $scope.getCartTotal = function () {
             $rootScope.myCart.cartTotal = 0;
             var total = 0;
             for (var i = 0; i < $rootScope.myCart.length; i++) {
@@ -270,15 +268,15 @@ angular.module('app.controllers', [])
             }
             $rootScope.myCart.cartTotal = total;
         }
-        $rootScope.myCart.$watch(function(event) {
+        $rootScope.myCart.$watch(function (event) {
             $scope.getCartTotal();
         });
-        
-        
-        
-        
+
+
+
+
         //Adds user designs to cart
-        $scope.addToCart = function() {
+        $scope.addToCart = function () {
             $scope.getTotal();
             $rootScope.myCart.$add($scope.design);
             // $scope.timeoutTotal();
@@ -311,24 +309,25 @@ angular.module('app.controllers', [])
         }
 
         // Processes order/sends to Firebase
-        $scope.orderNow = function() {
+        $scope.orderNow = function () {
             createOrderObj($rootScope.myCart);
             $scope.activeOrders.$add(currentOrder);
             alert("Payment processing is in progress.... Thank you for you Order!");
             currentOrder = {};
+            $scope.showCard = false;
             // Clears the cart array
             clearCart();
         }
 
 
         // Add member designs to cart
-        $scope.addMemberDesign = function(shirt) {
+        $scope.addMemberDesign = function (shirt) {
             // $state.go('savePage');
             alert('This feature is coming soon in version 1.1')
         }
 
         //Selects clip art and scrolls to shirt designer
-        $scope.imagePicker = function(i) {
+        $scope.imagePicker = function (i) {
             // console.log("Is this working? did you click ", i.name + "?");
             ShirtService.selectedImage = i;
             $scope.selectedImage = i;
@@ -341,7 +340,7 @@ angular.module('app.controllers', [])
             handles: 'ne,se,sw,nw',
             stop: saveImage,
         }).draggable({
-            stop: function(e, image) {
+            stop: function (e, image) {
                 $scope.design.logo = $scope.design.logo || {};
                 $scope.design.logo.position = image.position;
             }
@@ -373,7 +372,7 @@ angular.module('app.controllers', [])
         // })
 
         //Selects shirt color and view
-        $scope.shirtView = function(view, shirt) {
+        $scope.shirtView = function (view, shirt) {
             // console.log(shirt);
             if (shirt) {
                 $scope.selectedShirt = shirt;
@@ -400,7 +399,7 @@ angular.module('app.controllers', [])
         // Printed shirt picker
         // $rootScope.printOrder = {};
         $scope.printedShirts = ShirtService.printedShirts;
-        $scope.buyPrint = function(print) {
+        $scope.buyPrint = function (print) {
             // alert("running buy prints function.... shirt is:", print);
             console.log(print)
             console.log("printOrder:", $scope.printOrder)
@@ -419,19 +418,19 @@ angular.module('app.controllers', [])
         }
     })
 
-    .controller('shoppingCartCtrl', function($scope, ShirtService, OrderService, DBREF, $firebaseArray, $rootScope) {
+    .controller('shoppingCartCtrl', function ($scope, ShirtService, OrderService, DBREF, $firebaseArray, $rootScope) {
 
 
     })
 
-    .controller('chooseCustomClipArtCtrl', function($scope) {
+    .controller('chooseCustomClipArtCtrl', function ($scope) {
 
     })
 
     // Not currently in use
-    .controller('brandedPrintsCtrl', function($scope, ShirtService, $state) {
+    .controller('brandedPrintsCtrl', function ($scope, ShirtService, $state) {
         $scope.printedShirts = ShirtService.printedShirts;
-        $scope.buyPrint = function() {
+        $scope.buyPrint = function () {
             alert("running buy prints function")
             // $state.go('quantityPage');
             // need to link this back to quantity function on save page with shirt data
@@ -440,6 +439,6 @@ angular.module('app.controllers', [])
 
     })
     // Might not use this controller// MAybe just shirt controller// Or move save data here if no conflict
-    .controller('savePageCtrl', function($scope) {
+    .controller('savePageCtrl', function ($scope) {
         $scope.test = "Save Test";
     })

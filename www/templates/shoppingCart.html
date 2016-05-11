@@ -94,7 +94,7 @@
 
 
         <!--Original info display-->
-        <form class="list" ng-submit="orderNow()" stripe-form="stripeCallback">
+        <form ng-show="showCard" class="list" ng-submit="orderNow()" stripe-form="stripeCallback">
             <label class="item item-input">
                 <span class="input-label">CC# </span>
                 <input class="form-control" ng-model="number" placeholder="Card Number" payments-format="card" />
