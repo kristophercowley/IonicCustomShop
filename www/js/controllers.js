@@ -11,15 +11,15 @@ angular.module('app.controllers', [])
                 console.log(err);
                 return;
             }
-            console.log("Login Auth, did we get here?")
-            console.log(authData)
+            // console.log("Login Auth, did we get here?")
+            // console.log(authData)
 
             $rootScope.member = $firebaseObject(new Firebase(DBREF + 'users/' + authData.uid));
             $rootScope.myDesigns = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myDesigns'));
             $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
             $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
             $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart'));
-           
+
             $rootScope.member.$loaded(function () {
                 $state.go('tabsController.t-ShirtDesigner');
             })
@@ -38,7 +38,7 @@ angular.module('app.controllers', [])
 
 
     })
-    
+
     .controller('loginCtrl', function ($rootScope, $scope, $firebaseObject, $firebaseArray, DBREF, $state) {
         var db = new Firebase(DBREF);
 
@@ -55,7 +55,7 @@ angular.module('app.controllers', [])
             $rootScope.myOrders = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myOrders'));
             $rootScope.myImages = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myImages'));
             $rootScope.myCart = $firebaseArray(new Firebase(DBREF + 'users/' + authData.uid + '/myCart'));
-           
+
             $rootScope.member.$loaded(function () {
                 $state.go('tabsController.t-ShirtDesigner');
             })
@@ -65,7 +65,7 @@ angular.module('app.controllers', [])
             // console.log(user.email + user.password)
         }
     })
-// AuthService,
+    // AuthService,
     .controller('signupCtrl', function ($scope, DBREF, $firebaseArray, $state, $rootScope, $firebaseObject) {
         var db = new Firebase(DBREF);
         // var db = AuthService.db();
@@ -106,8 +106,12 @@ angular.module('app.controllers', [])
     })
 
     .controller('t-ShirtDesignerCtrl', function ($scope, $state, ShirtService, OrderService, $ionicScrollDelegate, DBREF, RefService, PayService, $firebaseArray, $rootScope) {
-        var promise = PayService.paymentApi();
-        promise.then(console.log("promise",promise))
+        //Testing PayService
+        // var promise = PayService.paymentApi();
+        // promise.then(function (data) {
+        //     console.log("promise data:", promise, data)
+        // })
+        // test
 
 
         var db = new Firebase(DBREF);
@@ -128,7 +132,7 @@ angular.module('app.controllers', [])
         // Sets an empty variable for shirt designs
         $scope.design = {};
 
-       
+
 
 
         // Shows and Hides upload window
@@ -224,7 +228,10 @@ angular.module('app.controllers', [])
             // console.log("ShirtService.design", ShirtService.design, "scope:", $scope.design)
             // Sends design to current users saved designs
             $rootScope.myDesigns.$add($scope.design);
-            RefService.liveDesign.$add($scope.design)
+
+            // Testing Firebase object for live design to get it off root
+            RefService.liveDesignSave($scope.design)
+
             // $state.go('quantityPicker');
             $scope.isSaved = true;
             // clearDesign();
@@ -249,7 +256,7 @@ angular.module('app.controllers', [])
             for (var val in s) {
                 quantity += s[val]
             }
-            console.log(quantity);
+            console.log("quantity",quantity);
             $scope.design.quantity = quantity;
             $scope.design.total = 0;
             $scope.design.total = $scope.design.details.price * quantity;
@@ -309,7 +316,17 @@ angular.module('app.controllers', [])
         }
 
         // Processes order/sends to Firebase
-        $scope.orderNow = function () {
+        $scope.orderNow = function (info, total) {
+            info.currency = total
+            info.cc_exp_mo = 12;
+            info.cc_exp_year = 2016;
+            info.merch_acct_id_str = 154;
+            
+            PayService.paymentApi(info).then(function(data,err){
+                console.log('orderpage: ' + data + '----err: ' + err)
+                
+            })
+            console.log("incoming from form",info)
             createOrderObj($rootScope.myCart);
             $scope.activeOrders.$add(currentOrder);
             alert("Payment processing is in progress.... Thank you for you Order!");

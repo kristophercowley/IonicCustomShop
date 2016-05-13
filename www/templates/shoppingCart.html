@@ -94,18 +94,34 @@
 
 
         <!--Original info display-->
-        <form ng-show="showCard" class="list" ng-submit="orderNow()" stripe-form="stripeCallback">
+        <form ng-show="showCard" class="list" ng-submit="orderNow(order,myCart.cartTotal)" />
+         <label class="item item-input">
+                <span class="input-label">Name on Card </span>
+                <input class="form-control" ng-model="order.payer_name" placeholder="Name on Card" type="text" />
+            </label>
+             <!--<label class="item item-input">
+                <span class="input-label">Billing Address </span>
+                <input class="form-control" ng-model="order.payer_" placeholder="Billing Address" type="text" />
+            </label>
+             <label class="item item-input">
+                <span class="input-label">Zip Code </span>
+                <input class="form-control" ng-model="order.payer_zip" placeholder="Zip" type="number" />
+            </label>-->
             <label class="item item-input">
                 <span class="input-label">CC# </span>
-                <input class="form-control" ng-model="number" placeholder="Card Number" payments-format="card" />
+                <input type="number" class="form-control" ng-model="order.cc_num" placeholder="Card Number" payments-validate="card" payments-format="card" />
             </label>
-            <label class="item item-input">
+            <!--<label class="item item-input">
+                <span class="input-label">Expiration Month</span>
+                <input ng-model="order.cc_exp_mo" placeholder="Expiration" type="month" />
+            </label>-->
+            <!--<label class="item item-input">
                 <span class="input-label">Expiration</span>
-                <input ng-model="expiry" placeholder="Expiration" payments-format="expiry" />
-            </label>
+                <input ng-model="order.cc_exp" placeholder="Expiration" type="date" />
+            </label>-->
             <label class="item item-input">
                 <span class="input-label">CVC </span>
-                <input ng-model="cvc" placeholder="CVC" payments-format="cvc" />
+                <input ng-model="order.cc_cvc" placeholder="CVC" type="number"/>
             </label>
             <label class="item item-input">Save my payment information -
                 <label id="cc-toggle" class="toggle toggle-assertive">

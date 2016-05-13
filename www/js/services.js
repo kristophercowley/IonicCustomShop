@@ -135,13 +135,23 @@ angular.module('app.services', [])
 
     }])
 
-    .factory('RefService', ['DBREF', '$firebaseArray', '$firebaseObject', function (DBREF, $firebaseArray, $firebaseObject) {
+    .factory('RefService', ['DBREF', '$firebaseArray', '$firebaseObject', '$rootScope', function (DBREF, $firebaseArray, $firebaseObject, $rootScope) {
         var db = new Firebase('https://customshop.firebaseio.com/');
-        var liveDesign = new $firebaseObject(db.child('liveDesign'))
-        liveDesign.That = "Test"
+        var liveDesign = new $firebaseObject(db.child('liveDesign:' + $rootScope.member.$id))
+        // console.log($rootScope.member)
+        liveDesign.That = "Test";
+        liveDesign.$save();
+        // console.log(liveDesign)
+        var liveDesignSave = function(ob){
+            liveDesign.current = ob;
+            liveDesign.$save();
+            // console.log(liveDesign)
+        }
+        
         return {
             db: db,
-            liveDesign: liveDesign
+            liveDesign: liveDesign,
+            liveDesignSave: liveDesignSave
         }
     }])
 
@@ -151,17 +161,20 @@ angular.module('app.services', [])
         var url = "http://bcw-getter.herokuapp.com/?url=";
         var url2 = "https://fluido.acceptiva.com/api/?api_key=Gu6Kt4WhagSQ99UmIQAP1LV0l3kpLgdg";
         var apiUrl = url + encodeURIComponent(url2);
-        var paymentApi = function () {
-            return $http.post(apiUrl + '&action[0]=charge&params[0][payer_' +
-                'name]=Jane%20Tester&params[0][payment_type]=1&params[0][merch_acct_id_str]=15' +
-                '4&params[0][cc_num]=4111111111111111&params[0][cc_exp_mo]=12&params[0][cc_' +
-                'exp_yr]=2016&params[0][dynamic_descriptor]=Building%20Fund&params[0][client_tr' +
-                'ans_id]=12345&params[0][sub_id1]=112233&params[0][items][0][id]=00123&params[' +
-                '0][items][0][desc]=Widget&params[0][items][0][amt]=12.34&params[0][items][0][qty]=2')
-                .then(function (res) {
-                    console.log('response:', res)
-                    myData = res.data;
-                    return myData;
+        var paymentApi = function (orderInfo) {
+           
+            
+            return $http.post(apiUrl + '&action[0]=charge', JSON.stringify(orderInfo))
+                .then(function (res, err) {
+                    if (res) {
+                        console.log('response:', res)
+                        myData = res.data;
+                        return myData;
+                    } else if (err) {
+
+                        console.log('error:', err);
+                        return { 'error': err }
+                    }
                 })
         }
         return {
@@ -169,6 +182,14 @@ angular.module('app.services', [])
         }
         //API key for charge
         //https://fluido.acceptiva.com/api/?api_key=Gu6Kt4WhagSQ99UmIQAP1LV0l3kpLgdg&action[0]=charge
+
+        //Full Test
+        // + '&action[0]=charge&params[0][payer_' +
+        // 'name]=Jane%20Tester&params[0][payment_type]=1&params[0][merch_acct_id_str]=15' +
+        // '4&params[0][cc_num]=4111111111111111&params[0][cc_exp_mo]=12&params[0][cc_' +
+        // 'exp_yr]=2016&params[0][dynamic_descriptor]=Building%20Fund&params[0][client_tr' +
+        // 'ans_id]=12345&params[0][sub_id1]=112233&params[0][items][0][id]=00123&params[' +
+        // '0][items][0][desc]=Widget&params[0][items][0][amt]=12.34&params[0][items][0][qty]=2'
 
     }])
 
