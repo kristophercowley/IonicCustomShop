@@ -29,13 +29,17 @@
                         <div class="item item-divider">
                             <table class="table table-striped table-hover">
                                 <tbody>
-                                    <tr>
+                                    <!--<tr>
                                         <td>Design ID: </td>
                                         <td class="text-right"> {{item.$id}}</td>
-                                    </tr>
+                                    </tr>-->
                                     <tr>
                                         <td>Name: </td>
                                         <td class="text-right"> {{item.details.name}}</td>
+                                    </tr>
+                                     <tr>
+                                        <td><i></i>Created on - </td>
+                                        <td class="text-right"> {{item.details.date | date: 'MM/dd/yyyy'}}</td>
                                     </tr>
                                     <!--<tr>
                                         <td>Price: </td>
@@ -51,7 +55,7 @@
                                     </tr>-->
                                 </tbody>
                             </table>
-                            <button ng-click="addMemberDesign(item)">Add to Cart</button>
+                            <button ng-click="addMemberDesign(item)" class="button button-positive button-small button-block">Add to Cart</button>
                             <!--</a>-->
                         </div>
                     </div>

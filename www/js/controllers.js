@@ -32,8 +32,8 @@ angular.module('app.controllers', [])
         //Logs the user out
         $scope.logout = function (user) {
             alert('Logout Button Clicked')
+            $state.go('login')
             db.unauth();
-            // $state.go('login')
         }
 
 
@@ -41,6 +41,7 @@ angular.module('app.controllers', [])
 
     .controller('loginCtrl', function ($rootScope, $scope, $firebaseObject, $firebaseArray, DBREF, $state) {
         var db = new Firebase(DBREF);
+        $scope.user = {}
 
         function handleDBResponse(err, authData) {
             if (err) {
@@ -68,10 +69,11 @@ angular.module('app.controllers', [])
     // AuthService,
     .controller('signupCtrl', function ($scope, DBREF, $firebaseArray, $state, $rootScope, $firebaseObject) {
         var db = new Firebase(DBREF);
+        $scope.user = {}
         // var db = AuthService.db();
         $rootScope.member = {};
         $scope.errorMessage = '';
-        $scope.user = AuthService.getUser();
+        // $scope.user = AuthService.getUser();
         $scope.signup = function (user) {
             db.createUser(user, handleDBResponse)
             function handleDBResponse(err, authData) {
@@ -256,7 +258,7 @@ angular.module('app.controllers', [])
             for (var val in s) {
                 quantity += s[val]
             }
-            console.log("quantity",quantity);
+            console.log("quantity", quantity);
             $scope.design.quantity = quantity;
             $scope.design.total = 0;
             $scope.design.total = $scope.design.details.price * quantity;
@@ -265,6 +267,8 @@ angular.module('app.controllers', [])
 
         // Sets cart total to 0
         $rootScope.myCart.cartTotal = 0;
+
+
 
         // Totals all items in cart// Object Cart
         $scope.getCartTotal = function () {
@@ -275,9 +279,22 @@ angular.module('app.controllers', [])
             }
             $rootScope.myCart.cartTotal = total;
         }
-        $rootScope.myCart.$watch(function (event) {
+        // $rootScope.myCart.$watch(function (event) {
+        //     $scope.getCartTotal();
+        // });
+
+        // Keeping cart up to date
+        $scope.$watch($rootScope.myCart, function (newValue) {
+            // alert('Watcher is working!');
             $scope.getCartTotal();
+        })
+
+        $scope.$on('$stateChangeSuccess', function () {
+            // alert('On state change function working');
+            $scope.getCartTotal()
         });
+
+        $scope.getCartTotal()
 
 
 
@@ -288,7 +305,8 @@ angular.module('app.controllers', [])
             $rootScope.myCart.$add($scope.design);
             // $scope.timeoutTotal();
             $state.go('tabsController.shoppingCart');
-            $scope.design = {};
+            // $scope.design = {};
+            clearDesign();
             $scope.isSaved = false;
             $scope.getCartTotal();
         }
@@ -311,36 +329,48 @@ angular.module('app.controllers', [])
 
         // Clears cart after order//doesnt work properly
         function clearCart() {
-            $rootScope.myCart = [];
+            for (var i = 0; i < $rootScope.myCart.length; i++) {
+                $rootScope.myCart.$remove(i)
+            }
             $rootScope.myCart.cartTotal = 0;
         }
 
         // Processes order/sends to Firebase
         $scope.orderNow = function (info, total) {
+            !info ? info = { name: "John", cc_num: 12345678910, cc_cvc: 999 } : info = info;
             info.currency = total
             info.cc_exp_mo = 12;
             info.cc_exp_year = 2016;
-            info.merch_acct_id_str = 154;
-            
-            PayService.paymentApi(info).then(function(data,err){
-                console.log('orderpage: ' + data + '----err: ' + err)
-                
-            })
-            console.log("incoming from form",info)
+            info.merch_acct_id_str = "154";
+
+
+            // PayService.paymentApi(info).then(function (data, err) {
+            //     console.log('orderpage: ' + data + '----err: ' + err)
+
+            // })
+            console.log("incoming from form", info)
             createOrderObj($rootScope.myCart);
             $scope.activeOrders.$add(currentOrder);
-            alert("Payment processing is in progress.... Thank you for you Order!");
+            alert("Payment processing is in progress.... Thank you for you Order! Thank you for participating in our testing phase. This order has been sent to the payment api and desktop application for processing");
             currentOrder = {};
             $scope.showCard = false;
             // Clears the cart array
             clearCart();
         }
 
+        // Removes an item from the cart
+        $scope.removeFromCart = function (index) {
+            console.log("remove from cart:", index);
+            $rootScope.myCart.$remove(index).then(function (ref) {
+                $scope.getCartTotal();
+            }), function (err) { console.log("Firebase remove error:", err) };
+        }
+
 
         // Add member designs to cart
         $scope.addMemberDesign = function (shirt) {
             // $state.go('savePage');
-            alert('This feature is coming soon in version 1.1')
+            alert('Thank you for participating in the pre-release test phase. This feature is coming soon in version 1.1')
         }
 
         //Selects clip art and scrolls to shirt designer

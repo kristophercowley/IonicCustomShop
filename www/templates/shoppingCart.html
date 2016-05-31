@@ -30,10 +30,11 @@
             </div>
 
             <!--Repeating Card-->
-            <div class="card" ng-repeat="item in myCart ">
+            <div class="card" ng-repeat="item in myCart track by $index">
                 <div class="item item-divider">
                     <span>Item Details for "{{item.details.name}}" </span>
-                    <button class="button button-assertive" style="float: right" ng-click="myCart.$remove(item); getCartTotal()">X</button>
+                    <button class="button button-assertive" style="float: right" ng-click="removeFromCart($index)">X</button>
+                    <!--myCart.$remove(item); getCartTotal()-->
                 </div>
                 <div class="item item-text-wrap">
                     <div class="list">

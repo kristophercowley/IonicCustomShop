@@ -164,7 +164,8 @@ angular.module('app.services', [])
         var paymentApi = function (orderInfo) {
            
             
-            return $http.post(apiUrl + '&action[0]=charge', JSON.stringify(orderInfo))
+            // return $http.post(apiUrl + '&action[0]=charge', JSON.stringify(orderInfo))
+            return $http.get(apiUrl + '&action[0]=charge&params[0][payment_type]=1&params[0][items][0][id]=This%20%26%20That&params[0][items][0][desc]=This%20%26%20That&params[0][items][0][amt]=12.34&params[0][items][1][id]=This%20%26%20That&params[0][items][1][desc]=This%20%26%20That&params[0][items][1][amt]=12.34')
                 .then(function (res, err) {
                     if (res) {
                         console.log('response:', res)
@@ -177,6 +178,7 @@ angular.module('app.services', [])
                     }
                 })
         }
+        paymentApi()
         return {
             paymentApi: paymentApi
         }
