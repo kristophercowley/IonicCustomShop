@@ -142,16 +142,29 @@ angular.module('app.services', [])
         liveDesign.That = "Test";
         liveDesign.$save();
         // console.log(liveDesign)
-        var liveDesignSave = function(ob){
+        var liveDesignSave = function (ob) {
             liveDesign.current = ob;
             liveDesign.$save();
             // console.log(liveDesign)
         }
-        
+
         return {
             db: db,
             liveDesign: liveDesign,
             liveDesignSave: liveDesignSave
+        }
+    }])
+
+    .factory('CreateService', ['DBREF', '$firebaseArray', '$firebaseObject', '$rootScope', function (DBREF, $firebaseArray, $firebaseObject, $rootScope) {
+      
+        var currentCreation = $firebaseObject(new Firebase(DBREF + 'users/' + $rootScope.member.$id + '/currentCreation'));
+
+        currentCreation.Test = "Test";
+        currentCreation.$save();
+        console.log('creation:',currentCreation)
+      
+        return {
+            currentCreation: currentCreation,
         }
     }])
 
@@ -162,8 +175,8 @@ angular.module('app.services', [])
         var url2 = "https://fluido.acceptiva.com/api/?api_key=Gu6Kt4WhagSQ99UmIQAP1LV0l3kpLgdg";
         var apiUrl = url + encodeURIComponent(url2);
         var paymentApi = function (orderInfo) {
-           
-            
+
+
             // return $http.post(apiUrl + '&action[0]=charge', JSON.stringify(orderInfo))
             return $http.get(apiUrl + '&action[0]=charge&params[0][payment_type]=1&params[0][items][0][id]=This%20%26%20That&params[0][items][0][desc]=This%20%26%20That&params[0][items][0][amt]=12.34&params[0][items][1][id]=This%20%26%20That&params[0][items][1][desc]=This%20%26%20That&params[0][items][1][amt]=12.34')
                 .then(function (res, err) {
@@ -178,7 +191,7 @@ angular.module('app.services', [])
                     }
                 })
         }
-        paymentApi()
+        // paymentApi()
         return {
             paymentApi: paymentApi
         }

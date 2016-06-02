@@ -107,7 +107,7 @@ angular.module('app.controllers', [])
         }
     })
 
-    .controller('t-ShirtDesignerCtrl', function ($scope, $state, ShirtService, OrderService, $ionicScrollDelegate, DBREF, RefService, PayService, $firebaseArray, $rootScope) {
+    .controller('t-ShirtDesignerCtrl', function ($scope, $state, ShirtService, OrderService, CreateService, $ionicScrollDelegate, DBREF, RefService, PayService, $firebaseArray, $rootScope) {
         //Testing PayService
         // var promise = PayService.paymentApi();
         // promise.then(function (data) {
@@ -130,7 +130,7 @@ angular.module('app.controllers', [])
         $scope.images = ShirtService.images;
         $scope.shirts = ShirtService.shirts;
         $scope.selectedImage = ShirtService.getLogo();
-        $scope.showCard = true;
+        // $scope.showCard = true;
         // Sets an empty variable for shirt designs
         $scope.design = {};
 
@@ -167,15 +167,27 @@ angular.module('app.controllers', [])
                 alert("You didnt create a design yet, please choose an image");
             }
             else {
-                $state.go('savePage');
-                // New Angular Fire Reference?
-
                 // Old but working method
-                ShirtService.tempShirt = shirt;
-                ShirtService.tempImage = image;
-                ShirtService.tempDesign = $scope.design;
+                // ShirtService.tempShirt = shirt;
+                // ShirtService.tempImage = image;
+                // ShirtService.tempDesign = $scope.design;
+                // Using create service to seperate reponsibility
+                CreateService.currentCreation.tempShirt = shirt;
+                CreateService.currentCreation.tempImage = image;
+                CreateService.currentCreation.tempDesign = $scope.design;
+                CreateService.currentCreation.$save()
+
+
+                $state.go('savePage');
                 // console.log(ShirtService.tempDesign)
             }
+        }
+
+        // Reset ShirtService temp values
+        var resetShirtService = function () {
+            ShirtService.tempShirt = "";
+            ShirtService.tempImage = "";
+            ShirtService.tempDesign = "";
         }
 
         // Declares an empty object for save data
@@ -183,7 +195,6 @@ angular.module('app.controllers', [])
             name: '',
             email: ''
         }
-
 
         //Sets default values for logo object//These values need to match the css values for .image-div for proper operation
         $scope.design.logo = {
@@ -196,6 +207,7 @@ angular.module('app.controllers', [])
                 width: 40
             }
         }
+
 
 
         //Saves user designs to database 
@@ -214,36 +226,45 @@ angular.module('app.controllers', [])
                 price: 19.99,
                 user: $rootScope.member.username,
                 date: Date.now(),
-                shirtColor: ShirtService.tempShirt.color,
-                shirtUrl: ShirtService.tempShirt.front,
-                imageName: ShirtService.tempImage.name,
-                imageUrl: ShirtService.tempImage.image,
+                shirtColor: CreateService.currentCreation.tempShirt.color,
+                shirtUrl: CreateService.currentCreation.tempShirt.front,
+                imageName: CreateService.currentCreation.tempImage.name,
+                imageUrl: CreateService.currentCreation.tempImage.image,
             }
             //Perpetuating logo info on state change? Not sure im still using this...
             $scope.design.logo = {
-                position: ShirtService.tempDesign.logo.position,
-                size: ShirtService.tempDesign.logo.size
+                position: CreateService.currentCreation.tempDesign.logo.position,
+                size: CreateService.currentCreation.tempDesign.logo.size
             }
+            // Clears temp values
+            // resetShirtService()
 
-            // Perpetuate design details for page change
-            // $rootScope.currentDesign = $scope.design
-            // console.log("ShirtService.design", ShirtService.design, "scope:", $scope.design)
             // Sends design to current users saved designs
             $rootScope.myDesigns.$add($scope.design);
 
             // Testing Firebase object for live design to get it off root
-            RefService.liveDesignSave($scope.design)
+            CreateService.currentCreation.design = $scope.design;
+            CreateService.currentCreation.$save()
 
             // $state.go('quantityPicker');
             $scope.isSaved = true;
             // clearDesign();
         }
 
-        // Clears values for design
+        // Clears values & resets defaults for design
         function clearDesign() {
             $scope.design = {};
             $scope.design.details = {};
-            $scope.design.logo = {};
+            $scope.design.logo = {
+                position: {
+                    left: 159,
+                    top: 65
+                },
+                size: {
+                    height: 40,
+                    width: 40
+                }
+            }
         }
 
         // Counts current order sizes and quantity
@@ -264,11 +285,8 @@ angular.module('app.controllers', [])
             $scope.design.total = $scope.design.details.price * quantity;
         }
 
-
         // Sets cart total to 0
         $rootScope.myCart.cartTotal = 0;
-
-
 
         // Totals all items in cart// Object Cart
         $scope.getCartTotal = function () {
@@ -279,9 +297,7 @@ angular.module('app.controllers', [])
             }
             $rootScope.myCart.cartTotal = total;
         }
-        // $rootScope.myCart.$watch(function (event) {
-        //     $scope.getCartTotal();
-        // });
+
 
         // Keeping cart up to date
         $scope.$watch($rootScope.myCart, function (newValue) {
@@ -303,10 +319,8 @@ angular.module('app.controllers', [])
         $scope.addToCart = function () {
             $scope.getTotal();
             $rootScope.myCart.$add($scope.design);
-            // $scope.timeoutTotal();
             $state.go('tabsController.shoppingCart');
-            // $scope.design = {};
-            clearDesign();
+            // clearDesign();
             $scope.isSaved = false;
             $scope.getCartTotal();
         }
@@ -327,7 +341,7 @@ angular.module('app.controllers', [])
             }
         }
 
-        // Clears cart after order//doesnt work properly
+        // Clears cart after order
         function clearCart() {
             for (var i = 0; i < $rootScope.myCart.length; i++) {
                 $rootScope.myCart.$remove(i)
@@ -337,6 +351,7 @@ angular.module('app.controllers', [])
 
         // Processes order/sends to Firebase
         $scope.orderNow = function (info, total) {
+            // test/dummy info
             !info ? info = { name: "John", cc_num: 12345678910, cc_cvc: 999 } : info = info;
             info.currency = total
             info.cc_exp_mo = 12;
@@ -352,8 +367,10 @@ angular.module('app.controllers', [])
             createOrderObj($rootScope.myCart);
             $scope.activeOrders.$add(currentOrder);
             alert("Payment processing is in progress.... Thank you for you Order! Thank you for participating in our testing phase. This order has been sent to the payment api and desktop application for processing");
-            currentOrder = {};
-            $scope.showCard = false;
+            var currentOrder = {
+                items: [],
+                orderDate: 0
+            }            // $scope.showCard = false;
             // Clears the cart array
             clearCart();
         }
@@ -369,7 +386,7 @@ angular.module('app.controllers', [])
 
         // Add member designs to cart
         $scope.addMemberDesign = function (shirt) {
-            // $state.go('savePage');
+            // Need to create component for quantity picker
             alert('Thank you for participating in the pre-release test phase. This feature is coming soon in version 1.1')
         }
 
@@ -433,6 +450,7 @@ angular.module('app.controllers', [])
 
         // Saves selected image 
         function saveImage(e, image) {
+            console.log("save image:", image)
             var logo = {
                 size: image.size,
                 position: image.position
