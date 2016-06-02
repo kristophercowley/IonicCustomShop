@@ -163,6 +163,7 @@ angular.module('app.controllers', [])
 
         // Testing pasing data to a constructor for view change
         $scope.PassInfo = function (shirt, image) {
+            console.log('shirt:',shirt,'image:',image,'$scope.design',$scope.design)
             if (!image) {
                 alert("You didnt create a design yet, please choose an image");
             }
@@ -175,6 +176,7 @@ angular.module('app.controllers', [])
                 CreateService.currentCreation.tempShirt = shirt;
                 CreateService.currentCreation.tempImage = image;
                 CreateService.currentCreation.tempDesign = $scope.design;
+                 console.log('jQUERY',$('.image-div').offset())
                 CreateService.currentCreation.$save()
 
 
