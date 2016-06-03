@@ -62,7 +62,7 @@
         <ion-list ng-show="myImages">
             <h3 class="center backcolor">Your Uploads</h3>
             <hr>
-            <ion-item ng-repeat="upload in myImages" ng-click="imagePicker(upload)" class="item-thumbnail-left">
+            <ion-item ng-repeat="upload in myImages" ng-click="imagePicker(upload)" class="item-thumbnail">
                 <button class="button button-assertive" style="float: right" ng-click="myImages.$remove(upload)">X</button>
                 <img class="img-upload" ng-src="{{upload.image}}">
                 <h2>{{upload.name}}</h2>

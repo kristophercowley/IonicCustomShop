@@ -113,29 +113,16 @@ angular.module('app.controllers', [])
         // promise.then(function (data) {
         //     console.log("promise data:", promise, data)
         // })
-        // test
-
-
-        var db = new Firebase(DBREF);
-        // Original reference
+       
         var ref = new Firebase(DBREF);
-        // Child reference for saved designs
-        var savedRef = ref.child('Saved Designs');
-        // child reference for Active Orders// Currently using to view orders in custom Shop Home
         var activeRef = ref.child('Active Orders');
-        // These are goin to be replaced with $rootScope.myDesigns and $rootScope.myOrders
         $scope.activeOrders = new $firebaseArray(activeRef);
-        $scope.savedDesigns = new $firebaseArray(savedRef);
         // $scope.printedShirts = ShirtService.printedShirts;
         $scope.images = ShirtService.images;
         $scope.shirts = ShirtService.shirts;
         $scope.selectedImage = ShirtService.getLogo();
-        // $scope.showCard = true;
         // Sets an empty variable for shirt designs
         $scope.design = {};
-
-
-
 
         // Shows and Hides upload window
         $scope.uploadWindow = function () {
@@ -149,10 +136,8 @@ angular.module('app.controllers', [])
             description: ''
         }
 
-
-        // Used to hide size/quantity picker before saving design
+        // Used to hide quantity picker before saving design
         $scope.isSaved = false;
-
 
         // Pushes new image object to images array in ShirtService
         $scope.uploadImage = function (img) {
@@ -160,36 +145,35 @@ angular.module('app.controllers', [])
             $scope.showUpload = !$scope.showUpload;
         }
 
+        function setCoords() {
+            var logo = {
+                position: {
+                    top: $('.image-div').position().top,
+                    left: $('.image-div').position().left
+                },
+                size: {
+                    height: $('.image-div').height(),
+                    width: $('.image-div').width()
+                }
+            }
+            console.log('logo', logo);
+            $scope.design.logo = logo;
+        }
 
         // Testing pasing data to a constructor for view change
         $scope.PassInfo = function (shirt, image) {
-            console.log('shirt:',shirt,'image:',image,'$scope.design',$scope.design)
+            console.log('shirt:', shirt, 'image:', image, '$scope.design', $scope.design)
             if (!image) {
                 alert("You didnt create a design yet, please choose an image");
             }
             else {
-                // Old but working method
-                // ShirtService.tempShirt = shirt;
-                // ShirtService.tempImage = image;
-                // ShirtService.tempDesign = $scope.design;
-                // Using create service to seperate reponsibility
+                setCoords();
                 CreateService.currentCreation.tempShirt = shirt;
                 CreateService.currentCreation.tempImage = image;
                 CreateService.currentCreation.tempDesign = $scope.design;
-                 console.log('jQUERY',$('.image-div').offset())
                 CreateService.currentCreation.$save()
-
-
                 $state.go('savePage');
-                // console.log(ShirtService.tempDesign)
             }
-        }
-
-        // Reset ShirtService temp values
-        var resetShirtService = function () {
-            ShirtService.tempShirt = "";
-            ShirtService.tempImage = "";
-            ShirtService.tempDesign = "";
         }
 
         // Declares an empty object for save data
@@ -209,8 +193,6 @@ angular.module('app.controllers', [])
                 width: 40
             }
         }
-
-
 
         //Saves user designs to database 
         $scope.save = function () {
@@ -238,8 +220,6 @@ angular.module('app.controllers', [])
                 position: CreateService.currentCreation.tempDesign.logo.position,
                 size: CreateService.currentCreation.tempDesign.logo.size
             }
-            // Clears temp values
-            // resetShirtService()
 
             // Sends design to current users saved designs
             $rootScope.myDesigns.$add($scope.design);
@@ -247,13 +227,10 @@ angular.module('app.controllers', [])
             // Testing Firebase object for live design to get it off root
             CreateService.currentCreation.design = $scope.design;
             CreateService.currentCreation.$save()
-
-            // $state.go('quantityPicker');
             $scope.isSaved = true;
-            // clearDesign();
         }
 
-        // Clears values & resets defaults for design
+        // Clears values & resets defaults for design//Mat not need
         function clearDesign() {
             $scope.design = {};
             $scope.design.details = {};
@@ -269,7 +246,7 @@ angular.module('app.controllers', [])
             }
         }
 
-        // Counts current order sizes and quantity
+        // Assigns current order size info
         function getCount() {
 
         }
@@ -287,10 +264,10 @@ angular.module('app.controllers', [])
             $scope.design.total = $scope.design.details.price * quantity;
         }
 
-        // Sets cart total to 0
+        //Initializes cart total to 0 on page load
         $rootScope.myCart.cartTotal = 0;
 
-        // Totals all items in cart// Object Cart
+        // Totals the price of all items in cart
         $scope.getCartTotal = function () {
             $rootScope.myCart.cartTotal = 0;
             var total = 0;
@@ -300,40 +277,39 @@ angular.module('app.controllers', [])
             $rootScope.myCart.cartTotal = total;
         }
 
-
-        // Keeping cart up to date
+        // Keeps cart total up to date on content change
         $scope.$watch($rootScope.myCart, function (newValue) {
-            // alert('Watcher is working!');
             $scope.getCartTotal();
         })
 
+        // Keeps cart total up to date on view change
         $scope.$on('$stateChangeSuccess', function () {
-            // alert('On state change function working');
             $scope.getCartTotal()
         });
 
+        //Initializes total of items in cart on page load
         $scope.getCartTotal()
 
-
-
-
-        //Adds user designs to cart
+        //Adds current user design to cart
         $scope.addToCart = function () {
             $scope.getTotal();
             $rootScope.myCart.$add($scope.design);
             $state.go('tabsController.shoppingCart');
-            // clearDesign();
             $scope.isSaved = false;
             $scope.getCartTotal();
         }
 
         //Initializes Order object
-        var currentOrder = {
-            items: [],
-            orderDate: 0
+        var currentOrder;
+        function orderObjEmpty() {
+            currentOrder = {
+                items: [],
+                orderDate: 0
+            }
         }
+        orderObjEmpty()
 
-        //Fills currentOrder.items array
+        //Creates order object for processing
         function createOrderObj(arr) {
             for (var i = 0; i < arr.length; i++) {
                 currentOrder.items.push(arr[i]);
@@ -359,20 +335,18 @@ angular.module('app.controllers', [])
             info.cc_exp_mo = 12;
             info.cc_exp_year = 2016;
             info.merch_acct_id_str = "154";
-
-
             // PayService.paymentApi(info).then(function (data, err) {
             //     console.log('orderpage: ' + data + '----err: ' + err)
-
             // })
             console.log("incoming from form", info)
             createOrderObj($rootScope.myCart);
             $scope.activeOrders.$add(currentOrder);
             alert("Payment processing is in progress.... Thank you for you Order! Thank you for participating in our testing phase. This order has been sent to the payment api and desktop application for processing");
-            var currentOrder = {
-                items: [],
-                orderDate: 0
-            }            // $scope.showCard = false;
+            orderObjEmpty()
+            // var currentOrder = {
+            //     items: [],
+            //     orderDate: 0
+            // }
             // Clears the cart array
             clearCart();
         }
@@ -404,12 +378,12 @@ angular.module('app.controllers', [])
         $('.image-div').resizable({
             aspectRatio: true,
             handles: 'ne,se,sw,nw',
-            stop: saveImage,
+            // stop: saveImage,
         }).draggable({
-            stop: function (e, image) {
-                $scope.design.logo = $scope.design.logo || {};
-                $scope.design.logo.position = image.position;
-            }
+            // stop: function (e, image) {
+            //     $scope.design.logo = $scope.design.logo || {};
+            //     $scope.design.logo.position = image.position;
+            // }
         });
 
         // jQuery text box draggable resizable
@@ -460,9 +434,6 @@ angular.module('app.controllers', [])
             $scope.design.logo = logo;
         }
 
-        //Connects print object to service // Provived a blank template//
-        $scope.printOrder = OrderService.printOrder
-
         // Printed shirt picker
         // $rootScope.printOrder = {};
         $scope.printedShirts = ShirtService.printedShirts;
@@ -505,7 +476,8 @@ angular.module('app.controllers', [])
         }
 
     })
-    // Might not use this controller// MAybe just shirt controller// Or move save data here if no conflict
+    
+    // Might not use this controller
     .controller('savePageCtrl', function ($scope) {
         $scope.test = "Save Test";
     })

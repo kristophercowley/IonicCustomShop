@@ -23,8 +23,8 @@
 /*styles customer uploads*/
 .img-upload{
     height: 80px;
-    float: left;
-    margin: 10px;
+    /*float: left;*/
+    /*margin: 10px;*/
 }
 .text-div{
     max-width: 100%;
