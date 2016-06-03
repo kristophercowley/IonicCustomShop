@@ -1,5 +1,6 @@
 <ion-view title="Twisted Threads">
     <ion-content overflow-scroll="true" padding="true" style="background: url() no-repeat center;" class="has-header">
+
         <!--Select Shirt Color-->
         <form class="list">
             <label class="item item-select">
@@ -10,7 +11,6 @@
         </form>
         <h5 class="center"><span><i>Choose a design or upload an image</i></span></h5>
 
-
         <!--Display Shirts and Images-->
         <div class="shirt-div" style="text-align:center;">
             <img ng-src="{{shirtViewer}}" height="300px">
@@ -20,7 +20,6 @@
         </div>
 
         <!--Shirt View Select Buttons-->
-        <!--<form class="list"></form>-->
         <div class="button-bar">
             <button ng-click="shirtView('sleeve')" class="button button-dark button-block ">Sleeve</button>
             <button ng-click="shirtView('front')" class="button button-dark button-block ">Front</button>
@@ -56,9 +55,7 @@
         editor-required="true" required="" error-class="input-error"></ng-quill-editor>-->
         <!--End quill testing-->
 
-
         <!--Display Customer Uploaded Images-->
-        <!--ng-if="member.uploads[0]"-->
         <ion-list ng-show="myImages">
             <h3 class="center backcolor">Your Uploads</h3>
             <hr>
