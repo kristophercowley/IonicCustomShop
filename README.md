@@ -9,5 +9,5 @@ Step 3: Enter the Following code to download a free test version of the app.
 Step 4: Create a Twisted Threadz account or use the following:  
 *email: bob@bob.com   
 *password: bob  
-Step 5: Have Fun creating your own designs!    
+Step 5: Have Fun creating your own designs, submit mock orders, and watch them show up in [Twisted Threadz Control Panel](http://kristophercowley.github.io/Custom-Shop-Manager/#/home)!    
 Feel free to report any bugs you may find  
