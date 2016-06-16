@@ -33,6 +33,11 @@ angular.module('app.services', [])
                 color: "Pink",
                 front: "img/pink-shirt.jpg",
                 back: "img/pink-shirt-back.jpg"
+            },
+             {
+                color: "-Black Hat",
+                front: "img/hat.jpg",
+                back: "img/hat-back2.jpg"
             }
         ];
         var images = [

@@ -113,7 +113,7 @@ angular.module('app.controllers', [])
         // promise.then(function (data) {
         //     console.log("promise data:", promise, data)
         // })
-       
+
         var ref = new Firebase(DBREF);
         var activeRef = ref.child('Active Orders');
         $scope.activeOrders = new $firebaseArray(activeRef);
@@ -167,12 +167,16 @@ angular.module('app.controllers', [])
                 alert("You didnt create a design yet, please choose an image");
             }
             else {
+                debugger
                 setCoords();
+
                 CreateService.currentCreation.tempShirt = shirt;
+                CreateService.currentCreation.tempShirt.shirtUrl = $scope.shirtViewer;
                 CreateService.currentCreation.tempImage = image;
                 CreateService.currentCreation.tempDesign = $scope.design;
-                CreateService.currentCreation.$save()
-                $state.go('savePage');
+                CreateService.currentCreation.$save().then(function (ref) {
+                    $state.go('savePage');
+                }, function (err) { console.log("error:", err) })
             }
         }
 
@@ -211,7 +215,10 @@ angular.module('app.controllers', [])
                 user: $rootScope.member.username,
                 date: Date.now(),
                 shirtColor: CreateService.currentCreation.tempShirt.color,
-                shirtUrl: CreateService.currentCreation.tempShirt.front,
+                // needs work
+                shirtUrl: CreateService.currentCreation.tempShirt.shirtUrl,
+
+                // shirtUrl: CreateService.currentCreation.tempShirt.front,
                 imageName: CreateService.currentCreation.tempImage.name,
                 imageUrl: CreateService.currentCreation.tempImage.image,
             }
@@ -343,10 +350,7 @@ angular.module('app.controllers', [])
             $scope.activeOrders.$add(currentOrder);
             alert("Payment processing is in progress.... Thank you for you Order! Thank you for participating in our testing phase. This order has been sent to the payment api and desktop application for processing");
             orderObjEmpty()
-            // var currentOrder = {
-            //     items: [],
-            //     orderDate: 0
-            // }
+           
             // Clears the cart array
             clearCart();
         }
@@ -398,6 +402,7 @@ angular.module('app.controllers', [])
             // }
         });
 
+        // Working on visual enhancements
         // Toggle css handles on click
         // $scope.toggleHandles = function(){
         //     alert("I work!");
@@ -410,6 +415,7 @@ angular.module('app.controllers', [])
         // $(document).click(function() {
         //     $('#toggle').toggle('highlight')
         // })
+        // End work on visual enhancements
 
         //Selects shirt color and view
         $scope.shirtView = function (view, shirt) {
@@ -461,11 +467,12 @@ angular.module('app.controllers', [])
 
     })
 
+    // For Refactor 
     .controller('chooseCustomClipArtCtrl', function ($scope) {
 
     })
 
-    // Not currently in use
+    // Not currently in use. Preparing for refactor
     .controller('brandedPrintsCtrl', function ($scope, ShirtService, $state) {
         $scope.printedShirts = ShirtService.printedShirts;
         $scope.buyPrint = function () {
@@ -476,7 +483,7 @@ angular.module('app.controllers', [])
         }
 
     })
-    
+
     // Might not use this controller
     .controller('savePageCtrl', function ($scope) {
         $scope.test = "Save Test";
